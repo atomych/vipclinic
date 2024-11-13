@@ -296,6 +296,11 @@ body {
     width: 100%;
 }
 
+.intro__img {
+    display: flex;
+    align-items: end;
+}
+
 /* 
     ? Главный about
 */

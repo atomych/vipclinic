@@ -33,7 +33,6 @@ for (let btn of servicesBTNS) {
     activeBTN.classList.remove("selected");
     activeBTN = btn;
     activeBTN.classList.add("selected");
-    console.log(activeBTN.dataset.index);
     if (activeBTN.dataset.index == 3) {
       for (let section of servicesSECTIONS) {
         section.classList.add("show");

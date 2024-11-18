@@ -6,9 +6,14 @@ const port = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 app.use(express.static("public"));
+app.set("view engine", "pug");
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/views/index.html'));
 });
+
+app.get("/price", (req, res) => {
+  res.render("price");
+})
 
 app.listen(port);

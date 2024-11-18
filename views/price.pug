@@ -1,0 +1,26 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='keywords' content='клиника vipclinic уральская косметология')
+  title Прайс
+  link(rel='stylesheet' href='./css/style.css')
+  link(rel='stylesheet' href='./css/adaptive.css')
+body
+  include modules/header.pug
+  section.price
+    .container
+      .price__wrapper
+        .price__back
+          a(href="/")
+            img(src="./images/main/arr_back.svg", alt="")
+        h2.section-title(style='margin-bottom: 40px') прайс
+        .price__content
+          .price__list
+            .price__item
+          .slider-icon 
+            img(src="./images/main/arr.svg", alt="")
+          button.btn.btn--upper.price__btn записаться онлайн
+  include modules/contacts.pug
+  include modules/footer.pug
+  script(src='./js/burger.js')

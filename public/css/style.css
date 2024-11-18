@@ -935,3 +935,36 @@ body {
     text-decoration: none;
     border-bottom: 1px solid #000;
 }
+
+/* 
+    ? Прайс
+*/
+
+.price {
+    padding-top: 100px;
+    background: url("../images/main/bg.png") center center no-repeat;
+    background-size: cover;
+    margin-bottom: 40px;
+}
+
+.price__wrapper {
+    padding: 30px 5px;
+}
+
+.price__back {
+    margin-bottom: 25px;
+}
+
+.price__btn {
+    width: 100%;
+}
+
+.price__list {
+    margin-bottom: 30px;
+}
+
+.price__item {
+    width: 400px;
+    height: 500px;
+    background-color: #fff;
+}

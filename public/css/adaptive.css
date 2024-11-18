@@ -335,6 +335,10 @@
         font-size: 13px;
     }
 
+    .price {
+        padding-top: 50px;
+    }
+
     .panel {
         padding: 5px 20px;
     }

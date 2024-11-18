@@ -11,7 +11,7 @@ function animationItems(section) {
   }
 
   let index = 0;
-  const maxIndex = items.length;
+  const maxIndex = items.length - 1;
 
   const interval = setInterval(() => {
     if (index > maxIndex) {

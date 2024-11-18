@@ -71,6 +71,13 @@ body {
     background-color: #CCCCCC4D !important;
 }
 
+.btn.btn.btn--burger:hover,
+.btn.btn.btn--burger:focus,
+.btn.btn.btn--close:hover,
+.btn.btn.btn--close:focus {
+    background-color: #fff !important;
+}
+
 .btn.btn--header {
     display: none;
 }

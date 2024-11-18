@@ -99,12 +99,13 @@
 
     .main-about__wrapper {
         background-position: left bottom;
-        background-size: 420px;
+        background-size: 520px;
         padding-left: 100px;
     }
 
     .main-about__content {
         z-index: 10;
+        padding-left: 250px;
     }
 
     .main-about__title {
@@ -121,7 +122,7 @@
     }
 
     .main-about__img img {
-        width: 400px;
+        width: 500px;
     }
 
     .contacts__content {
@@ -256,6 +257,7 @@
         flex-direction: column;
         align-items: start;
         padding-left: 40px;
+        margin-bottom: 15px;
     }
 
     .section-title {
@@ -286,20 +288,36 @@
         max-width: max-content;
     }
 
+    .main-about__content {
+        padding-left: 0;
+    }
+
+    .main-about__wrapper {
+        justify-content: end;
+    }
+
     .memberships__content {
-        background-size: 90%;
-        width: 95%;
+        background-size: 480px 100%;
+        width: 480px;
     }
 
     .memberships__content p {
-        font-size: 1.2rem;
-        width: 350px;
+        font-size: 1.4rem;
+        width: 450px;
         padding-top: 20px;
         padding-left: 45px;
     }
 
     .before-after__list {
-        max-width: 440px;
+        max-width: 705px;
+    }
+
+    .before-after__item .item__img img {
+        width: 330px;
+    }
+
+    .before-after__item .item__img {
+        width: 330px;
     }
 
     /* .main-header .btn.btn--header {
@@ -366,11 +384,38 @@
         width: 150px;
         height: auto;
     }
+
+    .main-about__title {
+        width: 340px;
+    }
+
+    .memberships__content {
+        background-size: 420px 100%;
+        width: 420px;
+    }
+
+    .memberships__content p {
+        width: 370px;
+    }
+}
+
+@media (max-width: 750px) {
+    .before-after__list {
+        max-width: 340px;
+    }
 }
 
 @media (max-width: 700px) {
     html {
         font-size: 12px;
+    }
+
+    .main-about__img img{
+        width: 400px;
+    }
+
+    .main-about__wrapper {
+        background-size: 420px;
     }
 
     .contacts__map {
@@ -580,6 +625,16 @@
 
     .team__item .item__img img {
         width: 150px;
+    }
+
+    .memberships__content {
+        background-size: 350px 100%;
+        width: 350px;
+    }
+
+    .memberships__content p {
+        width: 320px;
+        padding-left: 20px;
     }
 }
 

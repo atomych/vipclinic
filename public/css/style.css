@@ -414,10 +414,12 @@ a.none-style {
     border: none;
     outline: none;
     cursor: pointer;
+    transition: all 0.2s linear;
+    border-bottom: 1px solid transparent;
 }
 
 .services__btn.selected {
-    border-bottom: 1px solid #000;
+    border-bottom-color: #000;
 }
 
 .services__list {
@@ -468,6 +470,11 @@ a.none-style {
     position: relative;
 
     border: 0.5px solid #00000083;
+    transition: all 0.2s linear;
+}
+
+.services__list .item.hiden {
+    opacity: 0;
 }
 
 .services__list .item.item--big {

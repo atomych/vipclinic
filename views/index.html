@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="клиника vipclinic уральская косметология" />
     <title>VipClinic</title>
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/adaptive.css" />
@@ -26,10 +27,10 @@
         </button>
         <div class="right">
           <nav class="main-nav">
-            <a href="" class="nav__item">услуги</a>
+            <a href="#services" class="nav__item">услуги</a>
             <a href="" class="nav__item">прайс</a>
-            <a href="" class="nav__item">акции</a>
-            <a href="" class="nav__item">контакты</a>
+            <a href="#promotions" class="nav__item">акции</a>
+            <a href="#contacts" class="nav__item">контакты</a>
           </nav>
           <div class="icons">
             <a class="icon" href="">
@@ -46,10 +47,10 @@
       </div>
       <div class="burger-panel">
         <nav class="burger-nav">
-          <a href="" class="nav__item">услуги</a>
+          <a href="#services" class="nav__item">услуги</a>
           <a href="" class="nav__item nav__item--adaptive">прайс</a>
-          <a href="" class="nav__item">акции</a>
-          <a href="" class="nav__item">контакты</a>
+          <a href="#promotions" class="nav__item">акции</a>
+          <a href="#contacts" class="nav__item">контакты</a>
         </nav>
         <div class="icons">
           <a class="icon" href="">
@@ -115,7 +116,7 @@
       </div>
     </section>
 
-    <section class="services">
+    <section class="services" id="services">
       <div class="container">
         <div class="services__wrapper">
           <h2 class="section-title">Наши услуги</h2>
@@ -354,62 +355,247 @@
                 </div>
               </div>
             </div>
+            <div class="services__list-inner" data-index="3">
+              <div class="line">
+                <div class="line__part">
+                  <div class="item item--big first">
+                    <h3 class="item__title">Ботулинотерапия</h3>
+                    <p class="item__text">
+                      процедура инъекционного введения ботулотоксина типа А;
+                      уколы токсина расслабляют мышцы, разглаживая мимические и 
+                      статические морщины
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+                <div class="line__part">
+                  <div class="item">
+                    <h3 class="item__title">
+                      Контурная пластика препаратами на основе ГК
+                    </h3>
+                    <p class="item__text">
+                      метод коррекции контуров лица, устранения дряблости
+                      и старения кожи путем введения филлеров
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Биоревитализация/биорепарация</h3>
+                    <p class="item__text">
+                      процедура инъекционного введения гиалуроновой кислоты под
+                      кожу направлена на активное увлажнение
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Пилинг лица</h3>
+                    <p class="item__text">
+                      контролируемое повреждение кожи с помощью химических
+                      составов для коррекции эстетических недостатков
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Чистка лица/спины</h3>
+                    <p class="item__text">
+                      косметологическая процедура, для очищения пор от избытка
+                      кожного сала, загрязнений и отмерших клеток
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+              </div>
+              <div class="line">
+                <div class="line__part">
+                  <div class="item">
+                    <h3 class="item__title">
+                      Фотолечение на аппарате “Lumenis  M22”
+                    </h3>
+                    <p class="item__text">
+                      фотомоложение, фотоэпиляция, удаление сосудистых звездочек
+                      и пигментации
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">
+                      Уходы профессиональной косметикой
+                    </h3>
+                    <p class="item__text">
+                      комплексный уход индивидуально подобранной уходовой
+                      профессиональной косметикой
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Плазмотерапия/плазмолифтинг</h3>
+                    <p class="item__text">
+                      подкожное введение обогащенной тромбоцитами плазмы
+                      собственной крови пациента для омоложения
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Лазерная эпиляция</h3>
+                    <p class="item__text">
+                      удаление волоса вместе с фолликулом
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+                <div class="line__part">
+                  <div class="item item--big fifth">
+                    <h3 class="item__title">
+                      Векторный лифтинг препаратом “Radiesse”
+                    </h3>
+                    <p class="item__text">
+                      процедура с использованием уникального дермального
+                      филлера, который возвращает лицу молодую V-форму
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+              </div>
+              <div class="line">
+                <div class="line__part">
+                  <div class="item item--big fourth">
+                    <h3 class="item__title">
+                      Микроигольчатый  RF-лифтинг “Vivace”
+                    </h3>
+                    <p class="item__text">
+                      инновационная омолаживающая процедура, использующая
+                      фракционную микроигольчатую RF-технологию
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+                <div class="line__part">
+                  <div class="item">
+                    <h3 class="item__title">Введение гиалуронидазы</h3>
+                    <p class="item__text">
+                      гиалуронидаза применяется как антидот против препаратов,
+                      основанных на гиалуроновой кислоте
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">
+                      Коллагеностиму -ляция “AestheFill”
+                    </h3>
+                    <p class="item__text">
+                      методика омоложения кожи, которая способствует выработке
+                      организмом собственного коллагена
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">
+                      Коллагенотерапия «Коллост», Collost Micro
+                    </h3>
+                    <p class="item__text">
+                      инъекционное введение коллагена с целью замедления
+                      старения кожи
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Коллагенотерапия “Nithya”</h3>
+                    <p class="item__text">
+                      методика основана на стимуляции фибробластов для выработки
+                      естественного коллагена
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+              </div>
+              <div class="line">
+                <div class="line__part">
+                  <div class="item">
+                    <h3 class="item__title">
+                      Коллагеновое омоложение лица/тела «СФЕРО гель»
+                    </h3>
+                    <p class="item__text">
+                      биорегенерант, который осуществляет матриксную терапию
+                      кожи для омоложения
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Удаление новообразований</h3>
+                    <p class="item__text">
+                      ряд процедур по избавлению тела пациента от кожных
+                      новообразований
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Аппаратный массаж RLS</h3>
+                    <p class="item__text">
+                      процедура запускает метаболические процессы, снижается
+                      проявление целлюлита и уходят объемы
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                  <div class="item">
+                    <h3 class="item__title">Консультация</h3>
+                    <p class="item__text">
+                      консультация дерматолога/косметолога/трихолога
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+                <div class="line__part">
+                  <div class="item item--big second">
+                    <h3 class="item__title">Мезотерапия</h3>
+                    <p class="item__text">
+                      методика, при которой лекарственный препарат в микродозах
+                      вводится под кожу на небольшую глубину с помощью тонких
+                      игл
+                    </p>
+                    <button class="btn item__btn">узнать больше</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
           <section class="services__list services__list--adaptive">
             <div class="services__list-inner show" data-index="a0">
               <div class="item">
                 <h3 class="item__title">
-                  Коллагеновое омоложение лица/тела «СФЕРО гель»
+                  Контурная пластика препаратами на основе ГК
                 </h3>
                 <p class="item__text">
-                  биорегенерант, который осуществляет матриксную терапию кожи
-                  для омоложения
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item">
-                <h3 class="item__title">Ботулинотерапия</h3>
-                <p class="item__text">
-                  процедура инъекционного введения ботулотоксина типа А; уколы
-                  токсина расслабляют мышцы, разглаживая мимические и 
-                  статические морщины
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item item--photo">
-                <img src="./images/main/serv-1.png" alt="" />
-              </div>
-              <div class="item">
-                <h3 class="item__title">Биоревитализация/биорепарация</h3>
-                <p class="item__text">
-                  процедура инъекционного введения гиалуроновой кислоты под кожу
-                  направлена на активное увлажнение
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item">
-                <h3 class="item__title">Биоревитализация/биорепарация</h3>
-                <p class="item__text">
-                  процедура инъекционного введения гиалуроновой кислоты под кожу
-                  направлена на активное увлажнение
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item">
-                <h3 class="item__title">Введение гиалуронидазы</h3>
-                <p class="item__text">
-                  гиалуронидаза применяется как антидот против препаратов,
-                  основанных на гиалуроновой кислоте
+                  метод коррекции контуров лица, устранения дряблости и старения
+                  кожи путем введения филлеров
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item">
                 <h3 class="item__title">
-                  Коллагеновое омоложение лица/тела «СФЕРО гель»
+                  Векторный лифтинг препаратом “Radiesse”
                 </h3>
                 <p class="item__text">
-                  биорегенерант, который осуществляет матриксную терапию кожи
-                  для омоложения
+                  процедура с использованием уникального дермального филлера,
+                  возвращает лицу молодую V-форму
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item item--photo">
+                <img src="./images/main/services/1.png" alt="" />
+              </div>
+              <div class="item">
+                <h3 class="item__title">Ботулинотерапия</h3>
+                <p class="item__text">
+                  инъекция ботулотоксина типа А; уколы токсина расслабляют
+                  мышцы, убирая мимические и статические морщины
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Биоревитализация/биорепарация</h3>
+                <p class="item__text">
+                  процедура инъекционного введения гиалуроновой кислоты под кожу
+                  направлена на активное увлажнение
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
@@ -422,97 +608,90 @@
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item">
-                <h3 class="item__title">
-                  Коллагенотерапия «Коллост», Collost Micro
-                </h3>
+                <h3 class="item__title">Плазмотерапия/плазмолифтинг</h3>
                 <p class="item__text">
-                  инъекционное введение коллагена с целью замедления старения
-                  кожи
+                  подкожное введение обогащенной тромбоцитами плазмы собственной
+                  крови для омоложения
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Введение гиалуронидазы</h3>
+                <p class="item__text">
+                  гиалуронидаза применяется как антидот против препаратов,
+                  основанных на гиалуроновой кислоте
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item">
                 <h3 class="item__title">Коллагенотерапия “Nithya”</h3>
                 <p class="item__text">
-                  методика основана на стимуляции фибробластов  для выработки
+                  методика основана на стимуляции фибробластов для выработки
+                  естественного коллагена
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item item--photo">
+                <img src="./images/main/services/2.png" alt="" />
+              </div>
+              <div class="item">
+                <h3 class="item__title">
+                  Коллагенотерапия «Коллост», Collost Micro
+                </h3>
+                <p class="item__text">
+                  методика основана на стимуляции фибробластов для выработки
                   естественного коллагена
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item">
-                <h3 class="item__title">Мезотерапия</h3>
-                <p class="item__text">
-                  методика, при которой лекарственный препарат в микродозах
-                  вводится под кожу на небольшую глубину с помощью тонких игл
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item item--photo">
-                <img src="./images/main/serv-2.png" alt="" />
-              </div>
-              <div class="item">
                 <h3 class="item__title">
-                  Векторный лифтинг препаратом “Radiesse”
+                  Коллагеновое омоложение лица/тела «СФЕРО гель»
                 </h3>
                 <p class="item__text">
-                  процедура с использованием уникального дермального филлера,
-                  который возвращает лицу молодую V-форму
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item">
-                <h3 class="item__title">Плазмотерапия/плазмолифтинг</h3>
-                <p class="item__text">
-                  подкожное введение обогащенной тромбоцитами плазмы собственной
-                  крови пациента для омоложения
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item">
-                <h3 class="item__title">Консультация со специалистом</h3>
-                <p class="item__text">
-                  консультация дерматолога/косметолога/трихолога
+                  биорегенерант, который осуществляет матриксную терапию кожи
+                  для омоложения
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
             </div>
-            <div class="services__list-inner show" data-index="a1">
+            <div class="services__list-inner" data-index="a1">
+              <div class="item">
+                <h3 class="item__title">Пилинг лица</h3>
+                <p class="item__text">
+                  контролируемое повреждение кожи с помощью химических составов
+                  с целью  коррекции эстетических недостатков
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
               <div class="item">
                 <h3 class="item__title">Чистка лица/спины</h3>
                 <p class="item__text">
                   косметологическая процедура, для очищения пор от избытка
-                  кожного сала, загрязнений и отмерших клеток
+                  кожного сала и отмерших клеток
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item">
                 <h3 class="item__title">Уходы профессиональной косметикой</h3>
                 <p class="item__text">
-                  комплексный уход индивидуально подобранной уходовой
-                  профессиональной косметикой
+                  комплексный уход индивидуально подобранной профессиональной
+                  косметикой
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item item--photo">
-                <img src="./images/main/serv-3.png" alt="" />
+                <img src="./images/main/services/3.png" alt="" />
               </div>
               <div class="item">
-                <h3 class="item__title">Пилинг лица</h3>
-                <p class="item__text">
-                  контролируемое повреждение кожи с помощью химических составов
-                  для коррекции эстетических недостатков
-                </p>
-                <button class="btn item__btn">узнать больше</button>
-              </div>
-              <div class="item">
-                <h3 class="item__title">Консультация со специалистом</h3>
+                <h3 class="item__title">Консультация</h3>
                 <p class="item__text">
                   консультация дерматолога/косметолога/трихолога
                 </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
             </div>
-            <div class="services__list-inner show" data-index="a2">
+            <div class="services__list-inner" data-index="a2">
               <div class="item">
                 <h3 class="item__title">
                   Фотолечение на аппарате “Lumenis  M22”
@@ -532,7 +711,7 @@
                 <button class="btn item__btn">узнать больше</button>
               </div>
               <div class="item item--photo">
-                <img src="./images/main/serv-4.png" alt="" />
+                <img src="./images/main/services/4.png" alt="" />
               </div>
               <div class="item">
                 <h3 class="item__title">Микроигольчатый RF-лифтинг “Vivace”</h3>
@@ -553,6 +732,186 @@
               <div class="item">
                 <h3 class="item__title">Лазерная эпиляция</h3>
                 <p class="item__text">удаление волоса вместе с фолликулом</p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+            </div>
+            <div class="services__list-inner" data-index="a3">
+              <div class="item">
+                <h3 class="item__title">
+                  Контурная пластика препаратами на основе ГК
+                </h3>
+                <p class="item__text">
+                  метод коррекции контуров лица, устранения дряблости и старения
+                  кожи путем введения филлеров
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item item--photo">
+                <img src="./images/main/services/2.png" alt="" />
+              </div>
+              <div class="item">
+                <h3 class="item__title">Ботулинотерапия</h3>
+                <p class="item__text">
+                  инъекция ботулотоксина типа А; уколы токсина расслабляют
+                  мышцы, убирая мимические и статические морщины
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Биоревитализация/биорепарация</h3>
+                <p class="item__text">
+                  инъекционное введение гиалуроновой кислоты под кожу,
+                  направленая на активное увлажнение
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Чистка лица/спины</h3>
+                <p class="item__text">
+                  косметологическая процедура, с целью очищения пор от избытка
+                  кожного сала и отмерших клеток
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Пилинг лица</h3>
+                <p class="item__text">
+                  контролируемое повреждение кожи с помощью химических составов
+                  с целью  коррекции эстетических недостатков
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item item--photo">
+                <img src="./images/main/services/5.png" alt="" />
+              </div>
+              <div class="item">
+                <h3 class="item__title">
+                  Векторный лифтинг препаратом “Radiesse”
+                </h3>
+                <p class="item__text">
+                  использование уникального дермального филлера, возвращаюего
+                  лицу молодую V-форму
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">
+                  Фотолечение на аппарате “Lumenis  M22”
+                </h3>
+                <p class="item__text">
+                  фотомоложение, фотоэпиляция, удаление сосудистых звездочек
+                  и пигментации
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Уходы профессиональной косметикой</h3>
+                <p class="item__text">
+                  комплексный уход индивидуально подобранной профессиональной
+                  косметикой
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Плазмотерапия/плазмолифтинг</h3>
+                <p class="item__text">
+                  подкожное введение обогащенной тромбоцитами плазмы собственной
+                  крови для омоложения
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Введение гиалуронидазы</h3>
+                <p class="item__text">
+                  гиалуронидаза применяется как антидот против препаратов,
+                  основанных на гиалуроновой кислоте
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Коллагеностиму -ляция “AestheFill”</h3>
+                <p class="item__text">
+                  методика омоложения кожи, которая способствует выработке
+                  организмом собственного коллагена
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item item--photo">
+                <img src="./images/main/services/4.png" alt="" />
+              </div>
+              <div class="item">
+                <h3 class="item__title">Микроигольчатый RF-лифтинг “Vivace”</h3>
+                <p class="item__text">
+                  инновационная омолаживающая процедура, использующая
+                  фракционную микроигольчатую RF-технологию
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Удаление новообразований</h3>
+                <p class="item__text">
+                  ряд процедур по избавлению тела пациента от кожных
+                  новообразований
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">
+                  Коллагенотерапия «Коллост», Collost Micro
+                </h3>
+                <p class="item__text">
+                  инъекционное введение коллагена с целью замедления старения
+                  кожи
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">
+                  Коллагеновое омоложение лица/тела «СФЕРО гель»
+                </h3>
+                <p class="item__text">
+                  биорегенерант, который осуществляет матриксную терапию кожи
+                  для омоложения
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item item--photo">
+                <img src="./images/main/services/3.png" alt="" />
+              </div>
+              <div class="item">
+                <h3 class="item__title">Мезотерапия</h3>
+                <p class="item__text">
+                  методика, при которой лекарственный препарат в микродозах
+                  вводится под кожу на небольшую глубину с помощью тонких игл
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Коллагенотерапия “Nithya”</h3>
+                <p class="item__text">
+                  методика основана на стимуляции фибробластов для выработки
+                  естественного коллагена
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Аппаратный массаж RLS</h3>
+                <p class="item__text">
+                  процедура запускает метаболические процессы, снижается
+                  проявление целлюлита и уходят объемы
+                </p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Лазерная эпиляция</h3>
+                <p class="item__text">удаление волоса вместе с фолликулом</p>
+                <button class="btn item__btn">узнать больше</button>
+              </div>
+              <div class="item">
+                <h3 class="item__title">Консультация</h3>
+                <p class="item__text">
+                  консультация дерматолога/косметолога/трихолога
+                </p>
                 <button class="btn item__btn">узнать больше</button>
               </div>
             </div>
@@ -646,12 +1005,10 @@
               <div class="item__btn btn">узнать больше</div>
             </section>
             <section class="team__item">
-              <div class="item__img">
-                
-              </div>
+              <div class="item__img"></div>
               <div class="item__name">
-                <p>	&nbsp;</p>
-                <p>	&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
               </div>
               <div class="item__prof">
                 <p>
@@ -664,11 +1021,10 @@
               <div class="item__btn btn">узнать больше</div>
             </section>
             <section class="team__item">
-              <div class="item__img">
-              </div>
+              <div class="item__img"></div>
               <div class="item__name">
-                <p>	&nbsp;</p>
-                <p>	&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
               </div>
               <div class="item__prof">
                 <p>
@@ -717,7 +1073,7 @@
       </div>
     </section>
 
-    <section class="promotions">
+    <section class="promotions" id="promotions">
       <div class="container">
         <div class="promotions__wrapper">
           <h2 class="section-title">акции</h2>
@@ -756,7 +1112,7 @@
       </div>
     </section>
 
-    <section class="contacts">
+    <section class="contacts" id="contacts">
       <div class="container">
         <div class="contacts__wrapper">
           <h2 class="section-title" style="margin-bottom: 70px">контакты</h2>

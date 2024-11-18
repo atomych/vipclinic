@@ -43,6 +43,7 @@ body {
 
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
+    scroll-behavior: smooth;
 }
 
 .container {
@@ -469,19 +470,23 @@ body {
 }
 
 .services__list .item.item--big.first {
-    background: url("../images/main/serv-1.png") center center no-repeat;
+    background: url("../images/main/services/1.png") center center no-repeat;
 }
 
 .services__list .item.item--big.second {
-    background: url("../images/main/serv-2.png") center center no-repeat;
+    background: url("../images/main/services/2.png") center center no-repeat;
 }
 
 .services__list .item.item--big.third {
-    background: url("../images/main/serv-3.png") center center no-repeat;
+    background: url("../images/main/services/3.png") center center no-repeat;
 }
 
 .services__list .item.item--big.fourth {
-    background: url("../images/main/serv-4.png") center center no-repeat;
+    background: url("../images/main/services/4.png") center center no-repeat;
+}
+
+.services__list .item.item--big.fifth {
+    background: url("../images/main/services/5.png") center center no-repeat;
 }
 
 .services__list .item.item--big .item__title {

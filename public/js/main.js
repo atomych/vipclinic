@@ -33,18 +33,12 @@ for (let btn of servicesBTNS) {
     activeBTN.classList.remove("selected");
     activeBTN = btn;
     activeBTN.classList.add("selected");
-    if (activeBTN.dataset.index == 3) {
-      for (let section of servicesSECTIONS) {
+    for (let section of servicesSECTIONS) {
+      if (
+        section.dataset.index == activeBTN.dataset.index ||
+        "a" + activeBTN.dataset.index == section.dataset.index
+      ) {
         section.classList.add("show");
-      }
-    } else {
-      for (let section of servicesSECTIONS) {
-        if (
-          section.dataset.index == activeBTN.dataset.index ||
-          "a" + activeBTN.dataset.index == section.dataset.index
-        ) {
-          section.classList.add("show");
-        }
       }
     }
   });

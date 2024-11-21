@@ -10,9 +10,9 @@ window.addEventListener("load", () => {
   }
 
   function setSliderControl(list, marginRight) {
-    const listWidth = list.clientWidth;
+    const listWidth = list.offsetWidth;
     const listItems = list.childNodes;
-    const itemWidth = listItems[0].clientWidth;
+    const itemWidth = listItems[0].offsetWidth;
 
     if (
       listWidth <

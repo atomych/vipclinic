@@ -1,0 +1,16 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("../fonts/Montserrat-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "Montserrat Italic";
+    font-style: italic;
+    src: url("../fonts/Montserrat-Italic-VariableFont_wght.ttf");
+}
+
+@font-face {
+    font-family: "NEXT ART";
+    src: url("../fonts/NEXT\ ART_Light.otf");
+    font-weight: 300;
+}

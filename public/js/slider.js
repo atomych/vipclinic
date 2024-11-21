@@ -1,0 +1,41 @@
+window.addEventListener("load", () => {
+  const sliderLists = document.querySelectorAll(".slider-list");
+
+  for (let list of sliderLists) {
+    const items = list.childNodes;
+
+    if (items.length) {
+      setSliderControl(list, parseInt(getComputedStyle(items[0]).marginRight));
+    }
+  }
+
+  function setSliderControl(list, marginRight) {
+    const listWidth = list.clientWidth;
+    const listItems = list.childNodes;
+    const itemWidth = listItems[0].clientWidth;
+
+    if (
+      listWidth <
+      listItems.length * itemWidth + marginRight * (listItems.length - 1)
+    ) {
+      const sliderContainer =
+        list.parentElement.querySelector(".slider-container");
+      sliderContainer.innerHTML += `
+      <button class="slider-arrow left"></button>
+      <button class="slider-arrow right"></button>
+    `;
+
+      const backBtn = sliderContainer.querySelector(".slider-arrow.left");
+      const nextBtn = sliderContainer.querySelector(".slider-arrow.right");
+      const scrollValue = itemWidth + marginRight;
+
+      backBtn.addEventListener("click", () => {
+        list.scrollBy(-scrollValue, 0);
+      });
+
+      nextBtn.addEventListener("click", () => {
+        list.scrollBy(scrollValue, 0);
+      });
+    }
+  }
+});

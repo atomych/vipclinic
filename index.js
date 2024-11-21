@@ -9,7 +9,7 @@ app.use(express.static("public"));
 app.set("view engine", "pug");
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/index.html'));
+  res.render("main");
 });
 
 app.get("/price", (req, res) => {

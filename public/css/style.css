@@ -189,6 +189,7 @@ a.none-style {
     transition: all 0.2s linear;
     opacity: 0;
     height: 1px;
+    overflow: hidden;
 }
 
 .burger-panel.show {

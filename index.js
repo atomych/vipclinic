@@ -16,4 +16,8 @@ app.get("/price", (req, res) => {
   res.render("price");
 })
 
+app.get("/service", (req, res) => {
+  res.render("service", { id: req.query.id });
+})
+
 app.listen(port);

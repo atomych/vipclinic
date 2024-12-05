@@ -237,3 +237,18 @@
     background: url("../images/services/s16/3.png") center center;
     background-size: cover;
 }
+
+.service-page__photo.first.s17 {
+    background: url("../images/services/s17/1.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.second.s17 {
+    background: url("../images/services/s17/2.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s17 {
+    background: url("../images/services/s17/3.png") center center;
+    background-size: cover;
+}

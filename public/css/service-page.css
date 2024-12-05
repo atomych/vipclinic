@@ -16,21 +16,6 @@
     max-width: 480px;
 }
 
-.service-page__photo.first.s01 {
-    background: url("../images/services/s01/1.png") center center;
-    background-size: cover;
-}
-
-.service-page__photo.second.s01 {
-    background: url("../images/services/s01/2.png") center center;
-    background-size: cover;
-}
-
-.service-page__photo.third.s01 {
-    background: url("../images/services/s01/3.png") center center;
-    background-size: cover;
-}
-
 .service-page__main-content {
     padding-left: 65px;
     padding-top: 55px;
@@ -139,6 +124,7 @@
 
 .service-page__price-content {
     max-width: 960px;
+    width: 960px;
 }
 
 .service-page__price-list {
@@ -146,6 +132,7 @@
     flex-wrap: wrap;
     background-color: #000;
     padding-top: 1px;
+    width: 100%;
 }
 
 .service-page__price-item {
@@ -159,6 +146,31 @@
     padding: 20px 0;
     margin-right: 1px;
     margin-bottom: 1px;
+
+    position: relative;
+}
+
+.service-page__price-item.empty::before,
+.service-page__price-item.empty::after {
+    content: "";
+    display: block;
+    position: absolute;
+
+    background-color: #fff;
+}
+
+.service-page__price-item.empty::before {
+    width: 1px;
+    height: 100%;
+    top: 0;
+    right: -1px;
+}
+
+.service-page__price-item.empty::after {
+    width: 100%;
+    height: 1px;
+    bottom: -1px;
+    left: 0;
 }
 
 .service-page__price-item:nth-child(2n) {
@@ -281,6 +293,7 @@
     .service-page__price-content {
         margin: 0 auto;
         max-width: 963px;
+        width: 963px;
     }
 
     .service-page__price-list {
@@ -304,6 +317,7 @@
     .service-page__price-content {
         margin: 0;
         max-width: 100%;
+        width: 100%;
     }
 
     .service-page__price-item {

@@ -29,3 +29,11 @@
   right: 0;
   transform: rotate(180deg);
 }
+
+@media (max-width: 700px) {
+  .slider-arrow {
+    width: 35px;
+    height: 35px;
+    background-size: 15px;
+  }
+}

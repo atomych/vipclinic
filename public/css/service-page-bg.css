@@ -252,3 +252,200 @@
     background: url("../images/services/s17/3.png") center center;
     background-size: cover;
 }
+
+.service-page__photo.first.s18 {
+    background: url("../images/services/s18/1.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.second.s18 {
+    background: url("../images/services/s18/2.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img0 {
+    background: url("../images/services/s18/3.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img1 {
+    background: url("../images/services/s18/3.1.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img2 {
+    background: url("../images/services/s18/3.2.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img3 {
+    background: url("../images/services/s18/3.3.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img4 {
+    background: url("../images/services/s18/3.4.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img5 {
+    background: url("../images/services/s18/3.5.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img6 {
+    background: url("../images/services/s18/3.6.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s18.img7 {
+    background: url("../images/services/s18/3.7.png") center center;
+    background-size: cover;
+}
+
+@media (max-width: 1440px) {
+    .service-page__photo.second.s01 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s01 {
+        display: none;
+    }
+
+    .service-page__photo.second.s02 {
+        display: none;
+    }
+
+    .service-page__photo.third.s02 {
+        order: 0;
+    }
+
+    .service-page__photo.second.s03 {
+        display: none;
+    }
+
+    .service-page__photo.third.s03 {
+        order: 0;
+        background-position: top center;
+    }
+
+    .service-page__photo.second.s04 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s04 {
+        display: none;
+    }
+
+    .service-page__photo.second.s05 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s05 {
+        display: none;
+    }
+
+    .service-page__photo.second.s06 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s06 {
+        display: none;
+    }
+
+    .service-page__photo.second.s07 {
+        display: none;
+    }
+
+    .service-page__photo.third.s07 {
+        order: 0;
+    }
+
+    .service-page__photo.second.s08 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s08 {
+        display: none;
+    }
+
+    .service-page__photo.second.s09 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s09 {
+        display: none;
+    }
+
+    .service-page__photo.second.s10 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s10 {
+        display: none;
+    }
+
+    .service-page__photo.second.s11 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s11 {
+        display: none;
+    }
+
+    .service-page__photo.second.s12 {
+        display: none;
+    }
+
+    .service-page__photo.third.s12 {
+        order: 0;
+    }
+
+    .service-page__photo.second.s13 {
+        display: none;
+    }
+
+    .service-page__photo.third.s13 {
+        order: 0;
+    }
+
+    .service-page__photo.second.s14 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s14 {
+        display: none;
+    }
+
+    .service-page__photo.second.s15 {
+        display: none;
+    }
+
+    .service-page__photo.third.s15 {
+        order: 0;
+    }
+
+    .service-page__photo.second.s16 {
+        display: none;
+    }
+
+    .service-page__photo.third.s16 {
+        order: 0;
+    }
+
+    .service-page__photo.second.s17 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s17 {
+        display: none;
+    }
+
+    .service-page__photo.second.s18 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s18 {
+        display: none;
+    }
+}

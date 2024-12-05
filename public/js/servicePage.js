@@ -2,7 +2,10 @@ const serviceLists = document.querySelectorAll(".service-page__price-list");
 
 if (serviceLists.length == 1) {
   serviceLists[0].classList.add("show");
+  serviceLists[0].classList.add("bg");
 }
+
+const imgSection = document.querySelector(`.service-page__photo.third.s${location.search.substring(location.search.length - 2)}`);
 
 const serviceNavBtns = document.querySelectorAll(
   ".service-page__nav-item button"
@@ -23,6 +26,7 @@ function showList(list) {
 
   const interval = setInterval(() => {
     if (index > maxIndex) {
+      list.classList.add("bg");
       clearInterval(interval);
     } else {
       items[index].classList.remove("hidden");
@@ -33,11 +37,16 @@ function showList(list) {
 
 for (let btn of serviceNavBtns) {
   btn.addEventListener("click", () => {
+    imgSection.classList.remove(`img${selectedBtn.dataset.type}`);
     selectedBtn.classList.remove("selected");
     selectedBtn = btn;
     selectedBtn.classList.add("selected");
+    imgSection.classList.add(`img${selectedBtn.dataset.type}`);
 
-    serviceLists.forEach((item) => item.classList.remove("show"));
+    serviceLists.forEach((item) => {
+      item.classList.remove("show");
+      item.classList.remove("bg");
+    });
 
     for (let list of serviceLists) {
       if (list.dataset.type == selectedBtn.dataset.type) {

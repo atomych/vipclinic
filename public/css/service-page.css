@@ -14,6 +14,7 @@
 .service-page__photo {
     width: 100%;
     max-width: 480px;
+    transition: all 0.2s linear;
 }
 
 .service-page__main-content {
@@ -133,10 +134,12 @@
     list-style: none;
 
     padding: 40px;
+    padding-bottom: 10px;
 }
 
 .service-page__nav-item {
     margin-right: 40px;
+    margin-bottom: 30px;
 }
 
 .service-page__nav-item button {
@@ -161,9 +164,14 @@
 .service-page__price-list {
     display: none;
     flex-wrap: wrap;
-    background-color: #000;
+    background-color: #fff;
     padding-top: 1px;
     width: 100%;
+    transition: all 0.2s linear;
+}
+
+.service-page__price-list.bg {
+    background-color: #000;
 }
 
 .service-page__price-list.show {
@@ -202,7 +210,7 @@
 }
 
 .service-page__price-item.empty::before {
-    width: 1px;
+    width: 3px;
     height: 100%;
     top: 0;
     right: -1px;
@@ -210,7 +218,7 @@
 
 .service-page__price-item.empty::after {
     width: 100%;
-    height: 1px;
+    height: 3px;
     bottom: -1px;
     left: 0;
 }
@@ -314,10 +322,6 @@
         margin-bottom: 70px;
     }
 
-    .service-page__photo.second {
-        order: 2;
-    }
-
     .service-page__text-content {
         order: 1;
         max-width: 100%;
@@ -326,10 +330,6 @@
 
     .service-page__text-item {
         max-width: 100%;
-    }
-
-    .service-page__photo.third {
-        display: none;
     }
 
     .service-page__price-content {
@@ -443,5 +443,13 @@
 
     .service-page__title.adaptive {
         font-size: 1.9rem;
+    }
+
+    .service-page__nav-list {
+        flex-direction: column;
+    }
+
+    .service-page__nav-item {
+        margin-right: 0;
     }
 }

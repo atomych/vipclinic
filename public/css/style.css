@@ -117,6 +117,14 @@ a.none-style {
     font-weight: 300;
 }
 
+.button-section__inner {
+    padding: 40px;
+}
+
+.button-section__inner .btn{
+    width: 100%;
+}
+
 .section-title {
     font-family: "NEXT ART", sans-serif;
     font-weight: 300;

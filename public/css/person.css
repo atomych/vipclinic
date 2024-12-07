@@ -1,0 +1,161 @@
+.before-after__btn,
+.section-title {
+  display: none;
+}
+
+.before-after {
+  margin-bottom: 0;
+}
+
+.person {
+  margin-top: 140px;
+  margin-bottom: 100px;
+}
+
+.person__inner {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+
+.person__image {
+  width: 100%;
+  max-width: 410px;
+  background: url("../images/persons/bg.png") center center no-repeat;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+}
+
+.person__image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.person__content {
+  width: 100%;
+  max-width: 810px;
+}
+
+.person__main {
+  margin-bottom: 25px;
+}
+
+.person__name {
+  font-family: "NEXT ART", sans-serif;
+  font-weight: 300;
+  font-size: 2.66rem;
+  line-height: 1;
+
+  color: #000;
+  margin-bottom: 25px;
+}
+
+.person__def {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 1.33rem;
+  line-height: 1;
+  color: #000;
+}
+
+.person__line {
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  margin-bottom: 25px;
+}
+
+.person__block {
+  margin-bottom: 50px;
+  max-width: 740px;
+}
+
+.person__block-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 1.33rem;
+  line-height: 1;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.person__text {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+
+  margin-bottom: 25px;
+}
+
+.person__list {
+  padding-left: 30px;
+  margin-bottom: 25px;
+} 
+
+.person__item {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+
+  margin-bottom: 1px;
+  position: relative;
+}
+
+.person__item:last-child {
+  margin-bottom: 0;
+}
+
+.person__adaptive {
+  display: none;
+}
+
+.person__adaptive-content {
+  margin-bottom: 25px;
+}
+
+@media (max-width: 1440px) {
+  .person__inner {
+    flex-direction: column;
+  }
+
+  .person__main {
+    display: none;
+  }
+
+  .person__line {
+    display: none;
+  }
+
+  .person__adaptive {
+    display: block;
+  }
+
+  .person__adaptive .person__line {
+    display: block;
+  }
+
+  .person__image {
+    margin-bottom: 50px;
+  }
+
+  .person {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 800px) {
+  .person {
+    margin-top: 105px;
+  }
+}
+
+@media (max-width: 550px) {
+  .person__image {
+    max-width: 340px;
+  }
+}

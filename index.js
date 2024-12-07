@@ -20,4 +20,9 @@ app.get("/service", (req, res) => {
   res.render("service", { id: req.query.id });
 })
 
+app.get("/person", (req, res) => {
+  res.render("person", { id: req.query.id });
+})
+
+
 app.listen(port);

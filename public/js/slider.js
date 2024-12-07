@@ -30,11 +30,19 @@ window.addEventListener("load", () => {
       const scrollValue = itemWidth + marginRight;
 
       backBtn.addEventListener("click", () => {
-        list.scrollBy(-scrollValue, 0);
+        if (list.scrollLeft == 0) {
+          list.scrollTo(list.scrollWidth, 0);
+        } else {
+          list.scrollBy(-scrollValue, 0);
+        }
       });
 
       nextBtn.addEventListener("click", () => {
-        list.scrollBy(scrollValue, 0);
+        if (list.scrollWidth == list.scrollLeft + list.clientWidth) {
+          list.scrollTo(0, 0);
+        } else {
+          list.scrollBy(scrollValue, 0);
+        }
       });
     }
   }

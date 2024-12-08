@@ -1,48 +1,37 @@
 window.addEventListener("load", () => {
   const sliderLists = document.querySelectorAll(".slider-list");
 
-  for (let list of sliderLists) {
-    const items = list.childNodes;
+  sliderLists.forEach(list => {
+    const items = Array.from(list.children);
 
     if (items.length) {
-      setSliderControl(list, parseInt(getComputedStyle(items[0]).marginRight));
+      const marginRight = parseInt(getComputedStyle(items[0]).marginRight);
+      setSliderControl(list, marginRight, items);
     }
-  }
+  });
 
-  function setSliderControl(list, marginRight) {
+  function setSliderControl(list, marginRight, items) {
     const listWidth = list.offsetWidth;
-    const listItems = list.childNodes;
-    const itemWidth = listItems[0].offsetWidth;
+    const itemWidth = items[0].offsetWidth;
+    const totalWidth = items.length * itemWidth + marginRight * (items.length - 1);
 
-    if (
-      listWidth <
-      listItems.length * itemWidth + marginRight * (listItems.length - 1)
-    ) {
-      const sliderContainer =
-        list.parentElement.querySelector(".slider-container");
+    if (listWidth < totalWidth) {
+      const sliderContainer = list.parentElement.querySelector(".slider-container");
       sliderContainer.innerHTML += `
-      <button class="slider-arrow left"></button>
-      <button class="slider-arrow right"></button>
-    `;
+        <button class="slider-arrow left"></button>
+        <button class="slider-arrow right"></button>
+      `;
 
       const backBtn = sliderContainer.querySelector(".slider-arrow.left");
       const nextBtn = sliderContainer.querySelector(".slider-arrow.right");
       const scrollValue = itemWidth + marginRight;
 
       backBtn.addEventListener("click", () => {
-        if (list.scrollLeft == 0) {
-          list.scrollTo(list.scrollWidth, 0);
-        } else {
-          list.scrollBy(-scrollValue, 0);
-        }
+        list.scrollBy({ left: list.scrollLeft === 0 ? list.scrollWidth : -scrollValue, behavior: 'smooth' });
       });
 
       nextBtn.addEventListener("click", () => {
-        if (list.scrollLeft + list.clientWidth >= list.scrollWidth) {
-          list.scrollTo(0, 0);
-        } else {
-          list.scrollBy(scrollValue, 0);
-        }
+        list.scrollBy({ left: (list.scrollLeft + list.clientWidth >= list.scrollWidth) ? -list.scrollWidth : scrollValue, behavior: 'smooth' });
       });
     }
   }

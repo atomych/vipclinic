@@ -6,7 +6,6 @@ window.addEventListener("load", () => {
 
     if (items.length) {
       const marginRight = Math.trunc(parseInt(getComputedStyle(items[0]).marginRight));
-      console.log(marginRight);
       setSliderControl(list, marginRight, items);
     }
   });
@@ -32,13 +31,7 @@ window.addEventListener("load", () => {
       });
 
       nextBtn.addEventListener("click", () => {
-        const text = document.querySelector(".slider-icon");
-        if (text) {
-          text.innerHTML += `
-            <span>scollLeft: ${list.scrollLeft}, scrollWidth: ${list.scrollWidth}, clientWidth: ${list.clientWidth}</span>
-          `
-        }
-        list.scrollBy({ left: (list.scrollLeft + list.clientWidth >= list.scrollWidth) ? -list.scrollWidth : scrollValue, behavior: 'smooth' });
+        list.scrollBy({ left: (list.scrollLeft + scrollValue >= list.scrollWidth) ? -list.scrollWidth : scrollValue, behavior: 'smooth' });
       });
     }
   }

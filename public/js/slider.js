@@ -38,7 +38,7 @@ window.addEventListener("load", () => {
       });
 
       nextBtn.addEventListener("click", () => {
-        if (list.scrollWidth == list.scrollLeft + list.clientWidth) {
+        if (list.scrollLeft + list.clientWidth >= list.scrollWidth) {
           list.scrollTo(0, 0);
         } else {
           list.scrollBy(scrollValue, 0);

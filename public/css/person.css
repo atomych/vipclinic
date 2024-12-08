@@ -158,4 +158,8 @@
   .person__image {
     max-width: 340px;
   }
+
+  .person__inner {
+    padding: 0 30px;
+  }
 }

@@ -5,7 +5,8 @@ window.addEventListener("load", () => {
     const items = Array.from(list.children);
 
     if (items.length) {
-      const marginRight = parseInt(getComputedStyle(items[0]).marginRight);
+      const marginRight = Math.trunc(parseInt(getComputedStyle(items[0]).marginRight));
+      console.log(marginRight);
       setSliderControl(list, marginRight, items);
     }
   });

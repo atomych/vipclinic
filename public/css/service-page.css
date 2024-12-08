@@ -407,6 +407,10 @@
     .service-page__photo {
         height: 300px;
     }
+
+    .service-page__text-item.small {
+        margin-bottom: 0;
+    }
 }
 
 @media (max-width: 700px) {

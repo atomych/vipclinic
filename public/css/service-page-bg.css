@@ -303,6 +303,36 @@
     background-size: cover;
 }
 
+.service-page__photo.first.s19 {
+    background: url("../images/services/s19/1.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.second.s19 {
+    background: url("../images/services/s19/2.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s19 {
+    background: url("../images/services/s19/3.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.first.s20 {
+    background: url("../images/services/s20/1.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.second.s20 {
+    background: url("../images/services/s20/2.png") center center;
+    background-size: cover;
+}
+
+.service-page__photo.third.s20 {
+    background: url("../images/services/s20/3.png") center center;
+    background-size: cover;
+}
+
 @media (max-width: 1440px) {
     .service-page__photo.second.s01 {
         order: 2;
@@ -447,5 +477,21 @@
 
     .service-page__photo.third.s18 {
         display: none;
+    }
+
+    .service-page__photo.second.s19 {
+        order: 2;
+    }
+
+    .service-page__photo.third.s19 {
+        display: none;
+    }
+
+    .service-page__photo.second.s20 {
+        display: none;
+    }
+
+    .service-page__photo.third.s20 {
+        order: 0;
     }
 }

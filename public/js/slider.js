@@ -31,6 +31,12 @@ window.addEventListener("load", () => {
       });
 
       nextBtn.addEventListener("click", () => {
+        const text = document.querySelector(".slider-icon");
+        if (text) {
+          text.innerHTML += `
+            <span>scollLeft: ${list.scrollLeft}, scrollWidth: ${list.scrollWidth}, clientWidth: ${list.clientWidth}</span>
+          `
+        }
         list.scrollBy({ left: (list.scrollLeft + list.clientWidth >= list.scrollWidth) ? -list.scrollWidth : scrollValue, behavior: 'smooth' });
       });
     }

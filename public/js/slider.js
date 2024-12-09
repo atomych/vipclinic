@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
       });
 
       nextBtn.addEventListener("click", () => {
-        list.scrollBy({ left: (list.scrollLeft + scrollValue >= list.scrollWidth) ? -list.scrollWidth : scrollValue, behavior: 'smooth' });
+        list.scrollBy({ left: (list.scrollLeft + listWidth >= list.scrollWidth) ? -list.scrollWidth : scrollValue, behavior: 'smooth' });
       });
     }
   }

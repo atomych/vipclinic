@@ -511,6 +511,10 @@
         left: -70px;
     }
 
+    .main-about__text p {
+        width: 265px;
+    }
+
     .main-about__wrapper {
         padding-left: 0;
     }
@@ -562,6 +566,18 @@
         width: 300px;
     }
 
+    .main-about__title {
+        width: 360px;
+    }
+
+    .main-about__title.main-about__title--right {
+        padding-right: 45px;
+    }
+
+    .main-about__text p {
+        width: 250px;
+    }
+
     .main-about__wrapper {
         background-size: 80%;
         justify-content: end;
@@ -570,7 +586,7 @@
     .main-about__phase {
         margin-bottom: 200px;
         font-size: 1.4rem;
-        padding-left: 100px;
+        padding-left: 150px;
     }
 
     .services .item {
@@ -593,11 +609,7 @@
     }
 
     .main-about__content {
-        max-width: 300px;
-    }
-
-    .main-about__title {
-        width: 300px;
+        max-width: 100%;
     }
 
     .section-title::before,

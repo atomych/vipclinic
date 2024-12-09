@@ -329,7 +329,7 @@ a.none-style {
     line-height: 1;
     color: #000;
     margin-bottom: 65px;
-    padding-left: 140px;
+    padding-left: 145px;
 }
 
 .intro__btn {
@@ -392,6 +392,11 @@ a.none-style {
     justify-content: end;
 
     margin-bottom: 112px;
+}
+
+.main-about__text p {
+    display: block;
+    width: 410px;
 }
 
 .main-about__phase {
@@ -877,12 +882,8 @@ a.none-style {
 
 .contacts__content {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-end;
-}
-
-.contacts__map {
-    margin-right: 70px;
 }
 
 .contacts__map.contacts__map--adaptive,

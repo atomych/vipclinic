@@ -1,27 +1,37 @@
 doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  meta(name='keywords' content='клиника vipclinic уральская косметология')
-  title Прайс
-  link(rel='stylesheet' href='./css/style.css')
-  link(rel='stylesheet' href='./css/adaptive.css')
-  link(rel='stylesheet' href='./css/fonts.css')
-body
-  include modules/header.pug
-  section.price
-    .container
-      .price__wrapper
-        .price__back
-          a(href="/")
-            img(src="./images/icons/slider-arrow.svg", alt="")
-        h2.section-title(style='margin-bottom: 40px') прайс
-        .price__content
-          .price__list
-            .price__item
-          .slider-icon 
-            img(src="./images/main/arr.svg", alt="")
-          button.btn.btn--upper.price__btn записаться онлайн
-  include modules/contacts.pug
-  include modules/footer.pug
-  script(src='./js/burger.js')
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="description" content="Прайс-лист | Медицинская косметология экспертного уровня в Санкт-Петербурге | Основатель и главный врач VIP CLINIC - специалист со стажем более 5 лет | Более 1000 довольных пациентов")
+    meta(name='keywords' content='клиника vipclinic уральская косметология VIP CLINIC медицинская экспертного уровня Санкт-Петербург спб прайс лист')
+    meta(name="robots" content="all")
+    meta(property="og:type" content="website")
+    meta(property="og:url" content="https://vipclinicspb.ru/price/")
+    meta(property="og:image" content="https://vipclinicspb.ru/images/logo-276.png")
+    meta(property="og:title" content="VIP CLINIC - Прайс-лист СПБ")
+    meta(property="og:description" content="Прайс-лист | Медицинская косметология экспертного уровня в Санкт-Петербурге | Основатель и главный врач VIP CLINIC - специалист со стажем более 5 лет | Более 1000 довольных пациентов")
+    title VIP CLINIC - Прайс-лист СПБ
+    link(rel="icon", href="/images/favicons/32.png")
+    link(rel="apple-touch-icon" href="images/favicons/180.png")
+    link(rel='stylesheet' href='./css/style.css')
+    link(rel='stylesheet' href='./css/adaptive.css')
+    link(rel='stylesheet' href='./css/fonts.css')
+  body
+    include modules/header.pug
+    section.price
+      .container
+        .price__wrapper
+          .price__back
+            a(href="/")
+              img(src="./images/icons/slider-arrow.svg", alt="")
+          h2.section-title(style='margin-bottom: 40px') прайс
+          .price__content
+            .price__list
+              .price__item
+            .slider-icon 
+              img(src="./images/main/arr.svg", alt="")
+            button.btn.btn--upper.price__btn записаться онлайн
+    include modules/contacts.pug
+    include modules/footer.pug
+    script(src='./js/burger.js')

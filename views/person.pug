@@ -1,25 +1,35 @@
 doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  meta(name='keywords' content='клиника vipclinic уральская косметология')
-  title Врач
-  link(rel='stylesheet' href='./css/style.css')
-  link(rel='stylesheet' href='./css/adaptive.css')
-  link(rel='stylesheet' href='./css/fonts.css')
-  link(rel='stylesheet' href='./css/person.css')
-  link(rel='stylesheet' href='./css/slider.css')
-body
-  include modules/header.pug
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="descryption" content=description)
+    meta(name="keywords" content=keywords)
+    meta(name="robots" content="all")
+    meta(property="og:type" content="website")
+    meta(property="og:url" content=url)
+    meta(property="og:image" content="https://vipclinicspb.ru/images/logo-276.png")
+    meta(property="og:title" content=title)
+    meta(property="og:description" content=description)
+    title VIP CLINIC - #{title}
+    link(rel="icon", href="/images/favicons/32.png")
+    link(rel="apple-touch-icon" href="images/favicons/180.png")
+    link(rel='stylesheet' href='./css/style.css')
+    link(rel='stylesheet' href='./css/adaptive.css')
+    link(rel='stylesheet' href='./css/fonts.css')
+    link(rel='stylesheet' href='./css/person.css')
+    link(rel='stylesheet' href='./css/slider.css')
+  body
+    include modules/header.pug
 
-  if id == "p01"
-    include persons/p01.pug
-    include modules/beforeAfter.pug
-  if id == "p02"
-    include persons/p02.pug
-  
-  include modules/buttonSign.pug
-  include modules/footer.pug
-  
-  script(src='./js/burger.js')
-  script(src='./js/slider.js')
+    if id == "p01"
+      include persons/p01.pug
+      include modules/beforeAfter.pug
+    if id == "p02"
+      include persons/p02.pug
+    
+    include modules/buttonSign.pug
+    include modules/footer.pug
+    
+    script(src='./js/burger.js')
+    script(src='./js/slider.js')

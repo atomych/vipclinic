@@ -3,6 +3,9 @@ const cors = require("cors");
 const path = require("path");
 const port = process.env.PORT || 3000;
 
+const services = require("./database/services.json");
+const persons = require("./database/persons.json");
+
 const app = express();
 app.use(cors());
 app.use(express.static("public"));
@@ -14,15 +17,14 @@ app.get("/", (req, res) => {
 
 app.get("/price", (req, res) => {
   res.render("price");
-})
+});
 
 app.get("/service", (req, res) => {
-  res.render("service", { id: req.query.id });
-})
+  res.render("service", services.filter(el => el.id == req.query.id)[0]);
+});
 
 app.get("/person", (req, res) => {
-  res.render("person", { id: req.query.id });
-})
-
+  res.render("person", persons.filter(el => el.id == req.query.id)[0]);
+});
 
 app.listen(port);

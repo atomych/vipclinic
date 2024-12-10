@@ -1,59 +1,69 @@
 doctype html
-head
-  meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  meta(name='keywords' content='клиника vipclinic уральская косметология')
-  title Услуги
-  link(rel='stylesheet' href='./css/style.css')
-  link(rel='stylesheet' href='./css/adaptive.css')
-  link(rel='stylesheet' href='./css/fonts.css')
-  link(rel='stylesheet' href='./css/service-page.css')
-  link(rel='stylesheet' href='./css/service-page-bg.css')
-body
-  include modules/header.pug
-  
-  if id == "s01"
-    include services/s01.pug
-  if id == "s02"
-    include services/s02.pug
-  if id == "s03"
-    include services/s03.pug
-  if id == "s04"
-    include services/s04.pug
-  if id == "s05"
-    include services/s05.pug
-  if id == "s06"
-    include services/s06.pug
-  if id == "s07"
-    include services/s07.pug
-  if id == "s08"
-    include services/s08.pug
-  if id == "s09"
-    include services/s09.pug
-  if id == "s10"
-    include services/s10.pug
-  if id == "s11"
-    include services/s11.pug
-  if id == "s12"
-    include services/s12.pug
-  if id == "s13"
-    include services/s13.pug
-  if id == "s14"
-    include services/s14.pug
-  if id == "s15"
-    include services/s15.pug
-  if id == "s16"
-    include services/s16.pug
-  if id == "s17"
-    include services/s17.pug
-  if id == "s18"
-    include services/s18.pug
-  if id == "s19"
-    include services/s19.pug
-  if id == "s20"
-    include services/s20.pug
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="descryption" content=description)
+    meta(name="keywords" content=keywords)
+    meta(name="robots" content="all")
+    meta(property="og:type" content="website")
+    meta(property="og:url" content=url)
+    meta(property="og:image" content="https://vipclinicspb.ru/images/logo-276.png")
+    meta(property="og:title" content=title)
+    meta(property="og:description" content=description)
+    title VIP CLINIC - #{title}
+    link(rel="icon", href="/images/favicons/32.png")
+    link(rel="apple-touch-icon" href="images/favicons/180.png")
+    link(rel='stylesheet' href='./css/style.css')
+    link(rel='stylesheet' href='./css/adaptive.css')
+    link(rel='stylesheet' href='./css/fonts.css')
+    link(rel='stylesheet' href='./css/service-page.css')
+    link(rel='stylesheet' href='./css/service-page-bg.css')
+  body
+    include modules/header.pug
+    
+    if id == "s01"
+      include services/s01.pug
+    if id == "s02"
+      include services/s02.pug
+    if id == "s03"
+      include services/s03.pug
+    if id == "s04"
+      include services/s04.pug
+    if id == "s05"
+      include services/s05.pug
+    if id == "s06"
+      include services/s06.pug
+    if id == "s07"
+      include services/s07.pug
+    if id == "s08"
+      include services/s08.pug
+    if id == "s09"
+      include services/s09.pug
+    if id == "s10"
+      include services/s10.pug
+    if id == "s11"
+      include services/s11.pug
+    if id == "s12"
+      include services/s12.pug
+    if id == "s13"
+      include services/s13.pug
+    if id == "s14"
+      include services/s14.pug
+    if id == "s15"
+      include services/s15.pug
+    if id == "s16"
+      include services/s16.pug
+    if id == "s17"
+      include services/s17.pug
+    if id == "s18"
+      include services/s18.pug
+    if id == "s19"
+      include services/s19.pug
+    if id == "s20"
+      include services/s20.pug
 
-  include modules/footer.pug
+    include modules/footer.pug
 
-  script(src='./js/burger.js')
-  script(src='./js/servicePage.js')
+    script(src='./js/burger.js')
+    script(src='./js/servicePage.js')

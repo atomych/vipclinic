@@ -296,6 +296,10 @@
         justify-content: end;
     }
 
+    .main-about__text p {
+        width: 310px;
+    }
+
     .memberships__content {
         background-size: 480px 100%;
         width: 480px;
@@ -393,6 +397,10 @@
         width: 340px;
     }
 
+    .main-about__text p {
+        width: 300px;
+    }
+
     .memberships__content {
         background-size: 420px 100%;
         width: 420px;
@@ -420,6 +428,10 @@
 
     .main-about__wrapper {
         background-size: 420px;
+    }
+
+    .main-about__text p {
+        width: 265px;
     }
 
     .contacts__map {
@@ -517,6 +529,10 @@
 
     .main-about__wrapper {
         padding-left: 0;
+    }
+
+    .main-about__content {
+        padding-left: 5px;
     }
     
     .intro__img img {

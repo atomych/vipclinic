@@ -118,6 +118,19 @@
   margin-bottom: 25px;
 }
 
+.person__btn-wrapper {
+  width: 100%;
+  padding: 70px 40px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.person__btn-wrapper button {
+  width: 100%;
+  max-width: 1360px;
+}
+
 @media (max-width: 1440px) {
   .person__inner {
     flex-direction: column;

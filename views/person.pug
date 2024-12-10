@@ -28,7 +28,9 @@ html(lang="ru")
     if id == "p02"
       include persons/p02.pug
     
-    include modules/buttonSign.pug
+    .person__btn-wrapper
+      button.btn.btn--upper записаться онлайн
+      
     include modules/footer.pug
     
     script(src='./js/burger.js')

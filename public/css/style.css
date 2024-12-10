@@ -614,6 +614,7 @@ a.none-style {
     flex-wrap: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
+    list-style: none;
     width: 100%;
     max-width: 1350px;
     margin: 0 auto;
@@ -671,6 +672,7 @@ a.none-style {
     flex-wrap: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
+    list-style: none;
     width: 100%;
     max-width: 1370px;
     margin: 0 auto;
@@ -816,6 +818,7 @@ a.none-style {
 .promotions__list {
     display: flex;
     justify-content: center;
+    list-style: none;
 }
 
 .promotions__item {
@@ -1001,6 +1004,7 @@ a.none-style {
 
 .price__list {
     margin-bottom: 30px;
+    list-style: none;
 }
 
 .price__item {

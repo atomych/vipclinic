@@ -19,16 +19,16 @@ html(lang="ru")
     link(rel='stylesheet' href='./css/fonts.css')
   body
     include modules/header.pug
-    section.price
+    .price
       .container
-        .price__wrapper
+        section.price__wrapper
           .price__back
             a(href="/")
               img(src="./images/icons/slider-arrow.svg", alt="")
           h2.section-title(style='margin-bottom: 40px') прайс
           .price__content
-            .price__list
-              .price__item
+            ul.price__list
+              li.price__item
             .slider-icon 
               img(src="./images/main/arr.svg", alt="")
             button.btn.btn--upper.price__btn записаться онлайн

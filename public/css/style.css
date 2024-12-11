@@ -638,6 +638,10 @@ a.none-style {
     margin-bottom: 15px;
 }
 
+.before-after__item .item__img img {
+    max-width: 420px;
+}
+
 .before-after__item .item__text P{
     font-size: 1rem;
     font-weight: 400;

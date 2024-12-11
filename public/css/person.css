@@ -15,6 +15,7 @@
 .person__inner {
   display: flex;
   justify-content: space-between;
+  align-items: start;
   padding: 0 50px;
 }
 
@@ -134,6 +135,7 @@
 @media (max-width: 1440px) {
   .person__inner {
     flex-direction: column;
+    align-items: center;
   }
 
   .person__main {

@@ -697,7 +697,7 @@ a.none-style {
 }
 
 .team__item .item__img {
-    width: 320px;
+    width: 318px;
     height: 500px;
     background: url("../images/main/bg-3.png") center center no-repeat;
     background-size: cover;
@@ -707,7 +707,7 @@ a.none-style {
 
 .team__item .item__img img {
     display: block;
-    width: 320px;
+    width: 318px;
 }
 
 .team__item .item__name {

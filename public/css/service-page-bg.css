@@ -496,7 +496,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .service-page__photo.first.s01 {
         background: url("../images/services/s01/1.1.png") center center no-repeat;
         background-size: cover;

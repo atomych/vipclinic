@@ -315,6 +315,7 @@
 
     .service-page__features {
         justify-content: center;
+        margin-bottom: 0;
     }
 
     .features__item {
@@ -392,10 +393,6 @@
 
     .service-page__price-item {
         padding: 20px;
-    }
-
-    .service-page__features {
-        margin-bottom: 0;
     }
 }
 

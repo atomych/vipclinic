@@ -29,27 +29,14 @@
         display: flex;
         justify-content: end;
     }
-
-    .promotions__list {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .promotions__item {
-        margin-right: 0;
-    }
-
-    .promotions__text {
-        margin: 0 auto;
-    }
-
-    .promotions__wrapper .slider-icon{
-        display: block;
-    }
     
 }
 
 @media (max-width: 1375px) {
+    .price__back {
+        display: none;
+    }
+
     .team__list {
         max-width: 1020px;
     }
@@ -169,7 +156,18 @@
         display: block !important;
         padding-left: 10px;
     }
-    
+
+    .promotions__list {
+        max-width: 640px;
+    }
+
+    .promotions__text {
+        max-width: 640px;
+    }
+
+    .price__list {
+        max-width: 895px;
+    }
 }
 
 @media (max-width: 1115px) {
@@ -324,13 +322,19 @@
         width: 330px;
     }
 
-    /* .main-header .btn.btn--header {
-        display: none;
+    .price__list {
+        max-width: 695px;
     }
 
-    .nav__item.nav__item--adaptive {
-        display: block;
-    } */
+    .price__item {
+        width: 330px;
+        height: 470px;
+    }
+
+    .price__doc {
+        width: 330px;
+        height: 470px;
+    }
 }
 
 
@@ -409,11 +413,24 @@
     .memberships__content p {
         width: 370px;
     }
+
+    .license__list {
+        padding: 0 35px;
+    }
+
+    .license {
+        width: 210px;
+        height: 300px;
+    }
 }
 
 @media (max-width: 750px) {
     .before-after__list {
         max-width: 340px;
+    }
+
+    .price__list {
+        max-width: 330px;
     }
 }
 
@@ -440,10 +457,6 @@
 
     .contacts__map.contacts__map--adaptive {
         display: block;
-    }
-    
-    .promotions__item img {
-        max-width: 100%;
     }
 
     .memberships__img img {
@@ -508,6 +521,22 @@
     }
 
     .services__main-btn {
+        width: 450px;
+    }
+
+    .promotions__list {
+        max-width: 450px;
+    }
+
+    .promotions__item {
+        width: 450px;
+    }
+
+    .promotions__item img {
+        width: 450px;
+    }
+
+    .promotions__text {
         width: 450px;
     }
 }
@@ -667,6 +696,22 @@
     .memberships__content p {
         width: 320px;
         padding-left: 20px;
+    }
+
+    .promotions__list {
+        max-width: 330px;
+    }
+
+    .promotions__item {
+        width: 330px;
+    }
+
+    .promotions__item img {
+        width: 330px;
+    }
+
+    .promotions__text {
+        width: 330px;
     }
 }
 

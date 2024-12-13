@@ -17,6 +17,7 @@ html(lang="ru")
     link(rel="shortcut icon" href="/images/favicons/icon.ico")
     link(rel='stylesheet' href='./css/style.css')
     link(rel='stylesheet' href='./css/adaptive.css')
+    link(rel='stylesheet' href='./css/slider.css')
     link(rel='stylesheet' href='./css/fonts.css')
   body
     include modules/header.pug
@@ -28,11 +29,16 @@ html(lang="ru")
               img(src="./images/icons/slider-arrow.svg", alt="")
           h2.section-title(style='margin-bottom: 40px') прайс
           .price__content
-            ul.price__list
+            ul.price__list.slider-list
               li.price__item
-            .slider-icon 
-              img(src="./images/main/arr.svg", alt="")
+                img.price__doc
+              li.price__item
+                img.price__doc
+              li.price__item
+                img.price__doc
+            .slider-container
             button.btn.btn--upper.price__btn записаться онлайн
     include modules/contacts.pug
     include modules/footer.pug
     script(src='./js/burger.js')
+    script(src='./js/slider.js')

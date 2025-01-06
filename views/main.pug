@@ -24,10 +24,18 @@ html(lang="ru")
     include modules/intro.pug
     include modules/about.pug
     include modules/services.pug
+
+    - const beforeAfterList = beforeAfter;
     include modules/beforeAfter.pug
+
+    - const teamList = team;
     include modules/team.pug
+
     include modules/vipclinic.pug
+
+    - const promotionsList = promo;
     include modules/promotions.pug
+    
     include modules/memberships.pug
     include modules/contacts.pug
     include modules/footer.pug

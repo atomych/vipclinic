@@ -3,34 +3,14 @@
     section.team__wrapper
       h2.section-title Наша команда
       ul.team__list.slider-list
-        li.team__item
-          .item__img
-            img(src='./images/main/team/1.png' alt='')
-          .item__name
-            p Виктория
-            p Бурумбаева
-          .item__prof
-            p
-              | основатель VIP CLINIK,
-              br
-              | врач-косметолог,
-              br
-              | дерматовенеролог,
-              br
-              | трихолог
-          a(class="btn item__btn" href="/person?id=p01") узнать больше
-        li.team__item
-          .item__img
-            img(src='./images/main/team/2.png' alt='')
-          .item__name
-            p Мария
-            p Долгова
-          .item__prof
-            p
-              | врач-косметолог,
-              br
-              | врач-дерматовенеролог,
-              br
-              | трихолог, лазеротерапевт
-          a(class="btn item__btn" href="/person?id=p02") узнать больше
+        each item in teamList
+          li.team__item
+            .item__img
+              img(src=item.photo)
+            .item__name
+              p #{item.content.firstname}
+              p #{item.content.secondname}
+            .item__prof
+              p #{item.content.profession}
+            a(class="btn item__btn" href=item.urlBtn) узнать больше
       .slider-container

@@ -3,14 +3,9 @@
     section.promotions__wrapper
       h2.section-title акции
       ul.promotions__list.slider-list
-        li.promotions__item
-          img(src='./images/main/promo/1.png' alt='')
-        li.promotions__item
-          img(src='./images/main/promo/2.png' alt='')
-        li.promotions__item
-          img(src='./images/main/promo/2.png' alt='')
-        li.promotions__item
-          img(src='./images/main/promo/1.png' alt='')
+        each item in promotionsList
+          li.promotions__item
+            img(src=item.url alt='')
       .promotions__text
         p *акции действуют при предъявлении скриншота
       .slider-container

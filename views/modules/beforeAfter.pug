@@ -3,92 +3,11 @@
     section.before-after__wrapper
       h2.section-title До/после
       ul.before-after__list.slider-list
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/1.png', alt)
-          .item__text
-            p контурная пластика носослезной борозды
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/2.png', alt)
-          .item__text
-            p контурная пластика губ
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/3.png', alt)
-          .item__text
-            p лечение акне
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/4.png', alt)
-          .item__text
-            p лечение пигментации
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/5.png', alt)
-          .item__text
-            p векторный лифтинг Radiesse
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/6.png', alt)
-          .item__text
-            p лечение выпадения волос
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/7.png', alt)
-          .item__text
-            p контурная пластика носослезной борозды
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/8.png', alt)
-          .item__text
-            p лечение акне
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/9.png', alt)
-          .item__text
-            p лечение пигментации
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/10.png', alt)
-          .item__text
-            p контурная пластика носослезной борозды
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/11.png', alt)
-          .item__text
-            p ботулинотерапия
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/12.png', alt)
-          .item__text
-            p удаление новообразований
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/13.png', alt)
-          .item__text
-            p лечение кожи
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/14.png', alt)
-          .item__text
-            p удаление новообразований
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/15.png', alt)
-          .item__text
-            p контурная пластика губ
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/16.png', alt)
-          .item__text
-            p фитотерапия
-        li.before-after__item
-          .item__img
-            img(src='./images/main/before-after/17.png', alt)
-          .item__text
-            p удаление новообразований
+        each item in beforeAfterList
+          li.before-after__item
+            .item__img
+              img(src=item.url)
+            .item__text
+              p #{item.text}
       .slider-container
-      button.before-after__btn.btn.btn--upper.
-
-        Записаться онлайн
+      button.before-after__btn.btn.btn--upper Записаться онлайн

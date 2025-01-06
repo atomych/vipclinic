@@ -3,15 +3,15 @@ html(lang="ru")
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(name="descryption" content=description)
-    meta(name="keywords" content=keywords)
+    meta(name="descryption" content=person.description)
+    meta(name="keywords" content=person.keywords)
     meta(name="robots" content="all")
     meta(property="og:type" content="website")
-    meta(property="og:url" content=url)
+    meta(property="og:url" content=person.url)
     meta(property="og:image" content="https://vipclinicspb.ru/images/logo-276.png")
-    meta(property="og:title" content=title)
-    meta(property="og:description" content=description)
-    title VIP CLINIC - #{title}
+    meta(property="og:title" content=person.title)
+    meta(property="og:description" content=person.description)
+    title VIP CLINIC - #{person.title}
     link(rel="icon", type="image/png", sizes="32x32", href="/images/favicons/32.png")
     link(rel="apple-touch-icon", sizes="180x180", href="images/favicons/180.png")
     link(rel="shortcut icon" href="/images/favicons/icon.ico")
@@ -23,11 +23,41 @@ html(lang="ru")
   body
     include modules/header.pug
 
-    if id == "p01"
-      include persons/p01.pug
-    if id == "p02"
-      include persons/p02.pug
-    
+    .person
+      .container 
+        .person__inner 
+          .person__adaptive
+            section.person__adaptive-content
+              h2.person__name #{person.content.fullname}
+              p.person__def #{person.content.profession}
+            .person__line 
+          .person__image 
+            img(src=person.photo)
+          .person__content 
+            section.person__main
+              h2.person__name #{person.content.fullname}
+              p.person__def #{person.content.profession}
+            .person__line 
+            section.person__block
+              h3.person__block-title Образование
+              each item in person.content.education 
+                if item.type == "text"
+                  p.person__text #{item.text} 
+                else if item.type == "list"
+                  ul.person__list 
+                    each itemInList in item.items
+                      li.person__item #{itemInList}
+            section.person__block
+              h3.person__block-title Skills
+              each item in person.content.skills 
+                if item.type == "text"
+                  p.person__text #{item.text} 
+                else if item.type == "list"
+                  ul.person__list 
+                    each itemInList in item.items
+                      li.person__item #{itemInList}
+
+    - const beforeAfterList = beforeAfter;
     include modules/beforeAfter.pug
     
     .person__btn-wrapper

@@ -1,25 +1,4 @@
 /* 
-    ? Шрифты
-*/
-
-/* @font-face {
-    font-family: "Montserrat";
-    src: url("../fonts/Montserrat-VariableFont_wght.ttf");
-}
-
-@font-face {
-    font-family: "Montserrat Italic";
-    font-style: italic;
-    src: url("../fonts/Montserrat-Italic-VariableFont_wght.ttf");
-}
-
-@font-face {
-    font-family: "NEXT ART";
-    src: url("../fonts/NEXT\ ART_Light.otf");
-    font-weight: 300;
-} */
-
-/* 
     ? Общие
 */
 
@@ -54,6 +33,8 @@ a.none-style {
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     scroll-behavior: smooth;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {

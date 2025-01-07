@@ -5,7 +5,7 @@ if (serviceLists.length == 1) {
   serviceLists[0].classList.add("bg");
 }
 
-const imgSection = document.querySelector(`.service-page__photo.third.s${location.search.substring(location.search.length - 2)}`);
+const imgSection = document.querySelector(`.service-page__photo:not(.service-page__photo--adaptive)`);
 
 const serviceNavBtns = document.querySelectorAll(
   ".service-page__nav-item button"

@@ -23,6 +23,10 @@ html(lang="ru")
     include modules/header.pug
     include modules/intro.pug
     include modules/about.pug
+
+    - const servicesShortInfo = servicesInfo;
+    - const servicesDesktopStruct = servicesDesktopStructFrom;
+    - const servicesMobileStruct = servicesMobileStructFrom;
     include modules/services.pug
 
     - const beforeAfterList = beforeAfter;

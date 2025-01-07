@@ -1,0 +1,131 @@
+[
+  {
+    "collection": 0,
+    "title": "инъекционная косметология",
+    "lines": [
+      {
+        "type": "double",
+        "bigOrder": "0",
+        "bigBgUrl": "/images/main/services/1.png",
+        "cells": {
+          "big": "s11",
+          "0": "s18",
+          "1": "empty",
+          "2": "s12",
+          "3": "s09"
+        }
+      },
+      {
+        "type": "double",
+        "bigOrder": "1",
+        "bigBgUrl": "/images/main/services/2.png",
+        "cells": {
+          "big": "s07",
+          "0": "s10",
+          "1": "s08",
+          "2": "s06",
+          "3": "s15"
+        }
+      },
+      {
+        "type": "single",
+        "cells": {
+          "0": "empty",
+          "1": "s14",
+          "2": "s13",
+          "3": "s03"
+        }
+      }
+    ]
+  },
+  {
+    "collection": 1,
+    "title": "эстетическая косметология",
+    "lines": [
+      {
+        "type": "double",
+        "bigOrder": "0",
+        "bigBgUrl": "/images/main/services/3.png",
+        "cells": {
+          "big": "s01",
+          "0": "s02",
+          "1": "empty",
+          "2": "s16",
+          "3": "s03"
+        }
+      }
+    ]
+  },
+  {
+    "collection": 2,
+    "title": "аппаратная косметология",
+    "lines": [
+      {
+        "type": "double",
+        "bigOrder": "1",
+        "bigBgUrl": "/images/main/services/4.png",
+        "cells": {
+          "big": "s04",
+          "0": "s05",
+          "1": "s20",
+          "2": "s19",
+          "3": "s17"
+        }
+      }
+    ]
+  },
+  {
+    "collection": 3,
+    "title": "все услуги",
+    "lines": [
+      {
+        "type": "double",
+        "bigOrder": "0",
+        "bigBgUrl": "/images/main/services/1.png",
+        "cells": {
+          "big": "s11",
+          "0": "s18",
+          "1": "s12",
+          "2": "s16",
+          "3": "s02"
+        }
+      },
+      {
+        "type": "double",
+        "bigOrder": "1",
+        "bigBgUrl": "/images/main/services/5.png",
+        "cells": {
+          "big": "s14",
+          "0": "s05",
+          "1": "s01",
+          "2": "s13",
+          "3": "s17"
+        }
+      },
+      {
+        "type": "double",
+        "bigOrder": "0",
+        "bigBgUrl": "/images/main/services/4.png",
+        "cells": {
+          "big": "s04",
+          "0": "s09",
+          "1": "s08",
+          "2": "s06",
+          "3": "s15"
+        }
+      },
+      {
+        "type": "double",
+        "bigOrder": "1",
+        "bigBgUrl": "/images/main/services/2.png",
+        "cells": {
+          "big": "s07",
+          "0": "s10",
+          "1": "s20",
+          "2": "s19",
+          "3": "s03"
+        }
+      }
+    ]
+  }
+]

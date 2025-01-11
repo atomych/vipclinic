@@ -1,0 +1,230 @@
+html {
+  font-size: 18px;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  scroll-behavior: smooth;
+}
+
+a:hover,
+a:focus {
+  outline: none;
+}
+
+a.none-style {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 1920px;
+
+  margin: 0 auto;
+}
+
+/* 
+    ? Логин
+*/
+
+.login {
+  width: 100%;
+  height: 100vh;
+
+  background-color: #f3f6fa;
+}
+
+.login__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+}
+
+.login__form {
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.form__title {
+  font-size: 2rem;
+  font-family: "Roboto-Medium";
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+}
+
+.form__item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.form__item:last-child {
+  margin-bottom: 0;
+}
+
+.form__label {
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #666;
+}
+
+.form__input {
+  border-radius: 5px;
+  border: 1px solid #000;
+  outline: none;
+  padding: 5px 15px;
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+
+  transition: all 0.2s linear;
+}
+
+.form__input:focus,
+.form__input:hover {
+  background-color: #f3f6fa;
+  outline: none;
+}
+
+.form__btn {
+  border-radius: 5px;
+  border: 1px solid #000;
+  outline: none;
+  padding: 5px 25px;
+  max-width: max-content;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.2s linear;
+  
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+
+  margin: 0 auto;
+}
+
+.form__btn.disabled {
+  opacity: 0.6;
+}
+
+.form__btn:not(.disabled):focus,
+.form__btn:not(.disabled):hover {
+  opacity: 1;
+  background-color: #f3f6fa;
+}
+
+/* 
+    ? Панель
+*/
+
+.panel__wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.aside-panel {
+  width: 300px;
+  background-color: #f3f6fa;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #000;
+  padding-right: 1px;
+}
+
+.aside__logo {
+  margin-bottom: 30px;
+  width: 200px;
+}
+
+.aside__logo img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.aside__menu {
+  list-style: none;
+  width: 300px;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.aside__item {
+  width: 100%;
+}
+
+.aside__btn {
+  display: block;
+  width: 300px;
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+
+  background-color: transparent;
+  border: none;
+  padding: 15px 0;
+
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s linear;
+}
+
+.aside__btn.active {
+  background-color: #d9dcdf;
+  opacity: 1;
+  outline: none;
+}
+
+.aside__btn.active:focus,
+.aside__btn.active:hover {
+  background-color: #d9dcdf;
+  outline: none;
+}
+
+.aside__btn:focus,
+.aside__btn:hover {
+  opacity: 1;
+  background-color: #e7edf1;
+  outline: none;
+}
+
+.panel__tab {
+  flex-grow: 1;
+}
+
+.panel__tab iframe {
+  width: 100%;
+  min-height: 99vh;
+  max-height: max-content;
+}
+
+/* 
+    ? Панель / Услуги
+*/
+

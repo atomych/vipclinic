@@ -1,0 +1,29 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="robots" content="none")
+    title VIP CLINIC - Авторизация
+    link(rel="icon", type="image/png", sizes="32x32", href="/images/favicons/32.png")
+    link(rel="apple-touch-icon", sizes="180x180", href="images/favicons/180.png")
+    link(rel="shortcut icon" href="/images/favicons/icon.ico")
+    link(rel='stylesheet' href='/css/admin/admin.css')
+    link(rel='stylesheet' href='/css/admin/fonts.css')
+  body 
+    .login
+      .container 
+        .login__wrapper
+          form(action="post", class="login__form")
+            .form__item
+              h1(class="form__title") Авторизация
+            .form__item 
+              label(for="login", class="form__label") Логин
+              input(type="text", class="form__input", name="login", id="login")
+            .form__item 
+              label(for="password", class="form__label") Пароль
+              input(type="password", class="form__input", name="password", id="password")
+            .form__item.form__item--btn 
+              input(type="submit", name="auth", id="auth", class="form__btn", value="Войти")
+         
+

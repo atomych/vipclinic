@@ -42,20 +42,12 @@ html(lang="ru")
               h3.person__block-title Образование
               each item in person.content.education 
                 if item.type == "text"
-                  p.person__text #{item.text} 
-                else if item.type == "list"
-                  ul.person__list 
-                    each itemInList in item.items
-                      li.person__item #{itemInList}
+                  p.person__text !{item.text} 
             section.person__block
               h3.person__block-title Skills
               each item in person.content.skills 
                 if item.type == "text"
-                  p.person__text #{item.text} 
-                else if item.type == "list"
-                  ul.person__list 
-                    each itemInList in item.items
-                      li.person__item #{itemInList}
+                  p.person__text !{item.text} 
 
     - const beforeAfterList = beforeAfter;
     include modules/beforeAfter.pug

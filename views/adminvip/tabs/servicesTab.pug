@@ -1,0 +1,40 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="robots" content="none")
+    title VIP CLINIC - Управление/Услуги
+    link(rel='stylesheet' href='/css/admin/tabs.css')
+    link(rel="stylesheet" href="/css/admin/fonts.css")
+    script
+  body 
+    .tab 
+      ul.tab-menu
+        li.tab-menu__item
+          button.tab-menu__btn.active(data-index="0") Список
+        li.tab-menu__item
+          button.tab-menu__btn(data-index="1") Сетка ПК
+        li.tab-menu__item
+          button.tab-menu__btn(data-index="2") Сетка (3)
+        li.tab-menu__item
+          button.tab-menu__btn(data-index="3") Сетка (2)
+      .tab__content 
+        .tab__item.active(data-index="0")
+          button.add-new Добавить услугу
+          ul.default__list
+            li.default__item 
+              p.name Название
+              button.btn Редактировать
+            li.default__item 
+              p.name Название
+              button.btn Редактировать
+            li.default__item 
+              p.name Название
+              button.btn Редактировать
+        .tab__item(data-index="1")
+        .tab__item(data-index="2")
+        .tab__item(data-index="3")
+    script(src="/js/admin/tabs/servicesTab.js")
+            
+

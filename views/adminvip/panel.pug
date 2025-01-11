@@ -1,0 +1,39 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="robots" content="none")
+    title VIP CLINIC - Управление
+    link(rel="icon", type="image/png", sizes="32x32", href="/images/favicons/32.png")
+    link(rel="apple-touch-icon", sizes="180x180", href="images/favicons/180.png")
+    link(rel="shortcut icon" href="/images/favicons/icon.ico")
+    link(rel='stylesheet' href='/css/admin/admin.css')
+    link(rel='stylesheet' href='/css/admin/fonts.css')
+  body 
+    .panel
+      .container 
+        .panel__wrapper 
+          .aside-panel 
+            .aside__logo 
+              img(src="/images/logo-276.png")
+            ul.aside__menu 
+              li.aside__item 
+                button.aside__btn.active(data-url="services") Услуги 
+              li.aside__item 
+                button.aside__btn(data-url="persons") Специалисты 
+              li.aside__item 
+                button.aside__btn(data-url="beforeAfter") Фотографии До/после 
+              li.aside__item 
+                button.aside__btn(data-url="promo") Акции 
+              li.aside__item 
+                button.aside__btn(data-url="price") Прайсы 
+              li.aside__item 
+                button.aside__btn(data-url="links") Ссылки 
+              li.aside__item 
+                button.aside__btn(data-url="stats") Статистика 
+          .panel__tab
+            iframe(src="/adminvip/tabs/services", frameborder="0") 
+    script(src="/js/admin/selectTab.js")
+
+

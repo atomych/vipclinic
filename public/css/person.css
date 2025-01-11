@@ -92,6 +92,16 @@
   margin-bottom: 25px;
 }
 
+.person__text span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: #000;
+  margin: 0 10px;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
 .person__list {
   padding-left: 30px;
   margin-bottom: 25px;

@@ -1,0 +1,413 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.tab {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.tab__content {
+  z-index: 10;
+}
+
+.tab__content.hide {
+  display: none;
+}
+
+.tab__item {
+  display: none;
+}
+
+.tab__item.active {
+  display: block;
+}
+
+.add-new {
+  padding: 5px 15px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-right: 20px;
+  opacity: 0.7;
+  transition: all 0.2s linear;
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 30px;
+  margin-top: 30px;
+}
+
+.add-new:hover,
+.add-new:focus {
+  opacity: 1;
+  outline: none;
+  background-color: #e7edf1;
+}
+
+.tab-menu {
+  list-style: none;
+
+  display: flex;
+  margin: 0;
+  padding: 30px 0;
+  padding-left: 30px;
+
+  border-bottom: 1px solid #000;
+}
+
+.tab-menu__item {
+  margin-right: 20px;
+}
+
+.tab-menu__btn {
+  padding: 5px 15px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-right: 20px;
+  opacity: 0.7;
+  transition: all 0.2s linear;
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.tab-menu__btn:hover,
+.tab-menu__btn:focus {
+  opacity: 1;
+  outline: none;
+  background-color: #e7edf1;
+}
+
+.tab-menu__btn.active {
+  background-color: #d9dcdf;
+  opacity: 1;
+}
+
+.tab-menu__btn.active:focus,
+.tab-menu__btn.active:hover {
+  background-color: #d9dcdf;
+  outline: none;
+}
+
+.default__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+}
+
+.default__item {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+  max-width: 1200px;
+  margin-bottom: 20px;
+  background-color: #f3f6fa;
+}
+
+.default__item .name {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.default__item .btn {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  padding: 5px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-right: 20px;
+  opacity: 0.7;
+  transition: all 0.2s linear;
+  cursor: pointer;
+}
+
+.default__item .img {
+  max-width: 400px;
+  height: auto;
+  display: block;
+}
+
+.default__item .img.person {
+  max-height: 150px;
+}
+
+.default__item .inlist {
+  list-style: none;
+  padding: 0;
+}
+
+.default__item .inlist__item {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.default__item .inlist__item::before {
+  display: block;
+  content: "";
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  background-color: #000;
+
+  top: 50%;
+  left: -10px;
+  
+  transform: translateY(-50%);
+}
+
+.default__item .inlist__item:last-child {
+  margin-bottom: 0;
+}
+
+.default__item .info {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+.default__item-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn.edit {
+  margin-bottom: 15px;
+}
+
+.tab-modal {
+  background-color: #0000007b;
+  width: 100%;
+  min-height: 100vh;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 20px 0;
+}
+
+.tab-modal.active {
+  display: flex;
+}
+
+.tab-modal__window {
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+} 
+
+.tab-modal__content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.modal__img {
+  cursor: pointer;
+
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+.modal__img img {
+  max-width: 400px;
+  height: auto;
+  display: block;
+}
+
+.modal__img-btn {
+  opacity: 0;
+  transition: all 0.2s linear;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  padding: 5px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.modal__img:hover .modal__img-btn{
+  opacity: 1;
+}
+
+.modal__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.modal__item {
+  margin-right: 20px;
+  margin-bottom: 10px;
+  
+  display: flex;
+  align-items: center;
+}
+
+.modal__item input {
+  margin-right: 10px;
+}
+
+.modal__control {
+  flex-grow: 1;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+
+.modal__control button {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  padding: 5px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+
+  margin-right: 20px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.title input {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  padding: 5px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+
+  width: 500px;
+}
+
+.number {
+  display: flex;
+  align-items: center;
+}
+
+.number .text {
+  margin-right: 10px;
+}
+
+.person-info {
+  display: flex;
+  align-items: center;
+}
+
+.person-info img {
+  margin-right: 20px;
+}
+
+.modal__section {
+  display: flex;
+}
+
+.modal__img.person {
+  margin-right: 20px;
+}
+
+.modal__img.person img {
+  max-height: 200px;
+}
+
+.modal__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__text div {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  padding: 5px 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-bottom: 15px;
+}
+
+.person-text__list {
+  list-style: none;
+  padding: 0;
+  margin-left: 40px;
+}
+
+.person-text__list li {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  border: 1px solid #000;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.content-li {
+  display: flex;
+  align-items: center;
+}
+
+.content-li .delete {
+  margin-right: 10px;
+  width: 40px;
+}
+
+.content-li .delete img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.person-text__inlist {
+  list-style: none;
+  padding: 0;
+  margin-left: 40px;
+}

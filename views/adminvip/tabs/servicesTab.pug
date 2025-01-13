@@ -19,22 +19,64 @@ html(lang="ru")
           button.tab-menu__btn(data-index="2") Сетка (3)
         li.tab-menu__item
           button.tab-menu__btn(data-index="3") Сетка (2)
-      .tab__content 
+      .tab__content   
         .tab__item.active(data-index="0")
           button.add-new Добавить услугу
           ul.default__list
-            li.default__item 
-              p.name Название
-              button.btn Редактировать
-            li.default__item 
-              p.name Название
-              button.btn Редактировать
-            li.default__item 
-              p.name Название
-              button.btn Редактировать
+            each service in services.shortInfo
+              li.default__item(data-id=service.id)
+                p.name #{service.name}
+                button.btn.edit Редактировать
         .tab__item(data-index="1")
         .tab__item(data-index="2")
         .tab__item(data-index="3")
+      .tab-modal 
+        .tab-modal__window 
+          .tab-modal__content
+            .modal__section
+              .modal__img.service
+                img(id="desktop_1", src="")
+                button.modal__img-btn Изменить 
+                input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_1_input")
+              .modal__text
+                #name(contenteditable="plaintext-only")
+                .container-str
+                  .str
+                    p Продолжительность
+                    #time(contenteditable="plaintext-only")
+                  .str
+                    p Анестезия
+                    #anesthesia(contenteditable="plaintext-only")
+                  .str
+                    p Периодичность
+                    #periodicity(contenteditable="plaintext-only")
+                  .str
+                    p Эффект
+                    #effect(contenteditable="plaintext-only")
+                  .str
+                    p Рекомендуемый курс
+                    #course(contenteditable="plaintext-only")
+                  .str
+                    p#drugs_p
+                    #drugs(contenteditable="plaintext-only")
+            .modal__section
+              .modal__img.service
+                img(id="desktop_2", src="")
+                button.modal__img-btn Изменить 
+                input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_2_input")
+              .modal__text
+                ul.main-text
+            .modal__section
+              .modal__img.service
+                img(id="desktop_3", src="")
+                button.modal__img-btn Изменить 
+                input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_3_input")
+              .modal__service-prices 
+                .modal__service-prices-menu 
+                .modal__service-prices-content
+            .modal__control 
+              button.save Сохранить
+              button.back Отменить
     script(src="/js/admin/tabs/servicesTab.js")
             
 

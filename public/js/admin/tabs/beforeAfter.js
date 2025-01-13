@@ -2,6 +2,8 @@ const items = document.querySelectorAll("li.default__item");
 const modal = document.querySelector(".tab-modal");
 const tabContent = document.querySelector(".tab__content");
 const addNewBtn = document.querySelector("button.add-new");
+const changeImgBtn = document.querySelector(".modal__img button");
+const changeImgInput = document.querySelector(".modal__img input");
 
 const modalBtnSave = document.querySelector(".modal__control .save");
 const modalBtnBack = document.querySelector(".modal__control .back");
@@ -35,12 +37,28 @@ for (let item of items) {
 }
 
 addNewBtn.addEventListener("click", () => {
-  hideModal();
+  displayModal();
   modal.querySelector(".title input").value = "";
   modal.querySelector(".modal__img img").src = "/images/placeholders/placeholderImg.png";
   for (let check of document.querySelectorAll(".modal__item")) {
     check.querySelector("input").checked = false;
   }
+})
+
+changeImgBtn.addEventListener("click", () => {
+  changeImgInput.click();
+})
+
+changeImgInput.addEventListener("change", () => {
+  const reader = new FileReader();
+  const file = changeImgInput.files[0];
+  const extension = file.type.split("/")[1];
+
+  reader.readAsDataURL(file);
+
+  reader.addEventListener("load", () => {
+    modal.querySelector(".modal__img img").src = reader.result;
+  })
 })
 
 modalBtnBack.addEventListener("click", () => {

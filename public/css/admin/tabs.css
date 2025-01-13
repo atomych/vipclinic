@@ -60,6 +60,11 @@ body {
   border-bottom: 1px solid #000;
 }
 
+
+.tab-menu.hide {
+  display: none;
+}
+
 .tab-menu__item {
   margin-right: 20px;
 }
@@ -204,9 +209,9 @@ body {
 
   display: none;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   z-index: 100;
-  padding: 20px 0;
 }
 
 .tab-modal.active {
@@ -215,9 +220,11 @@ body {
 
 .tab-modal__window {
   background-color: #fff;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
+
+  width: 100%;
+  flex-grow: 1;
 } 
 
 .tab-modal__content {
@@ -241,6 +248,14 @@ body {
   max-width: 400px;
   height: auto;
   display: block;
+}
+
+.modal__img.service {
+  margin-right: 30px;
+}
+
+.modal__img.service img {
+  max-width: 300px;
 }
 
 .modal__img-btn {
@@ -347,6 +362,7 @@ body {
 
 .modal__section {
   display: flex;
+  margin-bottom: 20px;
 }
 
 .modal__img.person {
@@ -397,7 +413,14 @@ body {
 
 .content-li .delete {
   margin-right: 10px;
-  width: 40px;
+  max-width: 40px;
+  flex-grow: 1;
+}
+
+.content-li div {
+  width: 100%;
+  max-width: 1400px;
+  height: auto;
 }
 
 .content-li .delete img {
@@ -410,4 +433,111 @@ body {
   list-style: none;
   padding: 0;
   margin-left: 40px;
+}
+
+.modal__section {
+  display: flex;
+}
+
+.container-str {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 700px;
+}
+
+.str {
+  width: 300px;
+  margin-right: 20px;
+}
+
+.str:nth-child(2n) {
+  margin-right: 0;
+}
+
+.modal__service-prices-menu {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.modal__service-prices-menu-item {
+  margin-right: 20px;
+}
+
+.modal__service-prices-menu-item button {
+  padding: 5px 15px;
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.modal__service-prices-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.modal__service-prices-menu-item .delete {
+  width: 40px;
+  padding: 0;
+}
+
+.modal__service-prices-menu-item .delete img {
+  max-width: 100%;
+  display: block; 
+  height: auto;
+}
+
+.modal__service-prices-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.modal__service-prices-content-item {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #000;
+  padding: 10px;
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1rem;
+
+  width: 350px;
+  display: none;
+}
+
+.modal__service-prices-content-item.active {
+  display: block;
+}
+
+.modal__service-prices-content-item .delete {
+  width: 40px;
+  padding: 0;
+  margin: 0 auto;
+  display: block;
+}
+
+.modal__service-prices-content-item .delete img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+.modal__service-prices-content-item .name,
+.modal__service-prices-content-item .desc {
+  margin-bottom: 10px;
+  border: 1px solid #000;
+}
+
+.modal__service-prices-content-item .time,
+.modal__service-prices-content-item .volume,
+.modal__service-prices-content-item .price {
+  border: 1px solid #000;
+  min-width: 50px;
+}
+
+.modal__service-prices-content-item .prices .prices-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }

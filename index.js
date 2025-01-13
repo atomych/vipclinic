@@ -70,7 +70,9 @@ app.get("/adminvip/panel", (req, res) => {
 });
 
 app.get("/adminvip/tabs/services", (req, res) => {
-  res.render("servicesTab");
+  res.render("servicesTab", {
+    services: servicesInfo,
+  });
 });
 
 app.get("/adminvip/tabs/persons", (req, res) => {
@@ -107,6 +109,10 @@ app.get("/adminvip/tabs/stats", (req, res) => {
 //! API
 app.get("/api/adminvip/person", (req, res) => {
   res.send(JSON.stringify(persons.filter((person) => person.id == req.query.id)[0]))
+})
+
+app.get("/api/adminvip/service", (req, res) => {
+  res.send(JSON.stringify(services.filter((service) => service.id == req.query.id)[0]))
 })
 
 app.listen(port);

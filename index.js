@@ -115,4 +115,12 @@ app.get("/api/adminvip/service", (req, res) => {
   res.send(JSON.stringify(services.filter((service) => service.id == req.query.id)[0]))
 })
 
+app.get("/api/adminvip/services-desktop-struct", (req, res) => {
+  res.send(JSON.stringify(servicesDesktopStruct));
+})
+
+app.get("/api/adminvip/services-short-info", (req, res) => {
+  res.send(JSON.stringify(servicesInfo.shortInfo));
+})
+
 app.listen(port);

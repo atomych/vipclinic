@@ -30,6 +30,21 @@ html(lang="ru")
                   button.btn.edit Редактировать
                   button.btn.delete Удалить
         .tab__item(data-index="1")
+          .desktop-struct-menu 
+            button.desktop-struct-item.active(data-index="0") инъекционная косметология
+            button.desktop-struct-item(data-index="1") эстетическая косметология
+            button.desktop-struct-item(data-index="2") аппаратная косметология
+            button.desktop-struct-item(data-index="3") все услуги
+          .desktop-struct-content-wrapper
+            .desktop-struct-content.active(data-collection="0")
+            .desktop-struct-content(data-collection="1")
+            .desktop-struct-content(data-collection="2")
+            .desktop-struct-content(data-collection="3")
+            .desktop-struct-list
+            .desktop-struct-content-control 
+              button.add.single Добавить single линию
+              button.add.double Добавить double линию
+
         .tab__item(data-index="2")
         .tab__item(data-index="3")
       .tab-modal 
@@ -90,6 +105,7 @@ html(lang="ru")
             .modal__control 
               button.save Сохранить
               button.back Отменить
-    script(src="/js/admin/tabs/servicesTab.js")
+    script(src="/js/admin/tabs/servicesTab/servicesTabList.js")
+    script(src="/js/admin/tabs/servicesTab/servicesTabStruct.js")
             
 

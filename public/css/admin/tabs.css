@@ -25,10 +25,17 @@ body {
   width: 100%;
   min-height: 100vh;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .tab__content {
   z-index: 10;
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .tab__content.hide {
@@ -37,10 +44,13 @@ body {
 
 .tab__item {
   display: none;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
 }
 
 .tab__item.active {
-  display: block;
+  display: flex;
 }
 
 .add-new {
@@ -317,7 +327,8 @@ body {
   margin-bottom: 20px;
 }
 
-.modal__img {
+.modal__img,
+.item__img.service {
   display: flex;  
   justify-content: center;
   align-items: center;
@@ -331,7 +342,8 @@ body {
   max-width: 600px;
 }
 
-.modal__img::before {
+.modal__img::before,
+.item__img.service::before {
   content: "";
   display: block;
   position: absolute;
@@ -349,7 +361,8 @@ body {
   z-index: 10;
 }
 
-.modal__img img {
+.modal__img img,
+.item__img.service img {
   max-width: 400px;
   height: auto;
   display: block;
@@ -367,7 +380,8 @@ body {
   max-width: 300px;
 }
 
-.modal__img-btn {
+.modal__img-btn,
+.item__img.service .btn {
   opacity: 0;
   transition: all 0.2s linear;
   cursor: pointer;
@@ -391,12 +405,14 @@ body {
   border: none;
 }
 
-.modal__img:hover .modal__img-btn{
+.modal__img:hover .modal__img-btn,
+.item__img.service:hover .btn{
   opacity: 1;
   background-color: #f3f6fa;
 }
 
-.modal__img:hover::before {
+.modal__img:hover::before,
+.item__img.service:hover::before {
   opacity: 0.6;
 }
 
@@ -588,7 +604,9 @@ body {
 .modal__person-text-section .btn.add,
 .modal__text .btn.add,
 .modal__service-prices-menu > button,
-.modal__service-prices-content > button {
+.modal__service-prices-content > button,
+.desktop-struct-item-add-btn,
+.desktop-struct-content-control .add {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
   font-size: 1.1rem;
@@ -612,7 +630,11 @@ body {
 .modal__service-prices-menu > button:hover,
 .modal__service-prices-menu > button:focus,
 .modal__service-prices-content > button:hover,
-.modal__service-prices-content > button:focus {
+.modal__service-prices-content > button:focus,
+.desktop-struct-item-add-btn:hover,
+.desktop-struct-item-add-btn:focus,
+.desktop-struct-content-control .add:hover,
+.desktop-struct-content-control .add:focus {
   background-color: #f3f6fa;
   opacity: 1;
 }
@@ -628,7 +650,9 @@ body {
 .content-li .delete,
 .modal__service-prices-menu-item .delete,
 .prices-item .delete,
-.modal__service-prices-content-item .delete {
+.modal__service-prices-content-item .delete,
+.desktop-struct-line-control .delete,
+.desktop-struct-line-control .swap {
   margin-right: 10px;
   max-width: 40px;
   flex-grow: 1;
@@ -649,7 +673,11 @@ body {
 .prices-item .delete:hover,
 .prices-item .delete:focus,
 .modal__service-prices-content-item .delete:hover,
-.modal__service-prices-content-item .delete:focus {
+.modal__service-prices-content-item .delete:focus,
+.desktop-struct-line-control .delete:hover,
+.desktop-struct-line-control .delete:focus,
+.desktop-struct-line-control .swap:focus,
+.desktop-struct-line-control .swap:hover  {
   background-color: #f3f6fa;
   opacity: 1;
   outline: none;
@@ -662,7 +690,9 @@ body {
 }
 
 .content-li .delete img,
-.modal__service-prices-menu-item .delete img {
+.modal__service-prices-menu-item .delete img,
+.desktop-struct-line-control .delete img,
+.desktop-struct-line-control .swap img {
   max-width: 100%;
   height: auto;
   display: block;
@@ -824,4 +854,180 @@ body {
 .modal__service-prices-content-item .prices .prices-item .delete {
   margin: 0;
   margin-right: 10px;
+}
+
+.desktop-struct-menu {
+  display: flex;
+  align-items: center;
+}
+
+.desktop-struct-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  flex-grow: 1;
+  position: relative;
+
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.desktop-struct-item {
+  padding: 15px 25px !important;
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  opacity: 1;
+  font-size: 1.2rem;
+  border: none;
+  background-color: #f3f6fa;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  border-radius: 0;
+}
+
+.desktop-struct-item p {
+  margin-top: 0 !important;
+}
+
+.desktop-struct-item:hover,
+.desktop-struct-item:focus {
+  opacity: 1;
+}
+
+.desktop-struct-item:hover,
+.desktop-struct-item:focus,
+.desktop-struct-item.active {
+  background-color: #d9dcdf;
+  outline: none;
+  opacity: 1;
+}
+
+.desktop-struct-content {
+  display: none;
+  flex-direction: column;
+}
+
+.desktop-struct-content .line {
+  width: 1200px;
+  margin-bottom: 40px;
+}
+
+.desktop-struct-content.active {
+  display: flex;
+}
+
+.line {
+  display: flex;
+}
+
+.half {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  box-sizing: border-box;
+  width: 300px;
+  height: 300px;
+  border: 1px solid #000;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.item .name {
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.item .desc {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.item.big {
+  width: 600px;
+  height: 600px;
+}
+
+.item-change {
+  display: block;
+  margin-top: auto;
+}
+
+.struct-control {
+  margin-top: 50px;
+}
+
+.desktop-struct-list {
+  display: flex;
+  flex-direction: column;
+
+  background-color: #0000003a;
+  padding: 20px;
+  border-radius: 5px;
+
+  transform: translateX(600px);
+  transition: all 0.2s linear;
+  position: absolute;
+  top: 0;
+  right: 20px;
+}
+
+.desktop-struct-list.active {
+  transform: translateX(0);
+}
+
+.desktop-struct-list-item {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+
+  padding: 8px 20px;
+  color: #000;
+  border: 1px solid #000;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.desktop-struct-list-item:hover,
+.desktop-struct-list-item:focus {
+  opacity: 1;
+  background-color: #f3f6fa;
+}
+
+.line-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: start;
+}
+
+.desktop-struct-line-control {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.desktop-struct-line-control .delete {
+  margin-bottom: 10px;
+}
+
+.desktop-struct-content-control {
+  display: flex;
+  padding-left: 65px;
+}
+
+.desktop-struct-content-control .add {
+  margin-right: 30px;
+  margin-left: 0 !important;
 }

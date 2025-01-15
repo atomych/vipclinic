@@ -149,6 +149,46 @@ function getModalPricesPlaceMenuItem(
   return defaultItem;
 }
 
+function getModalPricesPlacePriceItem(
+  priceItem,
+  filterIndex,
+  orderIndex,
+  index,
+  priceContainer
+) {
+  const newPrice = document.createElement("div");
+  newPrice.classList.add("prices-item");
+
+  const deletePriceItemBtn = getDeleteBtnForLi();
+  deletePriceItemBtn.addEventListener("click", () => {
+    currentServicePrices[filterIndex].items[orderIndex].prices[index] = null;
+    priceContainer.removeChild(newPrice);
+  });
+
+  newPrice.appendChild(deletePriceItemBtn);
+
+  const timeItem = document.createElement("div");
+  timeItem.setAttribute("contenteditable", "plaintext-only");
+  timeItem.classList.add("time");
+  timeItem.textContent = priceItem.time;
+
+  const volumeItem = document.createElement("div");
+  volumeItem.setAttribute("contenteditable", "plaintext-only");
+  volumeItem.classList.add("time");
+  volumeItem.textContent = priceItem.volume;
+
+  const priceTextItem = document.createElement("div");
+  priceTextItem.setAttribute("contenteditable", "plaintext-only");
+  priceTextItem.classList.add("time");
+  priceTextItem.textContent = priceItem.price;
+
+  newPrice.appendChild(timeItem);
+  newPrice.appendChild(volumeItem);
+  newPrice.appendChild(priceTextItem);
+
+  return newPrice;
+}
+
 function getModalPricesPlaceContentItem(data, filterIndex, orderIndex) {
   const container = document.createElement("div");
   container.classList.add("modal__service-prices-content-item");
@@ -167,16 +207,39 @@ function getModalPricesPlaceContentItem(data, filterIndex, orderIndex) {
 
   const priceContainer = document.createElement("div");
   priceContainer.classList.add("prices");
+  let index = 0;
   for (let priceItem of data.prices) {
-    const newPrice = document.createElement("div");
-    newPrice.classList.add("prices-item");
-    newPrice.innerHTML = `
-      <div class="time" contenteditable="plaintext-only">${priceItem.time}</div>
-      <div class="volume" contenteditable="plaintext-only">${priceItem.volume}</div>
-      <div class="price" contenteditable="plaintext-only">${priceItem.price}</div>
-    `;
+    const newPrice = getModalPricesPlacePriceItem(
+      priceItem,
+      filterIndex,
+      orderIndex,
+      index,
+      priceContainer
+    );
     priceContainer.appendChild(newPrice);
+    index += 1;
   }
+
+  const addPriceItemBtn = document.createElement("button");
+  addPriceItemBtn.classList.add("btn");
+  addPriceItemBtn.textContent = "Добавить";
+  addPriceItemBtn.addEventListener("click", () => {
+    const dataObj = {
+      time: "время",
+      volume: "...",
+      price: "цена",
+    };
+    currentServicePrices[filterIndex].items[orderIndex].prices.push(dataObj);
+    const newPrice = getModalPricesPlacePriceItem(
+      dataObj,
+      filterIndex,
+      orderIndex,
+      currentServicePrices[filterIndex].items[orderIndex].prices.length - 1,
+      priceContainer
+    );
+    priceContainer.insertBefore(newPrice, addPriceItemBtn);
+  });
+  priceContainer.appendChild(addPriceItemBtn);
 
   const deleteBtn = getDeleteBtnForLi();
   deleteBtn.addEventListener("click", () => {
@@ -193,6 +256,26 @@ function getModalPricesPlaceContentItem(data, filterIndex, orderIndex) {
   container.appendChild(deleteBtn);
 
   return container;
+}
+
+function setAddBtnForPriceMenu(servicesMenuHTML, servicesPriceHTML) {
+  const addMenuItemBtn = document.createElement("button");
+  addMenuItemBtn.textContent = "Добавить";
+  servicesMenuHTML.appendChild(addMenuItemBtn);
+  addMenuItemBtn.addEventListener("click", () => {
+    currentServicePrices.push({ title: "Новый раздел", items: [] });
+    const trueIndex = currentServicePrices.length - 1;
+    servicesMenuHTML.insertBefore(
+      getModalPricesPlaceMenuItem(
+        "Новый раздел",
+        trueIndex,
+        servicesMenuHTML,
+        servicesPriceHTML
+      ),
+      addMenuItemBtn
+    );
+    selectPricesContentSection(currentServicePrices.length - 1);
+  });
 }
 
 function getAddBtnForPricePlaceItem(container) {
@@ -237,6 +320,20 @@ function selectPricesContentSection(index) {
   activeServicePricesSection = index;
 }
 
+function setAddTextItemInTextPlace(textPlaceList) {
+  const addItemBtn = document.createElement("button");
+  addItemBtn.classList.add("btn", "add");
+  addItemBtn.textContent = "Добавить";
+  textPlaceList.parentElement.appendChild(addItemBtn);
+  addItemBtn.addEventListener("click", () => {
+    textPlaceList.appendChild(getNormalizeListElement("Ваш новый текст..."));
+    currentService.content.textPlace.push({
+      type: "text",
+      text: "Ваш новый текст...",
+    });
+  });
+}
+
 function parseText(str, mode) {
   if (mode == "toRead") {
     str = str.replaceAll("<span>", "<b>");
@@ -266,6 +363,10 @@ for (let item of items) {
           data.images.desktop.second;
         modal.querySelector(".modal__img img#desktop_3").src =
           data.images.desktop.third;
+        modal.querySelector(".modal__img img#desktop_4").src =
+          data.images.mobile.first;
+        modal.querySelector(".modal__img img#desktop_5").src =
+          data.images.mobile.second;
         modal.querySelector("#name").textContent = data.content.name;
 
         modal.querySelector("#time").textContent = data.content.stats[0].value;
@@ -289,19 +390,7 @@ for (let item of items) {
           );
           index += 1;
         }
-        const addItemBtn = document.createElement("button");
-        addItemBtn.classList.add("btn", "add");
-        addItemBtn.textContent = "Добавить";
-        textPlaceList.parentElement.appendChild(addItemBtn);
-        addItemBtn.addEventListener("click", () => {
-          textPlaceList.appendChild(
-            getNormalizeListElement("Ваш новый текст...")
-          );
-          currentService.content.textPlace.push({
-            type: "text",
-            text: "Ваш новый текст...",
-          });
-        });
+        setAddTextItemInTextPlace(textPlaceList);
 
         const servicesMenuHTML = modal.querySelector(
           ".modal__service-prices-menu"
@@ -351,23 +440,7 @@ for (let item of items) {
           }
         }
 
-        const addMenuItemBtn = document.createElement("button");
-        addMenuItemBtn.textContent = "Добавить";
-        servicesMenuHTML.appendChild(addMenuItemBtn);
-        addMenuItemBtn.addEventListener("click", () => {
-          currentServicePrices.push({ title: "Новый раздел", items: [] });
-          const trueIndex = currentServicePrices.length - 1;
-          servicesMenuHTML.insertBefore(
-            getModalPricesPlaceMenuItem(
-              "Новый раздел",
-              trueIndex,
-              servicesMenuHTML,
-              servicesPriceHTML
-            ),
-            addMenuItemBtn
-          );
-          selectPricesContentSection(currentServicePrices.length - 1);
-        });
+        setAddBtnForPriceMenu(servicesMenuHTML, servicesPriceHTML);
 
         servicesPriceHTML.appendChild(
           getAddBtnForPricePlaceItem(servicesPriceHTML)
@@ -375,6 +448,48 @@ for (let item of items) {
       });
   });
 }
+
+addNewBtn.addEventListener("click", () => {
+  displayModal();
+  modal.querySelector(".modal__img img#desktop_1").src =
+    "/images/placeholders/placeholderImg2.png";
+  modal.querySelector(".modal__img img#desktop_2").src =
+    "/images/placeholders/placeholderImg2.png";
+  modal.querySelector(".modal__img img#desktop_3").src =
+    "/images/placeholders/placeholderImg2.png";
+  modal.querySelector(".modal__img img#desktop_4").src =
+    "/images/placeholders/placeholderImg.png";
+  modal.querySelector(".modal__img img#desktop_5").src =
+    "/images/placeholders/placeholderImg.png";
+  modal.querySelector("#name").textContent = "Название";
+
+  currentService = {
+    content: {
+      textPlace: [],
+    },
+  };
+  currentServicePrices = [{ title: "Новый раздел", items: [] }];
+
+  const servicesMenuHTML = modal.querySelector(".modal__service-prices-menu");
+  const servicesPriceHTML = modal.querySelector(
+    ".modal__service-prices-content"
+  );
+
+  setAddTextItemInTextPlace(document.querySelector("ul.main-text"));
+
+  servicesMenuHTML.appendChild(
+    getModalPricesPlaceMenuItem(
+      "Новый раздел",
+      0,
+      servicesMenuHTML,
+      servicesPriceHTML
+    )
+  );
+
+  setAddBtnForPriceMenu(servicesMenuHTML, servicesPriceHTML);
+
+  servicesPriceHTML.appendChild(getAddBtnForPricePlaceItem(servicesPriceHTML));
+});
 
 modalBtnBack.addEventListener("click", () => {
   currentService = {};

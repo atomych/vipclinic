@@ -26,7 +26,9 @@ html(lang="ru")
             each service in services.shortInfo
               li.default__item(data-id=service.id)
                 p.name #{service.name}
-                button.btn.edit Редактировать
+                .default__item-control.services
+                  button.btn.edit Редактировать
+                  button.btn.delete Удалить
         .tab__item(data-index="1")
         .tab__item(data-index="2")
         .tab__item(data-index="3")
@@ -74,16 +76,17 @@ html(lang="ru")
               .modal__service-prices 
                 .modal__service-prices-menu 
                 .modal__service-prices-content
-            .modal__section
-              p Мобильные фото
-              .modal__img.service
-                img(id="desktop_4", src="")
-                button.modal__img-btn Изменить 
-                input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_4_input")
-              .modal__img.service
-                img(id="desktop_5", src="")
-                button.modal__img-btn Изменить 
-                input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_5_input")
+            .modal__section.photo-sec
+              .mobile-title Мобильные фото
+              div(style="display: flex;")
+                .modal__img.service
+                  img(id="desktop_4", src="")
+                  button.modal__img-btn Изменить 
+                  input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_4_input")
+                .modal__img.service
+                  img(id="desktop_5", src="")
+                  button.modal__img-btn Изменить 
+                  input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_5_input")
             .modal__control 
               button.save Сохранить
               button.back Отменить

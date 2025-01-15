@@ -18,32 +18,30 @@ html(lang="ru")
                 .block-info
                   img.img(src=item.url)
                   p.name #{item.text}
-                ul.inlist 
-                  if (item.persons.indexOf("main") != -1)
-                    li.inlist__item(data-id="main") Главная страница
-                  each personID in item.persons
-                    if (personID != "main")
-                      li.inlist__item(data-id=personID) #{persons.filter((person) => person.id == personID)[0].title}
+                .inlist-wrapper
+                  h2.inlist-title Отображается на странице:
+                  ul.inlist 
+                    if (item.persons.indexOf("main") != -1)
+                      li.inlist__item(data-id="main") Главная страница
+                    each personID in item.persons
+                      if (personID != "main")
+                        li.inlist__item(data-id=personID) #{persons.filter((person) => person.id == personID)[0].title}
                 .default__item-control 
                   button.btn.edit Редактировать
                   button.btn.delete Удалить
       .tab-modal 
         .tab-modal__window 
           .tab-modal__content
-            .modal__img
+            .modal__img.before-after
               img(src="")
               button.modal__img-btn Изменить 
               input(type="file" accept="image/png, image/jpeg", style="display: none")
-            .title 
-              input(type="text")
+            .title.before-after(contenteditable="plaintext-only")
+            h2.list-title Отобразить на страницах:
             ul.modal__list
-              li.modal__item(data-id="main")
-                input(type="checkbox")
-                p.title Главная страница
+              button.modal__item(data-id="main") Главная страница
               each person in persons
-                li.modal__item(data-id=person.id)
-                  input(type="checkbox")
-                  p.title #{person.title}
+                button.modal__item(data-id=person.id) #{person.title}
             .modal__control 
               button.save Сохранить
               button.back Отменить

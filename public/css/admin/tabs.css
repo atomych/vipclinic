@@ -3,6 +3,24 @@ body {
   min-height: 100vh;
 }
 
+*[contenteditable="plaintext-only"],
+*[contenteditable="true"] {
+  padding: 8px 5px !important;
+  font-family: "Roboto-Regular", serif !important;
+  font-weight: 400 !important;
+  font-size: 1.2rem !important;
+  transition: all 0.2s linear;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin-bottom: 0 !important;
+}
+
+*[contenteditable="plaintext-only"]:focus,
+*[contenteditable="true"]:focus {
+  background-color: #f3f6fa;
+  outline: none;
+}
+
 .tab {
   width: 100%;
   min-height: 100vh;
@@ -128,12 +146,31 @@ body {
   font-size: 1.2rem;
 }
 
-.default__item .btn {
+.person-info-text .name,
+.person-info-text .prof {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  margin: 0;
+}
 
-  padding: 5px 10px;
+.person-info-text .name {
+  margin-bottom: 10px;
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+}
+
+.person-info-text .prof {
+  max-width: 500px;
+}
+
+.default__item .btn,
+.default__item-control .btn {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+
+  padding: 8px 15px;
   border: 1px solid #000;
   border-radius: 5px;
   background-color: #fff;
@@ -141,6 +178,14 @@ body {
   opacity: 0.7;
   transition: all 0.2s linear;
   cursor: pointer;
+}
+
+.default__item-control .btn:hover,
+.default__item-control .btn:focus,
+.default__item .btn:hover,
+.default__item .btn:focus {
+  background-color: #f3f6fa;
+  opacity: 1;
 }
 
 .default__item .img {
@@ -153,15 +198,27 @@ body {
   max-height: 150px;
 }
 
+.default__item .inlist-wrapper {
+  align-self: flex-start;
+}
+
 .default__item .inlist {
   list-style: none;
   padding: 0;
+  padding-left: 30px;
+}
+
+.default__item .inlist-title {
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 .default__item .inlist__item {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.1rem;
 
   margin-bottom: 10px;
   position: relative;
@@ -176,6 +233,7 @@ body {
   height: 5px;
 
   background-color: #000;
+  border-radius: 50%;
 
   top: 50%;
   left: -10px;
@@ -190,7 +248,7 @@ body {
 .default__item .info {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 .default__item-control {
@@ -198,8 +256,26 @@ body {
   flex-direction: column;
 }
 
-.btn.edit {
+.default__item-control.services {
+  flex-direction: row;
+}
+
+.default__item-control .btn.edit {
   margin-bottom: 15px;
+  margin-right: 0;
+}
+
+.default__item-control .btn.delete {
+  margin-right: 0;
+}
+
+.default__item-control.services .btn.edit {
+  margin-bottom: 0;
+  margin-right: 15px;
+}
+
+.default__item-control.services .btn.delete {
+  margin-right: 0;
 }
 
 .tab-modal {
@@ -234,20 +310,53 @@ body {
   flex-grow: 1;
 }
 
-.modal__img {
-  cursor: pointer;
+.title.before-after {
+  max-width: 600px;
+  text-align: left;
+  justify-content: start;
+  margin-bottom: 20px;
+}
 
+.modal__img {
   display: flex;  
   justify-content: center;
   align-items: center;
 
   position: relative;
+
+  max-width: max-content;
+}
+
+.modal__img.promo img {
+  max-width: 600px;
+}
+
+.modal__img::before {
+  content: "";
+  display: block;
+  position: absolute;
+
+  background-color: #000;
+  opacity: 0;
+  transition: all 0.2s linear;
+
+  width: 100%;
+  height: 100%;
+
+  top: 0;
+  left: 0;
+
+  z-index: 10;
 }
 
 .modal__img img {
   max-width: 400px;
   height: auto;
   display: block;
+}
+
+.modal__img.before-after img {
+  max-width: 600px;
 }
 
 .modal__img.service {
@@ -261,6 +370,7 @@ body {
 .modal__img-btn {
   opacity: 0;
   transition: all 0.2s linear;
+  cursor: pointer;
 
   position: absolute;
   top: 50%;
@@ -270,35 +380,70 @@ body {
 
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.1rem;
 
-  padding: 5px 10px;
-  border: 1px solid #000;
+  padding: 8px 15px;
   border-radius: 5px;
   background-color: #fff;
   cursor: pointer;
+  z-index: 100;
+  outline: none;
+  border: none;
 }
 
 .modal__img:hover .modal__img-btn{
   opacity: 1;
+  background-color: #f3f6fa;
+}
+
+.modal__img:hover::before {
+  opacity: 0.6;
+}
+
+.list-title {
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
 }
 
 .modal__list {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
 }
 
 .modal__item {
   margin-right: 20px;
   margin-bottom: 10px;
+
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 8px 15px;
+  opacity: 0.7;
   
   display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  background-color: #fff;
 }
 
-.modal__item input {
-  margin-right: 10px;
+.modal__item:hover,
+.modal__item:focus {
+  opacity: 1;
+}
+
+.modal__item.active {
+  opacity: 1;
+  background-color: #f3f6fa;
 }
 
 .modal__control {
@@ -311,15 +456,23 @@ body {
 .modal__control button {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 1.2rem;
 
-  padding: 5px 10px;
+  padding: 8px 15px;
   border: 1px solid #000;
   border-radius: 5px;
   background-color: #fff;
   cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s linear;
 
   margin-right: 20px;
+}
+
+.modal__control button:hover,
+.modal__control button:focus {
+  background-color: #f3f6fa;
+  opacity: 1;
 }
 
 .title {
@@ -349,6 +502,13 @@ body {
 
 .number .text {
   margin-right: 10px;
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
+.number-value {
+  min-width: 100px;
 }
 
 .person-info {
@@ -362,6 +522,7 @@ body {
 
 .modal__section {
   display: flex;
+  align-items: start;
   margin-bottom: 20px;
 }
 
@@ -370,12 +531,13 @@ body {
 }
 
 .modal__img.person img {
-  max-height: 200px;
+  max-width: 200px;
 }
 
 .modal__text {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .modal__text div {
@@ -388,6 +550,23 @@ body {
   border-radius: 5px;
   background-color: #fff;
   margin-bottom: 15px;
+}
+
+.modal__text #firstname,
+.modal__text #secondname,
+.modal__text #profession {
+  min-width: 500px;
+}
+
+.modal__text #firstname,
+.modal__text #secondname {
+  margin-bottom: 10px !important;
+}
+
+.person-text__title {
+  font-family: "Roboto-Medium", serif !important;
+  font-weight: 500 !important;
+  font-size: 1.5rem !important;
 }
 
 .person-text__list {
@@ -406,15 +585,74 @@ body {
   margin-bottom: 10px;
 }
 
+.modal__person-text-section .btn.add,
+.modal__text .btn.add,
+.modal__service-prices-menu > button,
+.modal__service-prices-content > button {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  max-width: max-content;
+  max-height: max-content;
+  
+  padding: 8px 15px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition: all 0.2s linear;
+  margin-left: 40px;
+}
+
+.modal__person-text-section .btn.add:hover,
+.modal__person-text-section .btn.add:focus,
+.modal__text .btn.add:focus,
+.modal__text .btn.add:hover,
+.modal__service-prices-menu > button:hover,
+.modal__service-prices-menu > button:focus,
+.modal__service-prices-content > button:hover,
+.modal__service-prices-content > button:focus {
+  background-color: #f3f6fa;
+  opacity: 1;
+}
+
 .content-li {
   display: flex;
   align-items: center;
+  border: none !important;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.content-li .delete {
+.content-li .delete,
+.modal__service-prices-menu-item .delete,
+.prices-item .delete,
+.modal__service-prices-content-item .delete {
   margin-right: 10px;
   max-width: 40px;
   flex-grow: 1;
+  border: 1px solid #000;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 42px;
+  height: 40px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s linear;
+}
+
+.content-li .delete:focus,
+.content-li .delete:hover,
+.modal__service-prices-menu-item .delete:focus,
+.modal__service-prices-menu-item .delete:hover,
+.prices-item .delete:hover,
+.prices-item .delete:focus,
+.modal__service-prices-content-item .delete:hover,
+.modal__service-prices-content-item .delete:focus {
+  background-color: #f3f6fa;
+  opacity: 1;
+  outline: none;
 }
 
 .content-li div {
@@ -423,7 +661,8 @@ body {
   height: auto;
 }
 
-.content-li .delete img {
+.content-li .delete img,
+.modal__service-prices-menu-item .delete img {
   max-width: 100%;
   height: auto;
   display: block;
@@ -437,6 +676,19 @@ body {
 
 .modal__section {
   display: flex;
+  margin-bottom: 40px;
+}
+
+.modal__section.photo-sec {
+  flex-direction: column;
+}
+
+.mobile-title {
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+  font-size: 1.7rem;
+
+  margin-bottom: 20px;
 }
 
 .container-str {
@@ -444,11 +696,21 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 700px;
+  border: none !important;
+  padding: 0 !important;
 }
 
 .str {
   width: 300px;
   margin-right: 20px;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.str p {
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+  font-size: 1.3rem;
 }
 
 .str:nth-child(2n) {
@@ -458,18 +720,28 @@ body {
 .modal__service-prices-menu {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   margin-bottom: 20px;
 }
 
 .modal__service-prices-menu-item {
   margin-right: 20px;
+  margin-bottom: 10px;
+} 
+
+.modal__service-prices-menu-item p {
+  margin-top: 0 !important;
 }
 
 .modal__service-prices-menu-item button {
-  padding: 5px 15px;
+  padding: 8px 0;
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
   font-size: 1rem;
+  background-color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .modal__service-prices-menu-item {
@@ -483,9 +755,10 @@ body {
 }
 
 .modal__service-prices-menu-item .delete img {
-  max-width: 100%;
+  max-width: 26px;
   display: block; 
   height: auto;
+  margin: 0 auto;
 }
 
 .modal__service-prices-content {
@@ -497,7 +770,8 @@ body {
   margin-right: 20px;
   margin-bottom: 20px;
   border: 1px solid #000;
-  padding: 10px;
+  border-radius: 5px;
+  padding: 15px;
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
   font-size: 1rem;
@@ -525,7 +799,7 @@ body {
 
 .modal__service-prices-content-item .name,
 .modal__service-prices-content-item .desc {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
   border: 1px solid #000;
 }
 
@@ -540,4 +814,14 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.modal__service-prices-content-item .delete img {
+  max-width: 26px;
+  margin: 0 auto;
+}
+
+.modal__service-prices-content-item .prices .prices-item .delete {
+  margin: 0;
+  margin-right: 10px;
 }

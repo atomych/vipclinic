@@ -8,6 +8,12 @@ const changeImgInput = document.querySelector(".modal__img input");
 const modalBtnSave = document.querySelector(".modal__control .save");
 const modalBtnBack = document.querySelector(".modal__control .back");
 
+for (let btn of modal.querySelectorAll(".modal__item")) {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+  })
+}
+
 function displayModal () {
   tabContent.classList.add("hide");
   modal.classList.add("active");
@@ -24,12 +30,12 @@ for (let item of items) {
   btn.addEventListener("click", () => {
     displayModal();
     modal.querySelector(".modal__img img").src = item.querySelector("img.img").src;
-    modal.querySelector(".title input").value = item.querySelector("p.name").textContent;
+    modal.querySelector(".title.before-after").textContent = item.querySelector("p.name").textContent;
     
     for (let check of document.querySelectorAll(".modal__item")) {
       for (let person of document.querySelectorAll(".inlist__item")) {
         if (check.dataset.id == person.dataset.id) {
-          check.querySelector("input").checked = true;
+          check.classList.add("active");
         }
       }
     }
@@ -38,11 +44,8 @@ for (let item of items) {
 
 addNewBtn.addEventListener("click", () => {
   displayModal();
-  modal.querySelector(".title input").value = "";
+  modal.querySelector(".title.before-after").textContent = "";
   modal.querySelector(".modal__img img").src = "/images/placeholders/placeholderImg.png";
-  for (let check of document.querySelectorAll(".modal__item")) {
-    check.querySelector("input").checked = false;
-  }
 })
 
 changeImgBtn.addEventListener("click", () => {

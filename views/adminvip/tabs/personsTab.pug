@@ -17,7 +17,9 @@ html(lang="ru")
               li.default__item(data-id=person.id)
                 .person-info
                   img.img.person(src=person.photo)
-                  p.name #{person.title}
+                  .person-info-text
+                    p.name #{person.title}
+                    p.prof #{person.content.profession}
                 .default__item-control 
                     button.btn.edit Редактировать
                     button.btn.delete Удалить

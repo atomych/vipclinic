@@ -23,13 +23,13 @@ html(lang="ru")
       .tab-modal 
         .tab-modal__window 
           .tab-modal__content
-            .modal__img
+            .modal__img.promo
               img(src="")
               button.modal__img-btn Изменить 
               input(type="file" accept="image/png, image/jpeg", style="display: none")
             .number
               p.text Порядковый номер: 
-              input(type="text")
+              .number-value(contenteditable="plaintext-only")
             .modal__control 
               button.save Сохранить
               button.back Отменить

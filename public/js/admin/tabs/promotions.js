@@ -25,14 +25,14 @@ for (let item of items) {
     displayModal();
     modal.querySelector(".modal__img img").src =
       item.querySelector("img.img").src;
-    modal.querySelector(".number input").value =
+    modal.querySelector(".number-value").textContent =
       item.querySelector("p.info").dataset.order;
   });
 }
 
 addNewBtn.addEventListener("click", () => {
   displayModal();
-  modal.querySelector(".number input").value = "";
+  modal.querySelector(".number-value").textContent = "";
   modal.querySelector(".modal__img img").src = "/images/placeholders/placeholderImg.png";
 })
 

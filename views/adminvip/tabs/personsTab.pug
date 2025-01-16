@@ -22,7 +22,7 @@ html(lang="ru")
                     p.prof #{person.content.profession}
                 .default__item-control 
                     button.btn.edit Редактировать
-                    button.btn.delete Удалить
+                    button.btn.delete(data-id=person.id) Удалить
       .tab-modal 
         .tab-modal__window 
           .tab-modal__content

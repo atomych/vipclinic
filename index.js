@@ -11,7 +11,7 @@ const services = [];
 const servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
 const servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
 
-const persons = require("./database/persons.json");
+let persons = require("./database/persons.json");
 let beforeAfter = require("./database/beforeAfter.json");
 let promotions = require("./database/promotions.json");
 let links = require("./database/links.json");
@@ -165,6 +165,82 @@ app.get("/api/adminvip/services-short-info", (req, res) => {
 });
 
 //! Private API
+app.put("/private-api/adminvip/persons", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  if (req.body.delete) {
+    //? Удаление специалиста
+    const deleteItem = persons.filter((el) => el.id == req.body.id)[0];
+    fs.unlinkSync(`./public${deleteItem.photo}`);
+    persons = persons.filter((el) => el.id != req.body.id);
+
+    for (let beforeAfterElement of beforeAfter) {
+      beforeAfterElement.persons = beforeAfterElement.persons.filter((el) => el != req.body.id);
+    }
+
+    fs.writeFileSync("./database/beforeAfter.json", JSON.stringify(beforeAfter));
+    delete require.cache[require.resolve("./database/beforeAfter.json")];
+    beforeAfter = require("./database/beforeAfter.json");
+    //?..................
+  } else if (req.body.id == "new") {
+    //? Создание новой записи
+    const newID = getRandomCode(6);
+    const newImgName = getRandomCode(6);
+    const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
+    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+    
+    const fullName = req.body.content.secondname + " " + req.body.content.firstname;
+    const newObj = {
+      id: newID,
+      title: fullName,
+      description: `${req.body.content.profession} | ${fullName}`,
+      keywords: req.body.content.profession,
+      url: `https://vipclinicspb.ru/person?id=${newID}`,
+      urlBtn: `/person?id=${newID}`,
+      photo: path,
+      content: req.body.content,
+    };
+    newObj.content.fullname = fullName;
+    persons.push(newObj);
+    //?..................
+  } else {
+    //? Остальные случаи
+    const currentElement = persons.filter((el) => el.id == req.body.id)[0];
+
+    if (req.body.imageData) {
+      const newImgName = getRandomCode(6);
+      const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
+      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+      fs.unlinkSync(`./public${currentElement.photo}`);
+      currentElement.photo = path;
+    }
+
+    currentElement.content.education = req.body.content.education;
+    currentElement.content.skills = req.body.content.skills;
+
+    currentElement.content.firstname = req.body.content.firstname;
+    currentElement.content.secondname = req.body.content.secondname;
+    currentElement.content.profession = req.body.content.profession;
+    currentElement.content.fullname = req.body.content.secondname + " " + req.body.content.firstname;
+
+    currentElement.title = currentElement.content.fullname;
+    currentElement.description = `${req.body.content.profession} | ${currentElement.content.fullname}`;
+    currentElement.keywords = currentElement.content.profession;
+    //?..................
+  }
+
+  //! Обновление файла
+  fs.writeFileSync("./database/persons.json", JSON.stringify(persons));
+  delete require.cache[require.resolve("./database/persons.json")];
+  persons = require("./database/persons.json");
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
 app.put("/private-api/adminvip/before-after", (req, res) => {
   //! Проверка токена
   //

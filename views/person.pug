@@ -41,13 +41,11 @@ html(lang="ru")
             section.person__block
               h3.person__block-title Образование
               each item in person.content.education 
-                if item.type == "text"
-                  p.person__text !{item.text} 
+                p.person__text !{item} 
             section.person__block
               h3.person__block-title Skills
               each item in person.content.skills 
-                if item.type == "text"
-                  p.person__text !{item.text} 
+                p.person__text !{item} 
 
     - const beforeAfterList = beforeAfter;
     include modules/beforeAfter.pug

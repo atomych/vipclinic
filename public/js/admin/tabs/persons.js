@@ -9,6 +9,7 @@ const modalBtnSave = document.querySelector(".modal__control .save");
 const modalBtnBack = document.querySelector(".modal__control .back");
 
 let currentPerson;
+let imageData;
 
 function displayModal() {
   tabContent.classList.add("hide");
@@ -73,10 +74,8 @@ function setContentLists(container, data, section) {
 
   let index = 0;
   for (let item of data) {
-    if (item.type == "text") {
-      mainList.appendChild(getNormalizeListElement(item.text, section, index));
-      index += 1;
-    }
+    mainList.appendChild(getNormalizeListElement(item, section, index));
+    index += 1;
   }
 
   const addItemBtn = document.createElement("button");
@@ -88,14 +87,38 @@ function setContentLists(container, data, section) {
   modal.querySelector(container).appendChild(mainList);
 }
 
+function sendData(data) {
+  fetch("/private-api/adminvip/persons", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${"free-token"}`,
+    },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.status == 201) location.reload();
+  });
+}
+
 for (let item of items) {
   const btn = item.querySelector(".btn.edit");
+  const deleteBtn = item.querySelector(".btn.delete");
+
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Подтвердите удаление записи")) {
+      sendData({ id: deleteBtn.dataset.id, delete: true });
+    }
+  });
 
   btn.addEventListener("click", () => {
     fetch(`/api/adminvip/person?id=${item.dataset.id}`)
       .then((rawData) => rawData.json())
       .then((data) => {
-        currentPerson = data;
+        currentPerson = {
+          id: data.id,
+          photo: data.photo,
+          content: data.content,
+        };
         displayModal();
         modal.querySelector(".modal__img img").src = data.photo;
         modal.querySelector("#firstname").textContent = data.content.firstname;
@@ -113,10 +136,7 @@ for (let item of items) {
         modal
           .querySelector(".modal__person-education + .btn.add")
           .addEventListener("click", () => {
-            currentPerson.content.education.push({
-              type: "text",
-              text: "Ваш новый текст...",
-            });
+            currentPerson.content.education.push("Ваш новый текст...");
             modal
               .querySelector(".modal__person-education .person-text__list")
               .appendChild(
@@ -131,10 +151,7 @@ for (let item of items) {
         modal
           .querySelector(".modal__person-skills + .btn.add")
           .addEventListener("click", () => {
-            currentPerson.content.skills.push({
-              type: "text",
-              text: "Ваш новый текст...",
-            });
+            currentPerson.content.skills.push("Ваш новый текст...");
             modal
               .querySelector(".modal__person-skills .person-text__list")
               .appendChild(
@@ -161,6 +178,10 @@ changeImgInput.addEventListener("change", () => {
   reader.readAsDataURL(file);
 
   reader.addEventListener("load", () => {
+    imageData = {
+      dataUrl: reader.result,
+      extension: extension,
+    };
     modal.querySelector(".modal__img img").src = reader.result;
   });
 });
@@ -169,23 +190,14 @@ addNewBtn.addEventListener("click", () => {
   displayModal();
 
   currentPerson = {
+    id: "new",
     photo: "/images/placeholders/placeholderImg2.png",
     content: {
       firstname: "Имя",
       secondname: "Фамилия",
       profession: "Специальность",
-      education: [
-        {
-          type: "text",
-          text: "Ваш новый текст...",
-        },
-      ],
-      skills: [
-        {
-          type: "text",
-          text: "Ваш новый текст...",
-        },
-      ],
+      education: ["Ваш новый текст..."],
+      skills: ["Ваш новый текст..."],
     },
   };
 
@@ -209,10 +221,7 @@ addNewBtn.addEventListener("click", () => {
   modal
     .querySelector(".modal__person-skills + .btn.add")
     .addEventListener("click", () => {
-      currentPerson.content.skills.push({
-        type: "text",
-        text: "Ваш новый текст...",
-      });
+      currentPerson.content.skills.push("Ваш новый текст...");
       modal
         .querySelector(".modal__person-skills .person-text__list")
         .appendChild(
@@ -226,10 +235,7 @@ addNewBtn.addEventListener("click", () => {
   modal
     .querySelector(".modal__person-education + .btn.add")
     .addEventListener("click", () => {
-      currentPerson.content.education.push({
-        type: "text",
-        text: "Ваш новый текст...",
-      });
+      currentPerson.content.education.push("Ваш новый текст...");
       modal
         .querySelector(".modal__person-education .person-text__list")
         .appendChild(
@@ -248,6 +254,38 @@ modalBtnBack.addEventListener("click", () => {
 });
 
 modalBtnSave.addEventListener("click", () => {
-  location.reload();
   //! Отправка данных на сервер
+  currentPerson.content.firstname =
+    modal.querySelector("#firstname").textContent;
+  currentPerson.content.secondname =
+    modal.querySelector("#secondname").textContent;
+  currentPerson.content.profession =
+    modal.querySelector("#profession").textContent;
+
+  const educationItems = document.querySelectorAll(
+    ".modal__person-education .content-li div"
+  );
+  const skillsItems = document.querySelectorAll(
+    ".modal__person-skills .content-li div"
+  );
+
+  for (let i = 0; i < educationItems.length; i++) {
+    currentPerson.content.education[i] = parseText(
+      educationItems[i].textContent,
+      "toHTML"
+    );
+  }
+
+  for (let i = 0; i < skillsItems.length; i++) {
+    currentPerson.content.skills[i] = parseText(
+      skillsItems[i].textContent,
+      "toHTML"
+    );
+  }
+
+  if (imageData) {
+    currentPerson.imageData = imageData;
+  }
+
+  if (!(currentPerson == "new" && !imageData)) sendData(currentPerson);
 });

@@ -36,6 +36,8 @@ body {
 
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .tab__content.hide {
@@ -54,7 +56,7 @@ body {
 }
 
 .add-new {
-  padding: 5px 15px;
+  padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
   background-color: #fff;
@@ -62,9 +64,11 @@ body {
   opacity: 0.7;
   transition: all 0.2s linear;
 
+  max-width: 1200px;
+
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
   margin-left: 30px;
   margin-top: 30px;
@@ -142,6 +146,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 
   border: 1px solid #000;
   border-radius: 5px;
@@ -606,7 +611,10 @@ body {
 .modal__service-prices-menu > button,
 .modal__service-prices-content > button,
 .desktop-struct-item-add-btn,
-.desktop-struct-content-control .add {
+.desktop-struct-content-control .add,
+.mobile-struct-content-control .add,
+.desktop-struct-content-control .save,
+.mobile-struct-content-control .save {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
   font-size: 1.1rem;
@@ -634,7 +642,13 @@ body {
 .desktop-struct-item-add-btn:hover,
 .desktop-struct-item-add-btn:focus,
 .desktop-struct-content-control .add:hover,
-.desktop-struct-content-control .add:focus {
+.desktop-struct-content-control .add:focus,
+.mobile-struct-content-control .add:focus,
+.mobile-struct-content-control .add:hover,
+.desktop-struct-content-control .save:focus,
+.mobile-struct-content-control .save:focus,
+.desktop-struct-content-control .save:hover,
+.mobile-struct-content-control .save:hover {
   background-color: #f3f6fa;
   opacity: 1;
 }
@@ -652,7 +666,9 @@ body {
 .prices-item .delete,
 .modal__service-prices-content-item .delete,
 .desktop-struct-line-control .delete,
-.desktop-struct-line-control .swap {
+.desktop-struct-line-control .swap,
+.mobile-struct-line-control .delete,
+.mobile-struct-line-control .swap {
   margin-right: 10px;
   max-width: 40px;
   flex-grow: 1;
@@ -677,7 +693,9 @@ body {
 .desktop-struct-line-control .delete:hover,
 .desktop-struct-line-control .delete:focus,
 .desktop-struct-line-control .swap:focus,
-.desktop-struct-line-control .swap:hover  {
+.desktop-struct-line-control .swap:hover,
+.mobile-struct-line-control .delete:hover,
+.mobile-struct-line-control .swap:focus  {
   background-color: #f3f6fa;
   opacity: 1;
   outline: none;
@@ -692,7 +710,9 @@ body {
 .content-li .delete img,
 .modal__service-prices-menu-item .delete img,
 .desktop-struct-line-control .delete img,
-.desktop-struct-line-control .swap img {
+.desktop-struct-line-control .swap img,
+.mobile-struct-line-control .delete img,
+.mobile-struct-line-control .swap img {
   max-width: 100%;
   height: auto;
   display: block;
@@ -861,7 +881,8 @@ body {
   align-items: center;
 }
 
-.desktop-struct-content-wrapper {
+.desktop-struct-content-wrapper,
+.mobile-struct-content-wrapper  {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -873,7 +894,8 @@ body {
   overflow-x: hidden;
 }
 
-.desktop-struct-item {
+.desktop-struct-item,
+.mobile-struct-item {
   padding: 15px 25px !important;
   font-family: "Roboto-Regular", serif;
   font-weight: 400;
@@ -886,39 +908,53 @@ body {
   border-radius: 0;
 }
 
-.desktop-struct-item p {
+.desktop-struct-item p,
+.mobile-struct-item p {
   margin-top: 0 !important;
 }
 
 .desktop-struct-item:hover,
-.desktop-struct-item:focus {
+.desktop-struct-item:focus,
+.mobile-struct-item:focus,
+.mobile-struct-item:hover {
   opacity: 1;
 }
 
 .desktop-struct-item:hover,
 .desktop-struct-item:focus,
-.desktop-struct-item.active {
+.desktop-struct-item.active,
+.mobile-struct-item:hover,
+.mobile-struct-item:focus,
+.mobile-struct-item.active {
   background-color: #d9dcdf;
   outline: none;
   opacity: 1;
 }
 
-.desktop-struct-content {
+.desktop-struct-content,
+.mobile-struct-content {
   display: none;
   flex-direction: column;
 }
 
-.desktop-struct-content .line {
+.desktop-struct-content .line,
+.mobile-struct-content .line {
   width: 1200px;
   margin-bottom: 40px;
 }
 
-.desktop-struct-content.active {
+.desktop-struct-content.active,
+.mobile-struct-content.active {
   display: flex;
 }
 
 .line {
   display: flex;
+}
+
+.line.mobile {
+  flex-wrap: wrap;
+  max-width: 1110px;
 }
 
 .half {
@@ -966,22 +1002,22 @@ body {
 }
 
 .desktop-struct-list {
-  display: flex;
+  display: none;
   flex-direction: column;
 
   background-color: #0000003a;
   padding: 20px;
   border-radius: 5px;
 
-  transform: translateX(600px);
   transition: all 0.2s linear;
   position: absolute;
   top: 0;
   right: 20px;
+  z-index: 1000;
 }
 
 .desktop-struct-list.active {
-  transform: translateX(0);
+  display: flex;
 }
 
 .desktop-struct-list-item {
@@ -1011,23 +1047,39 @@ body {
   align-items: start;
 }
 
-.desktop-struct-line-control {
+.desktop-struct-line-control, 
+.mobile-struct-line-control {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.desktop-struct-line-control .delete {
+.desktop-struct-line-control .delete,
+.mobile-struct-line-control .delete {
   margin-bottom: 10px;
 }
 
-.desktop-struct-content-control {
+.desktop-struct-content-control,
+.mobile-struct-content-control {
   display: flex;
   padding-left: 65px;
 }
 
-.desktop-struct-content-control .add {
+.desktop-struct-content-control .add,
+.mobile-struct-content-control .add {
   margin-right: 30px;
   margin-left: 0 !important;
+}
+
+.desktop-struct-content-control .save,
+.mobile-struct-content-control .save {
+  margin-left: auto !important;
+}
+
+.mobile-item-wrapper {
+  display: flex;
+  align-items: start;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }

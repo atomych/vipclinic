@@ -16,6 +16,9 @@ for (let btn of btns) {
       }
     }
     activeItem.classList.add("active");
+    currentMobileStructItem = null;
+    currentDesktopStructItem = null;
+    desktopStructList.classList.remove("active");
   });
 }
 

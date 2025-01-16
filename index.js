@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 const services = [];
 
 const servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
-const servicesMobileStruct = require("./database/services/servicesDesktopStruct.json");
+const servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
 
 const persons = require("./database/persons.json");
 const beforeAfter = require("./database/beforeAfter.json");
@@ -106,7 +106,7 @@ app.get("/adminvip/tabs/stats", (req, res) => {
   res.render("statsTab");
 });
 
-//! API
+//! Pubilc API
 app.get("/api/adminvip/person", (req, res) => {
   res.send(JSON.stringify(persons.filter((person) => person.id == req.query.id)[0]))
 })
@@ -119,8 +119,14 @@ app.get("/api/adminvip/services-desktop-struct", (req, res) => {
   res.send(JSON.stringify(servicesDesktopStruct));
 })
 
+app.get("/api/adminvip/services-mobile-struct", (req, res) => {
+  res.send(JSON.stringify(servicesMobileStruct));
+})
+
 app.get("/api/adminvip/services-short-info", (req, res) => {
   res.send(JSON.stringify(servicesInfo.shortInfo));
 })
+
+//! Private API
 
 app.listen(port);

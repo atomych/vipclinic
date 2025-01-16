@@ -9,6 +9,15 @@ let activeDesktopStructMenuItem = document.querySelector(
   ".desktop-struct-item.active"
 );
 
+const mobileStructContentAll = document.querySelectorAll(
+  ".mobile-struct-content"
+);
+const mobileStructMenuItems = document.querySelectorAll(".mobile-struct-item");
+
+let activeMobileStructMenuItem = document.querySelector(
+  ".mobile-struct-item.active"
+);
+
 for (let btn of desktopStructMenuItems) {
   btn.addEventListener("click", () => {
     activeDesktopStructMenuItem.classList.remove("active");
@@ -27,12 +36,41 @@ for (let btn of desktopStructMenuItems) {
     }
 
     activeDesktopStructMenuItem = btn;
+    currentMobileStructItem = null;
+    currentDesktopStructItem = null;
+    desktopStructList.classList.remove("active");
+  });
+}
+
+for (let btn of mobileStructMenuItems) {
+  btn.addEventListener("click", () => {
+    activeMobileStructMenuItem.classList.remove("active");
+    btn.classList.add("active");
+
+    for (let contentItem of mobileStructContentAll) {
+      if (
+        contentItem.dataset.collection ==
+        activeMobileStructMenuItem.dataset.index
+      ) {
+        contentItem.classList.remove("active");
+      }
+      if (contentItem.dataset.collection == btn.dataset.index) {
+        contentItem.classList.add("active");
+      }
+    }
+
+    activeMobileStructMenuItem = btn;
+    currentMobileStructItem = null;
+    currentDesktopStructItem = null;
+    desktopStructList.classList.remove("active");
   });
 }
 
 let currentServicesData = [];
 let currentDesktopStructData = {};
 let currentDesktopStructItem;
+let currentMobileStructData = {};
+let currentMobileStructItem;
 
 const desktopStructList = document.querySelector(".desktop-struct-list");
 const desktopStructListItems = document.querySelectorAll(
@@ -45,6 +83,49 @@ const addNewSingleLineBtn = document.querySelector(
 const addNewDoubleLineBtn = document.querySelector(
   ".desktop-struct-content-control button.double"
 );
+const addNewMobileItemBtn = document.querySelector(
+  ".mobile-struct-content-control button.add"
+);
+
+const desktopStructSaveBtn = document.querySelector(
+  ".desktop-struct-content-control button.save"
+);
+const mobileStructSaveBtn = document.querySelector(
+  ".mobile-struct-content-control button.save"
+);
+
+desktopStructSaveBtn.addEventListener("click", () => {
+  location.reload();
+  //! Отправка данных на сервер
+});
+
+mobileStructSaveBtn.addEventListener("click", () => {
+  location.reload();
+  //! Отправка данных на сервер
+});
+
+addNewMobileItemBtn.addEventListener("click", () => {
+  currentMobileStructData[activeMobileStructMenuItem.dataset.index].items.push({
+    type: "default",
+    id: "empty",
+  });
+
+  const itemWraper = document.createElement("div");
+  itemWraper.classList.add("mobile-item-wrapper");
+  const itemControl = getMobileItemControl();
+  itemWraper.appendChild(itemControl);
+
+  const itemHTML = getDefaultMobileItem({ name: "...", descryption: "..." });
+  itemHTML.dataset.collection = activeMobileStructMenuItem.dataset.index;
+  itemHTML.dataset.cell =
+    currentMobileStructData[activeMobileStructMenuItem.dataset.index].items
+      .length - 1;
+  itemWraper.appendChild(itemHTML);
+
+  document
+    .querySelector(".mobile-struct-content.active .line")
+    .appendChild(itemWraper);
+});
 
 addNewSingleLineBtn.addEventListener("click", () => {
   currentDesktopStructData[
@@ -305,6 +386,122 @@ function getDesktopStructLineControl(swapOn) {
   return desktopStructLineControl;
 }
 
+function getMobileItemControl() {
+  const container = document.createElement("div");
+  container.classList.add("mobile-struct-line-control");
+
+  const swapBtn = document.createElement("button");
+  swapBtn.classList.add("swap");
+  const swapImg = document.createElement("img");
+  swapImg.src = "/images/icons/swap.png";
+  swapBtn.appendChild(swapImg);
+  swapBtn.addEventListener("click", () => {
+    const currentItem =
+      swapBtn.parentElement.parentElement.querySelector(".item");
+    let newItem;
+    if (currentItem.classList.contains("item--photo")) {
+      newItem = getDefaultMobileItem({ name: "...", descryption: "..." });
+      currentMobileStructData[currentItem.dataset.collection].items[
+        currentItem.dataset.cell
+      ] = {
+        id: "empty",
+        type: "default",
+      };
+    } else {
+      newItem = getDefaultMobilePhotoItem(
+        "/images/placeholders/placeholderImg.png"
+      );
+      currentMobileStructData[currentItem.dataset.collection].items[
+        currentItem.dataset.cell
+      ] = {
+        type: "photo",
+        url: "/images/placeholders/placeholderImg.png",
+      };
+    }
+    newItem.dataset.collection = currentItem.dataset.collection;
+    newItem.dataset.cell = currentItem.dataset.cell;
+
+    const cont = currentItem.parentElement;
+    cont.removeChild(currentItem);
+    cont.appendChild(newItem);
+  });
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.classList.add("delete");
+  const deleteBtnImg = document.createElement("img");
+  deleteBtnImg.src = "/images/icons/delete.png";
+  deleteBtn.appendChild(deleteBtnImg);
+  deleteBtn.addEventListener("click", () => {
+    const item = deleteBtn.parentElement.parentElement.querySelector(".item");
+    currentMobileStructData[item.dataset.collection].items[item.dataset.cell] =
+      null;
+    item.parentElement.parentElement.removeChild(item.parentElement);
+  });
+
+  container.appendChild(deleteBtn);
+  container.appendChild(swapBtn);
+
+  return container;
+}
+
+function getDefaultMobileItem(data) {
+  const itemHTML = document.createElement("div");
+  itemHTML.classList.add("item");
+
+  const nameHTML = document.createElement("div");
+  nameHTML.classList.add("name");
+  nameHTML.textContent = data.name;
+
+  const descHTML = document.createElement("div");
+  descHTML.classList.add("desc");
+  descHTML.textContent = data.descryption;
+
+  const changeItemBtn = document.createElement("button");
+  changeItemBtn.classList.add("item-change");
+  changeItemBtn.textContent = "Изменить";
+  changeItemBtn.addEventListener("click", () => {
+    desktopStructList.classList.remove("active");
+    setTimeout(() => desktopStructList.classList.add("active"), 100);
+    currentMobileStructItem = changeItemBtn.parentElement;
+  });
+
+  itemHTML.appendChild(nameHTML);
+  itemHTML.appendChild(descHTML);
+  itemHTML.appendChild(changeItemBtn);
+
+  return itemHTML;
+}
+
+function getDefaultMobilePhotoItem(url) {
+  const itemHTML = document.createElement("div");
+  itemHTML.classList.add("item", "item--photo");
+
+  const imgCont = document.createElement("div");
+  imgCont.classList.add("item__img", "service", "full");
+
+  const bigItemImg = document.createElement("img");
+  bigItemImg.style.maxWidth = "280px";
+  bigItemImg.style.maxHeight = "280px";
+  bigItemImg.src = url;
+
+  const changeBtn = document.createElement("button");
+  changeBtn.classList.add("btn");
+  changeBtn.textContent = "Изменить";
+
+  const imgInput = document.createElement("input");
+  imgInput.setAttribute("type", "file");
+  imgInput.setAttribute("accept", "image/png, image/jpeg");
+  imgInput.style.display = "none";
+
+  imgCont.appendChild(bigItemImg);
+  imgCont.appendChild(changeBtn);
+  imgCont.appendChild(imgInput);
+
+  itemHTML.appendChild(imgCont);
+
+  return itemHTML;
+}
+
 fetch("/api/adminvip/services-short-info")
   .then((rawData) => rawData.json())
   .then((servicesData) => {
@@ -347,8 +544,66 @@ fetch("/api/adminvip/services-short-info")
           currentDesktopStructItem = null;
           desktopStructList.classList.remove("active");
         }
+
+        if (currentMobileStructItem != null) {
+          const newService = currentServicesData.filter(
+            (service) => service.id == item.dataset.id
+          )[0];
+          currentMobileStructItem.querySelector(".name").textContent =
+            newService.name;
+          currentMobileStructItem.querySelector(".desc").textContent =
+            newService.descryption;
+          currentMobileStructData[
+            currentMobileStructItem.dataset.collection
+          ].items[currentMobileStructItem.dataset.cell].id = newService.id;
+          currentMobileStructItem = null;
+          desktopStructList.classList.remove("active");
+        }
       });
     }
+
+    fetch("/api/adminvip/services-mobile-struct")
+      .then((rawData) => rawData.json())
+      .then((structData) => {
+        currentMobileStructData = structData;
+
+        for (let item of structData) {
+          const container = document.querySelector(
+            `.mobile-struct-content[data-collection="${item.collection}"]`
+          );
+
+          const lineHTML = document.createElement("div");
+          lineHTML.classList.add("line", "mobile");
+
+          for (let cell of item.items) {
+            const itemWraper = document.createElement("div");
+            itemWraper.classList.add("mobile-item-wrapper");
+            const itemControl = getMobileItemControl();
+            itemWraper.appendChild(itemControl);
+
+            if (cell.type == "default") {
+              const itemData = currentServicesData.filter(
+                (el) => el.id == cell.id
+              )[0];
+              const itemHTML = getDefaultMobileItem(itemData);
+              itemHTML.dataset.collection = structData.indexOf(item);
+              itemHTML.dataset.cell = item.items.indexOf(cell);
+              itemWraper.appendChild(itemHTML);
+              lineHTML.appendChild(itemWraper);
+            } else if (cell.type == "photo") {
+              const itemData = currentServicesData.filter(
+                (el) => el.id == cell.id
+              )[0];
+              const itemHTML = getDefaultMobilePhotoItem(cell.url);
+              itemHTML.dataset.collection = structData.indexOf(item);
+              itemHTML.dataset.cell = item.items.indexOf(cell);
+              itemWraper.appendChild(itemHTML);
+              lineHTML.appendChild(itemWraper);
+            }
+          }
+          container.appendChild(lineHTML);
+        }
+      });
 
     fetch("/api/adminvip/services-desktop-struct")
       .then((rawData) => rawData.json())

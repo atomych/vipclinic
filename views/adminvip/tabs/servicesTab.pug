@@ -16,9 +16,7 @@ html(lang="ru")
         li.tab-menu__item
           button.tab-menu__btn(data-index="1") Сетка ПК
         li.tab-menu__item
-          button.tab-menu__btn(data-index="2") Сетка (3)
-        li.tab-menu__item
-          button.tab-menu__btn(data-index="3") Сетка (2)
+          button.tab-menu__btn(data-index="2") Сетка Моб
       .tab__content   
         .tab__item.active(data-index="0")
           button.add-new Добавить услугу
@@ -40,13 +38,25 @@ html(lang="ru")
             .desktop-struct-content(data-collection="1")
             .desktop-struct-content(data-collection="2")
             .desktop-struct-content(data-collection="3")
-            .desktop-struct-list
             .desktop-struct-content-control 
               button.add.single Добавить single линию
               button.add.double Добавить double линию
-
+              button.save Сохранить
+        .desktop-struct-list
         .tab__item(data-index="2")
-        .tab__item(data-index="3")
+          .mobile-struct-menu 
+            button.mobile-struct-item.active(data-index="0") инъекционная косметология
+            button.mobile-struct-item(data-index="1") эстетическая косметология
+            button.mobile-struct-item(data-index="2") аппаратная косметология
+            button.mobile-struct-item(data-index="3") все услуги
+          .mobile-struct-content-wrapper
+            .mobile-struct-content.active(data-collection="0")
+            .mobile-struct-content(data-collection="1")
+            .mobile-struct-content(data-collection="2")
+            .mobile-struct-content(data-collection="3")
+            .mobile-struct-content-control 
+              button.add Добавить
+              button.save Сохранить
       .tab-modal 
         .tab-modal__window 
           .tab-modal__content

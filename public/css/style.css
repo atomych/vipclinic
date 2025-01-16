@@ -96,6 +96,8 @@ a.none-style {
     padding: 20px 0;
     font-family: "NEXT ART", sans-serif;
     font-weight: 300;
+    text-align: center;
+    width: 100%;
 }
 
 .button-section__inner {
@@ -314,6 +316,7 @@ a.none-style {
 }
 
 .intro__btn {
+    display: inline-block;
     width: 100%;
 }
 
@@ -391,6 +394,7 @@ a.none-style {
 }
 
 .main-about__btn {
+    display: inline-block;
     width: 420px;
     background-color: transparent !important;
 }
@@ -574,6 +578,7 @@ a.none-style {
 }
 
 .services__main-btn {
+    display: inline-block;
     width: 100%;
 
     font-size: 1.11rem;
@@ -951,6 +956,7 @@ a.none-style {
     font-size: 0.88rem !important;
     line-height: 1 !important;
     padding: 13px 33px !important;
+    width: max-content !important;
 }
 
 .contacts__btn:last-child {

@@ -12,8 +12,9 @@ const servicesDesktopStruct = require("./database/services/servicesDesktopStruct
 const servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
 
 const persons = require("./database/persons.json");
-const beforeAfter = require("./database/beforeAfter.json");
+let beforeAfter = require("./database/beforeAfter.json");
 let promotions = require("./database/promotions.json");
+let links = require("./database/links.json");
 
 function getRandomCode(length) {
   function getRandomNum(min, max) {
@@ -68,21 +69,28 @@ app.get("/", (req, res) => {
     servicesInfo: servicesInfo,
     servicesDesktopStructFrom: servicesDesktopStruct,
     servicesMobileStructFrom: servicesMobileStruct,
+    links: links,
   });
 });
 
 app.get("/price", (req, res) => {
-  res.render("price");
+  res.render("price", {
+    links: links,
+  });
 });
 
 app.get("/service", (req, res) => {
-  res.render("service", services.filter((el) => el.id == req.query.id)[0]);
+  res.render("service", {
+    service: services.filter((el) => el.id == req.query.id)[0],
+    links: links,
+  });
 });
 
 app.get("/person", (req, res) => {
   res.render("person", {
     person: persons.filter((el) => el.id == req.query.id)[0],
     beforeAfter: beforeAfter.filter((el) => el.persons.includes(req.query.id)),
+    links: links,
   });
 });
 
@@ -157,13 +165,68 @@ app.get("/api/adminvip/services-short-info", (req, res) => {
 });
 
 //! Private API
+app.put("/private-api/adminvip/before-after", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  if (req.body.delete) {
+    //? Удаление фото
+    const deleteItem = beforeAfter.filter((el) => el.id == req.body.id)[0];
+    fs.unlinkSync(`./public${deleteItem.url}`);
+    beforeAfter = beforeAfter.filter((el) => el.id != req.body.id);
+    //?..................
+  } else if (req.body.id == "new") {
+    //? Создание новой записи
+      const newID = getRandomCode(6);
+      const newImgName = getRandomCode(6);
+      const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
+      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+      beforeAfter.push({
+        id: newID,
+        url: path,
+        text: req.body.text,
+        persons: req.body.persons,
+      });
+    //?..................
+  } else {
+    //? Остальные случаи
+    const currentElement = beforeAfter.filter((el) => el.id == req.body.id)[0];
+
+    if (req.body.imageData) {
+      const newImgName = getRandomCode(6);
+      const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
+      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+      fs.unlinkSync(`./public${currentElement.url}`);
+      currentElement.url = path;
+    }
+
+    if (req.body.text) {
+      currentElement.text = req.body.text;
+    }
+
+    if (req.body.persons) {
+      currentElement.persons = req.body.persons;
+    }
+    //?..................
+  }
+
+  //! Обновление файла
+  fs.writeFileSync("./database/beforeAfter.json", JSON.stringify(beforeAfter));
+  delete require.cache[require.resolve("./database/beforeAfter.json")];
+  beforeAfter = require("./database/beforeAfter.json");
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
 app.put("/private-api/adminvip/promo", (req, res) => {
   //! Проверка токена
   //
   //
 
   //! Обработка запроса
-  
   if (req.body.delete) {
     //? Удаление акции
     const deleteItem = promotions.filter((promo) => promo.id == req.body.id)[0];

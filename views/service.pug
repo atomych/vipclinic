@@ -3,15 +3,15 @@ html(lang="ru")
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    meta(name="descryption" content=description)
-    meta(name="keywords" content=keywords)
+    meta(name="descryption" content=service.description)
+    meta(name="keywords" content=service.keywords)
     meta(name="robots" content="all")
     meta(property="og:type" content="website")
-    meta(property="og:url" content=url)
+    meta(property="og:url" content=service.url)
     meta(property="og:image" content="https://vipclinicspb.ru/images/logo-276.png")
-    meta(property="og:title" content=title)
-    meta(property="og:description" content=description)
-    title VIP CLINIC - #{title}
+    meta(property="og:title" content=service.title)
+    meta(property="og:description" content=service.description)
+    title VIP CLINIC - #{service.title}
     link(rel="icon" type="image/png" sizes="32x32" href="/images/favicons/32.png")
     link(rel="apple-touch-icon" sizes="180x180" href="images/favicons/180.png")
     link(rel="shortcut icon" href="/images/favicons/icon.ico")
@@ -26,17 +26,17 @@ html(lang="ru")
       .container
         .service-page__wrapper
           section.service-page__section
-            h1.service-page__title.adaptive !{content.preName}
+            h1.service-page__title.adaptive !{service.content.preName}
             .service-page__line.adaptive
-            - const firstBg = 'background-image: url(' + images.desktop.first + ')';
+            - const firstBg = 'background-image: url(' + service.images.desktop.first + ')';
             .service-page__photo(style=firstBg)
-            - const mobileFirstBg = 'background-image: url(' + images.mobile.first + ')';
+            - const mobileFirstBg = 'background-image: url(' + service.images.mobile.first + ')';
             .service-page__photo.service-page__photo--adaptive(style=mobileFirstBg)
             .service-page__main-content
-              h1.service-page__title !{content.preName}
+              h1.service-page__title !{service.content.preName}
               .service-page__line 
               ul.service-page__features
-                each statItem in content.stats
+                each statItem in service.content.stats
                   li.features__item 
                     .features__image
                       img(src=statItem.imgUrl)
@@ -44,23 +44,23 @@ html(lang="ru")
                       h3.feautures__title #{statItem.title}
                       p.feautures__text #{statItem.value}
           section.service-page__section.bg
-            - const secondBg = 'background-image: url(' + images.desktop.second + ')';
+            - const secondBg = 'background-image: url(' + service.images.desktop.second + ')';
             .service-page__photo(style=secondBg)
-              img(src=images.desktop.second)
+              img(src=service.images.desktop.second)
             .service-page__text-content 
-              each textItem in content.textPlace 
+              each textItem in service.content.textPlace 
                 p.service-page__text-item !{textItem.text}
-              if (content.noneLast == true)
+              if (service.content.noneLast == true)
                 p.service-page__text-item.small * Перед проведением процедуры необходима консультация врача.
-          - const mobileSecondBg = 'background-image: url(' + images.mobile.second + ')';
+          - const mobileSecondBg = 'background-image: url(' + service.images.mobile.second + ')';
           .service-page__photo.service-page__photo--adaptive(style=mobileSecondBg)
           section.service-page__section
-            - const thirdBg = 'background-image: url(' + images.desktop.third + ')';
+            - const thirdBg = 'background-image: url(' + service.images.desktop.third + ')';
             .service-page__photo(style=thirdBg)
             .service-page__price-content
-              if (content.pricePlace.type == "only")
+              if (service.content.pricePlace.type == "only")
                 ul.service-page__price-list
-                  each priceItem in content.pricePlace.value
+                  each priceItem in service.content.pricePlace.value
                     li.service-page__price-item 
                       h3.price-item__title #{priceItem.title}
                       p.price-item__def #{priceItem.description}
@@ -69,16 +69,16 @@ html(lang="ru")
                           span.time !{pricesStr.time}
                           span.time !{pricesStr.volume}
                           spam.value !{pricesStr.price}
-                  if (content.pricePlace.value.length % 2 == 1)
+                  if (service.content.pricePlace.value.length % 2 == 1)
                     li.service-page__price-item.empty
-              if (content.pricePlace.type == "multi")
+              if (service.content.pricePlace.type == "multi")
                 ul.service-page__nav-list
                   - var counter = 0;
-                  each navItem in content.pricePlace.value
+                  each navItem in service.content.pricePlace.value
                     li.service-page__nav-item 
                       button(class=counter == 0 ? 'selected' : '', data-type=counter++) #{navItem.title}
                 - var counter = 0;
-                each list in content.pricePlace.value
+                each list in service.content.pricePlace.value
                   ul(class=counter == 0 ? 'service-page__price-list show bg' : 'service-page__price-list bg', data-type=counter++)
                     each listItem in list.items 
                       li.service-page__price-item 
@@ -93,7 +93,7 @@ html(lang="ru")
                       li.service-page__price-item.empty
 
           section.service-page__bottom 
-            button.btn.btn--upper Записаться онлайн
+            a.btn.btn--upper(href=links.yclients target="_blank") Записаться онлайн
 
     include modules/footer.pug
 

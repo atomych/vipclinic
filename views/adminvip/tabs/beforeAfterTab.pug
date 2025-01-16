@@ -20,15 +20,15 @@ html(lang="ru")
                   p.name #{item.text}
                 .inlist-wrapper
                   h2.inlist-title Отображается на странице:
-                  ul.inlist 
+                  ul.inlist(data-id=item.id) 
                     if (item.persons.indexOf("main") != -1)
                       li.inlist__item(data-id="main") Главная страница
                     each personID in item.persons
                       if (personID != "main")
                         li.inlist__item(data-id=personID) #{persons.filter((person) => person.id == personID)[0].title}
                 .default__item-control 
-                  button.btn.edit Редактировать
-                  button.btn.delete Удалить
+                  button.btn.edit(data-id=item.id) Редактировать
+                  button.btn.delete(data-id=item.id) Удалить
       .tab-modal 
         .tab-modal__window 
           .tab-modal__content

@@ -37,7 +37,8 @@ html(lang="ru")
               li.price__item
                 img.price__doc
             .slider-container
-            button.btn.btn--upper.price__btn записаться онлайн
+            .person__btn-wrapper
+              a.btn.btn--upper(href=links.yclients target="_blank") Записаться онлайн
     include modules/contacts.pug
     include modules/footer.pug
     script(src='./js/burger.js')

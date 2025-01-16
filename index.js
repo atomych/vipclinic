@@ -13,7 +13,32 @@ const servicesMobileStruct = require("./database/services/servicesMobileStruct.j
 
 const persons = require("./database/persons.json");
 const beforeAfter = require("./database/beforeAfter.json");
-const promotions = require("./database/promotions.json");
+let promotions = require("./database/promotions.json");
+
+function getRandomCode(length) {
+  function getRandomNum(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  let result = "";
+  const symbols = ["ABCDEFGHIJKabcdefghijklmnoLMNOPQRSTUVWXYZpqrstuvwxyz", "0123456789"];
+
+  for (let i = 0; i < length; i++) {
+    if (i == 0) {
+      result += symbols[0][getRandomNum(0, symbols[0].length - 1)];
+    } else {
+      const system = getRandomNum(0, 2);
+      result += symbols[system][getRandomNum(0, symbols[system].length - 1)];
+    }
+  }
+
+  return result;
+}
+
+function writeImageFile(dataUrl, path) {
+  const base64Image = dataUrl.split(';base64,').pop();
+  fs.writeFileSync(path, base64Image, {encoding: 'base64'});
+}
 
 const app = express();
 app.use(cors());
@@ -39,7 +64,7 @@ app.get("/", (req, res) => {
   res.render("main", {
     beforeAfter: beforeAfter.filter((el) => el.persons.includes("main")),
     team: persons,
-    promo: promotions,
+    promo: promotions.sort((a, b) => a.order - b.order),
     servicesInfo: servicesInfo,
     servicesDesktopStructFrom: servicesDesktopStruct,
     servicesMobileStructFrom: servicesMobileStruct,
@@ -108,25 +133,80 @@ app.get("/adminvip/tabs/stats", (req, res) => {
 
 //! Pubilc API
 app.get("/api/adminvip/person", (req, res) => {
-  res.send(JSON.stringify(persons.filter((person) => person.id == req.query.id)[0]))
-})
+  res.send(
+    JSON.stringify(persons.filter((person) => person.id == req.query.id)[0])
+  );
+});
 
 app.get("/api/adminvip/service", (req, res) => {
-  res.send(JSON.stringify(services.filter((service) => service.id == req.query.id)[0]))
-})
+  res.send(
+    JSON.stringify(services.filter((service) => service.id == req.query.id)[0])
+  );
+});
 
 app.get("/api/adminvip/services-desktop-struct", (req, res) => {
   res.send(JSON.stringify(servicesDesktopStruct));
-})
+});
 
 app.get("/api/adminvip/services-mobile-struct", (req, res) => {
   res.send(JSON.stringify(servicesMobileStruct));
-})
+});
 
 app.get("/api/adminvip/services-short-info", (req, res) => {
   res.send(JSON.stringify(servicesInfo.shortInfo));
-})
+});
 
 //! Private API
+app.put("/private-api/adminvip/promo", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  
+  if (req.body.delete) {
+    //? Удаление акции
+    const deleteItem = promotions.filter((promo) => promo.id == req.body.id)[0];
+    fs.unlinkSync(`./public${deleteItem.url}`);
+    promotions = promotions.filter((promo) => promo.id != req.body.id);
+    //?..................
+  } else if (req.body.id == "new") {
+    //? Создание новой акции
+    const newID = getRandomCode(6);
+    const newImgName = getRandomCode(6);
+    const path = `/images/main/promo/${newImgName}.${req.body.imageData.extension}`;
+    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+    promotions.push({
+      id: newID,
+      url: path,
+      order: req.body.order
+    });
+    //?..................
+  } else {
+    //? Остальные случаи
+    const currentPromo = promotions.filter((promo) => promo.id == req.body.id)[0];
+
+    if (req.body.imageData) {
+      const newImgName = getRandomCode(6);
+      const path = `/images/main/promo/${newImgName}.${req.body.imageData.extension}`;
+      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+      fs.unlinkSync(`./public${currentPromo.url}`);
+      currentPromo.url = path;
+    }
+
+    if (req.body.order) {
+      currentPromo.order = req.body.order;
+    }
+    //?..................
+  }
+
+  //! Обновление файла
+  fs.writeFileSync("./database/promotions.json", JSON.stringify(promotions));
+  delete require.cache[require.resolve("./database/promotions.json")];
+  promotions = require("./database/promotions.json");
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
 
 app.listen(port);

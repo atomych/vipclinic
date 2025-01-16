@@ -14,12 +14,13 @@ html(lang="ru")
           button.add-new Добавить фотографию
           ul.default__list
             each item in promo
-              li.default__item 
+              - const orderStyle = "order: " + item.order;
+              li.default__item(style=orderStyle)
                 img.img(src=item.url)
-                p.info(data-order=item.order) Порядковый номер: #{item.order}
+                p.info(data-order=item.order) Приоритет: #{item.order}
                 .default__item-control 
-                  button.btn.edit Редактировать
-                  button.btn.delete Удалить
+                  button.btn.edit(data-id=item.id) Редактировать
+                  button.btn.delete(data-id=item.id) Удалить
       .tab-modal 
         .tab-modal__window 
           .tab-modal__content
@@ -28,7 +29,7 @@ html(lang="ru")
               button.modal__img-btn Изменить 
               input(type="file" accept="image/png, image/jpeg", style="display: none")
             .number
-              p.text Порядковый номер: 
+              p.text Приоритет: 
               .number-value(contenteditable="plaintext-only")
             .modal__control 
               button.save Сохранить

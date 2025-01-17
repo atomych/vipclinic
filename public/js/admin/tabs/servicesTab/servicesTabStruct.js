@@ -35,6 +35,7 @@ for (let btn of desktopStructMenuItems) {
       }
     }
 
+    allImageData = [];
     activeDesktopStructMenuItem = btn;
     currentMobileStructItem = null;
     currentDesktopStructItem = null;
@@ -59,6 +60,7 @@ for (let btn of mobileStructMenuItems) {
       }
     }
 
+    allImageData = [];
     activeMobileStructMenuItem = btn;
     currentMobileStructItem = null;
     currentDesktopStructItem = null;
@@ -71,6 +73,7 @@ let currentDesktopStructData = {};
 let currentDesktopStructItem;
 let currentMobileStructData = {};
 let currentMobileStructItem;
+let allImageData = [];
 
 const desktopStructList = document.querySelector(".desktop-struct-list");
 const desktopStructListItems = document.querySelectorAll(
@@ -94,14 +97,27 @@ const mobileStructSaveBtn = document.querySelector(
   ".mobile-struct-content-control button.save"
 );
 
+function sendData(type, data) {
+  fetch(`/private-api/adminvip/${type}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${"free-token"}`,
+    },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.status == 201) location.reload();
+  });
+}
+
 desktopStructSaveBtn.addEventListener("click", () => {
-  location.reload();
   //! Отправка данных на сервер
+  sendData("services-dekstop-struct", { struct: currentDesktopStructData, images: allImageData });
 });
 
 mobileStructSaveBtn.addEventListener("click", () => {
-  location.reload();
   //! Отправка данных на сервер
+  sendData("services-mobile-struct", { struct: currentMobileStructData, images: allImageData });
 });
 
 addNewMobileItemBtn.addEventListener("click", () => {
@@ -245,6 +261,64 @@ addNewDoubleLineBtn.addEventListener("click", () => {
     .appendChild(lineWrapperHTML);
 });
 
+function getItemImageInput(url, maxWidth, maxHeight) {
+  const imgCont = document.createElement("div");
+  imgCont.classList.add("item__img", "service");
+
+  const bigItemImg = document.createElement("img");
+  bigItemImg.style.maxWidth = maxWidth;
+  if (maxHeight) bigItemImg.style.maxHeight = maxWidth;
+  bigItemImg.src = url;
+
+  const imgInput = document.createElement("input");
+  imgInput.setAttribute("type", "file");
+  imgInput.setAttribute("accept", "image/png, image/jpeg");
+  imgInput.style.display = "none";
+  imgInput.addEventListener("change", () => {
+    const reader = new FileReader();
+    const file = imgInput.files[0];
+    const extension = file.type.split("/")[1];
+
+    reader.readAsDataURL(file);
+
+    reader.addEventListener("load", () => {
+      const item = imgInput.parentElement.parentElement;
+
+      const imageData = {
+        dataUrl: reader.result,
+        extension: extension,
+      };
+      const res = {};
+
+      if (item.dataset.index) {
+        res.index = item.dataset.index;
+      }
+
+      res.collection = item.dataset.collection;
+      res.cell = item.dataset.cell;
+
+      res.imageData = imageData;
+
+      allImageData.push(res);
+
+      bigItemImg.src = reader.result;
+    });
+  });
+
+  const changeBtn = document.createElement("button");
+  changeBtn.classList.add("btn");
+  changeBtn.textContent = "Изменить";
+  changeBtn.addEventListener("click", () => {
+    imgInput.click();
+  })
+
+  imgCont.appendChild(bigItemImg);
+  imgCont.appendChild(changeBtn);
+  imgCont.appendChild(imgInput);
+
+  return imgCont;
+}
+
 function getChangeItemImg() {
   const changeItemBtn = document.createElement("button");
   changeItemBtn.classList.add("item-change");
@@ -291,25 +365,7 @@ function getDefaultBigItem(data, url) {
   descHTML.classList.add("desc");
   descHTML.textContent = data.descryption;
 
-  const imgCont = document.createElement("div");
-  imgCont.classList.add("item__img", "service");
-
-  const bigItemImg = document.createElement("img");
-  bigItemImg.style.maxWidth = "300px";
-  bigItemImg.src = url;
-
-  const changeBtn = document.createElement("button");
-  changeBtn.classList.add("btn");
-  changeBtn.textContent = "Изменить";
-
-  const imgInput = document.createElement("input");
-  imgInput.setAttribute("type", "file");
-  imgInput.setAttribute("accept", "image/png, image/jpeg");
-  imgInput.style.display = "none";
-
-  imgCont.appendChild(bigItemImg);
-  imgCont.appendChild(changeBtn);
-  imgCont.appendChild(imgInput);
+  const imgCont = getItemImageInput(url, "300px", "");
 
   const changeItemBtn = getChangeItemImg();
 
@@ -476,26 +532,7 @@ function getDefaultMobilePhotoItem(url) {
   const itemHTML = document.createElement("div");
   itemHTML.classList.add("item", "item--photo");
 
-  const imgCont = document.createElement("div");
-  imgCont.classList.add("item__img", "service", "full");
-
-  const bigItemImg = document.createElement("img");
-  bigItemImg.style.maxWidth = "280px";
-  bigItemImg.style.maxHeight = "280px";
-  bigItemImg.src = url;
-
-  const changeBtn = document.createElement("button");
-  changeBtn.classList.add("btn");
-  changeBtn.textContent = "Изменить";
-
-  const imgInput = document.createElement("input");
-  imgInput.setAttribute("type", "file");
-  imgInput.setAttribute("accept", "image/png, image/jpeg");
-  imgInput.style.display = "none";
-
-  imgCont.appendChild(bigItemImg);
-  imgCont.appendChild(changeBtn);
-  imgCont.appendChild(imgInput);
+  const imgCont = getItemImageInput(url, "280px", "280px");
 
   itemHTML.appendChild(imgCont);
 

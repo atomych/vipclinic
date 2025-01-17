@@ -185,6 +185,42 @@ app.put("/private-api/adminvip/links", (req, res) => {
   res.sendStatus(201);
 })
 
+app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
+app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
+app.put("/private-api/adminvip/services-list", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
 app.put("/private-api/adminvip/persons", (req, res) => {
   //! Проверка токена
   //

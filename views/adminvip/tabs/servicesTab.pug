@@ -26,7 +26,7 @@ html(lang="ru")
                 p.name #{service.name}
                 .default__item-control.services
                   button.btn.edit Редактировать
-                  button.btn.delete Удалить
+                  button.btn.delete(data-id=service.id) Удалить
         .tab__item(data-index="1")
           .desktop-struct-menu 
             button.desktop-struct-item.active(data-index="0") инъекционная косметология
@@ -84,7 +84,7 @@ html(lang="ru")
                     p Рекомендуемый курс
                     #course(contenteditable="plaintext-only")
                   .str
-                    p#drugs_p
+                    p#drugs_p(contenteditable="plaintext-only")
                     #drugs(contenteditable="plaintext-only")
             .modal__section
               .modal__img.service
@@ -105,13 +105,13 @@ html(lang="ru")
               .mobile-title Мобильные фото
               div(style="display: flex;")
                 .modal__img.service
-                  img(id="desktop_4", src="")
+                  img(id="mobile_1", src="")
                   button.modal__img-btn Изменить 
-                  input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_4_input")
+                  input(type="file" accept="image/png, image/jpeg", style="display: none", id="mobile_1_input")
                 .modal__img.service
-                  img(id="desktop_5", src="")
+                  img(id="mobile_2", src="")
                   button.modal__img-btn Изменить 
-                  input(type="file" accept="image/png, image/jpeg", style="display: none", id="desktop_5_input")
+                  input(type="file" accept="image/png, image/jpeg", style="display: none", id="mobile_2_input")
             .modal__control 
               button.save Сохранить
               button.back Отменить

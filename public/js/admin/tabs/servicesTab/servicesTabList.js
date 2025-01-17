@@ -32,9 +32,10 @@ const changeImgInputCollection = document.querySelectorAll(".modal__img input");
 const modalBtnSave = document.querySelector(".modal__control .save");
 const modalBtnBack = document.querySelector(".modal__control .back");
 
-var currentService;
-var currentServicePrices = [];
-var activeServicePricesSection = 0;
+let currentService;
+let currentServicePrices = [];
+let activeServicePricesSection = 0;
+let imageData = {};
 
 for (let btn of changeImgBtnCollection) {
   btn.addEventListener("click", () => {
@@ -52,6 +53,10 @@ for (let input of changeImgInputCollection) {
     reader.readAsDataURL(file);
 
     reader.addEventListener("load", () => {
+      imageData[input.id] = {
+        dataUrl: reader.result,
+        extension: extension,
+      };
       input.parentElement.querySelector("img").src = reader.result;
     });
   });
@@ -92,7 +97,7 @@ function getNormalizeListElement(text, index) {
 
   deleteBtn.addEventListener("click", () => {
     newItem.parentElement.removeChild(newItem);
-    currentService.content.textPlace.splice(index, 1);
+    currentService.content.textPlace[index] = null;
   });
 
   const textDiv = document.createElement("div");
@@ -329,11 +334,11 @@ function setAddTextItemInTextPlace(textPlaceList) {
   addItemBtn.textContent = "Добавить";
   textPlaceList.parentElement.appendChild(addItemBtn);
   addItemBtn.addEventListener("click", () => {
-    textPlaceList.appendChild(getNormalizeListElement("Ваш новый текст..."));
     currentService.content.textPlace.push({
       type: "text",
       text: "Ваш новый текст...",
     });
+    textPlaceList.appendChild(getNormalizeListElement("Ваш новый текст...", currentService.content.textPlace.length - 1));
   });
 }
 
@@ -341,18 +346,36 @@ function parseText(str, mode) {
   if (mode == "toRead") {
     str = str.replaceAll("<span>", "<b>");
     str = str.replaceAll("</span>", "</b>");
-    // str = str.replaceAll("<br>", "\n");
   } else if (mode == "toHTML") {
     str = str.replaceAll("</b>", "</span>");
     str = str.replaceAll("<b>", "<span>");
-    str = str.replaceAll("\n", "<br>");
   }
 
   return str;
 }
 
+function sendData(type, data) {
+  fetch(`/private-api/adminvip/${type}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${"free-token"}`,
+    },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.status == 201) location.reload();
+  });
+}
+
 for (let item of items) {
   const btn = item.querySelector(".btn.edit");
+  const deleteBtn = item.querySelector(".btn.delete");
+
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Подтвердите удаление записи")) {
+      sendData("services-list", { id: deleteBtn.dataset.id, delete: true });
+    }
+  });
 
   btn.addEventListener("click", () => {
     fetch(`/api/adminvip/service?id=${item.dataset.id}`)
@@ -366,9 +389,9 @@ for (let item of items) {
           data.images.desktop.second;
         modal.querySelector(".modal__img img#desktop_3").src =
           data.images.desktop.third;
-        modal.querySelector(".modal__img img#desktop_4").src =
+        modal.querySelector(".modal__img img#mobile_1").src =
           data.images.mobile.first;
-        modal.querySelector(".modal__img img#desktop_5").src =
+        modal.querySelector(".modal__img img#mobile_2").src =
           data.images.mobile.second;
         modal.querySelector("#name").textContent = data.content.name;
 
@@ -460,15 +483,48 @@ addNewBtn.addEventListener("click", () => {
     "/images/placeholders/placeholderImg2.png";
   modal.querySelector(".modal__img img#desktop_3").src =
     "/images/placeholders/placeholderImg2.png";
-  modal.querySelector(".modal__img img#desktop_4").src =
+  modal.querySelector(".modal__img img#mobile_1").src =
     "/images/placeholders/placeholderImg.png";
-  modal.querySelector(".modal__img img#desktop_5").src =
+  modal.querySelector(".modal__img img#mobile_2").src =
     "/images/placeholders/placeholderImg.png";
   modal.querySelector("#name").textContent = "Название";
 
   currentService = {
+    id: "new",
     content: {
       textPlace: [],
+      stats: [
+        {
+          title: "Продолжительность",
+          value: "",
+          imgUrl: "/images/icons/time.svg"
+        },
+        {
+          title: "Анестезия",
+          value: "",
+          imgUrl: "/images/icons/syringe.svg"
+        },
+        {
+          title: "Периодичность",
+          value: "",
+          imgUrl: "/images/icons/calendar.svg"
+        },
+        {
+          title: "Эффект",
+          value: "",
+          imgUrl: "/images/icons/stars.svg"
+        },
+        {
+          title: "Рекомендуемый курс",
+          value: "",
+          imgUrl: "/images/icons/course.svg"
+        },
+        {
+          title: "Косметика",
+          value: "",
+          imgUrl: "/images/icons/drops.svg"
+        }
+      ]
     },
   };
   currentServicePrices = [{ title: "Новый раздел", items: [] }];
@@ -498,10 +554,106 @@ modalBtnBack.addEventListener("click", () => {
   currentService = {};
   currentServicePrices = [];
   activeServicePricesSection = 0;
+  imageData = {};
   hideModal();
 });
 
+function parsePriceItemToData(item) {
+  const data = {};
+
+  data.title = item.querySelector(".name").textContent;
+  data.description = item.querySelector(".desc").textContent;
+  data.prices = [];
+
+  for (let priceItem of item.querySelectorAll(".prices-item")) {
+    const cells = priceItem.querySelectorAll(".time");
+    data.prices.push({
+      time: cells[0].textContent,
+      volume: cells[1].textContent,
+      price: cells[2].textContent,
+    })
+  }
+
+  return data;
+}
+
 modalBtnSave.addEventListener("click", () => {
-  location.reload();
   //! Отправка данных на сервер
+  const putServiceData = {content: {}};
+  putServiceData.id = currentService.id;
+  putServiceData.content.name = document.querySelector("#name").textContent;
+  putServiceData.content.preName = document.querySelector("#name").textContent;
+  putServiceData.content.noneLast = true;
+
+  putServiceData.content.stats = currentService.content.stats;
+  putServiceData.content.stats[0].value = modal.querySelector("#time").textContent;
+  putServiceData.content.stats[1].value = modal.querySelector("#anesthesia").textContent;
+  putServiceData.content.stats[2].value = modal.querySelector("#periodicity").textContent;
+  putServiceData.content.stats[3].value = modal.querySelector("#effect").textContent;
+  putServiceData.content.stats[4].value = modal.querySelector("#course").textContent;
+  putServiceData.content.stats[5].value = modal.querySelector("#drugs").textContent;
+  putServiceData.content.stats[5].title = modal.querySelector("#drugs_p").textContent;
+
+  putServiceData.content.textPlace = [];
+  const textPlaceItemsHTML = modal.querySelectorAll(".main-text div");
+  let index = 0;
+  for (let item of currentService.content.textPlace) {
+    if (item != null) {
+      putServiceData.content.textPlace.push({
+        type: "text",
+        text: parseText(textPlaceItemsHTML[index].innerHTML, "toHTML"),
+      });
+      index += 1;
+    }
+  }
+
+  putServiceData.content.pricePlace = {};
+
+  if (currentServicePrices.filter((el) => el != null).length > 1) {
+    putServiceData.content.pricePlace.type = "multi";
+    putServiceData.content.pricePlace.value = [];
+
+    for (let i = 0; i < currentServicePrices.length; i++) {
+      const collection = currentServicePrices[i];
+
+      if (collection != null) {
+        const newColl = {
+          title: modal.querySelector(`.modal__service-prices-menu-item button[data-filter-index="${i}"] p`).textContent,
+          items: [],
+        };
+
+        for (let priceItem of document.querySelectorAll(`.modal__service-prices-content-item[data-filter-index="${i}"]`)) {
+          newColl.items.push(parsePriceItemToData(priceItem));
+        }
+
+        putServiceData.content.pricePlace.value.push(newColl);
+      }
+    }
+  } else {
+    putServiceData.content.pricePlace.type = "only";
+    putServiceData.content.pricePlace.value = [];
+
+    const filterIndex = currentServicePrices.indexOf(currentServicePrices.filter((el) => el != null)[0]);
+
+    for (let item of modal.querySelectorAll(`.modal__service-prices-content-item[data-filter-index="${filterIndex}"]`)) {
+      putServiceData.content.pricePlace.value.push(parsePriceItemToData(item))
+    }
+  }
+
+  if (Object.entries(imageData).length) {
+    putServiceData.images = {
+      desktop: {},
+      mobile: {},
+    };
+
+    for (let imageItem of Object.entries(imageData)) {
+      if (imageItem[0] == "desktop_1_input") putServiceData.images.desktop.first = imageItem[1];
+      if (imageItem[0] == "desktop_2_input") putServiceData.images.desktop.second = imageItem[1];
+      if (imageItem[0] == "desktop_3_input") putServiceData.images.desktop.third = imageItem[1];
+      if (imageItem[0] == "mobile_1_input") putServiceData.images.mobile.first = imageItem[1];
+      if (imageItem[0] == "mobile_2_input") putServiceData.images.mobile.second = imageItem[1];
+    }
+  }
+
+  sendData("services-list", putServiceData);
 });

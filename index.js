@@ -132,7 +132,7 @@ app.get("/adminvip/tabs/price", (req, res) => {
 });
 
 app.get("/adminvip/tabs/links", (req, res) => {
-  res.render("linksTab");
+  res.render("linksTab", links);
 });
 
 app.get("/adminvip/tabs/stats", (req, res) => {
@@ -165,6 +165,26 @@ app.get("/api/adminvip/services-short-info", (req, res) => {
 });
 
 //! Private API
+app.put("/private-api/adminvip/links", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  links.yclients = req.body.yclients;
+  links.social.phone = req.body.social.phone;
+  links.social.wa = req.body.social.wa;
+  links.social.tg = req.body.social.tg;
+
+  //! Обновление файла
+  fs.writeFileSync("./database/links.json", JSON.stringify(links));
+  delete require.cache[require.resolve("./database/links.json")];
+  links = require("./database/links.json");
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
 app.put("/private-api/adminvip/persons", (req, res) => {
   //! Проверка токена
   //

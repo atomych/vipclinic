@@ -1083,3 +1083,34 @@ body {
   margin-right: 20px;
   margin-bottom: 20px;
 }
+
+.default__item-div {
+  min-width: 300px;
+}
+
+.default__list .btn.save {
+  font-family: "Roboto-Regular", serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  max-width: max-content;
+  max-height: max-content;
+  
+  padding: 8px 15px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition: all 0.2s linear;
+  margin-left: 40px;
+
+  width: 100%;
+  max-width: 1200px;
+  margin-left: 0 !important;
+}
+
+.default__list .btn.save:focus,
+.default__list .btn.save:hover {
+  background-color: #f3f6fa;
+  opacity: 1;
+}

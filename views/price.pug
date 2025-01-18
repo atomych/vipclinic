@@ -30,12 +30,9 @@ html(lang="ru")
           h2.section-title(style='margin-bottom: 40px') прайс
           .price__content
             ul.price__list.slider-list
-              li.price__item
-                img.price__doc
-              li.price__item
-                img.price__doc
-              li.price__item
-                img.price__doc
+              each price in prices
+                li.price__item
+                  img.price__doc(src=price.url)
             .slider-container
             .person__btn-wrapper
               a.btn.btn--upper(href=links.yclients target="_blank") Записаться онлайн

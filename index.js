@@ -6,15 +6,16 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const port = process.env.PORT || 3000;
 
-const services = [];
+let services = [];
 
-const servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
-const servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
+let servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
+let servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
 
 let persons = require("./database/persons.json");
 let beforeAfter = require("./database/beforeAfter.json");
 let promotions = require("./database/promotions.json");
 let links = require("./database/links.json");
+let prices = require("./database/prices.json");
 
 function getRandomCode(length) {
   function getRandomNum(min, max) {
@@ -53,11 +54,9 @@ app.set("views", [
 ]);
 
 // Инициализация services
-const servicesInfo = require("./database/services/servicesInfo.json");
+let servicesInfo = require("./database/services/servicesInfo.json");
 for (let id of servicesInfo.collectionID) {
-  const service = require(`./database/services/collection/service${id.substring(
-    1
-  )}.json`);
+  const service = require(`./database/services/collection/${id}.json`);
   services.push(service);
 }
 
@@ -69,13 +68,14 @@ app.get("/", (req, res) => {
     servicesInfo: servicesInfo,
     servicesDesktopStructFrom: servicesDesktopStruct,
     servicesMobileStructFrom: servicesMobileStruct,
-    links: links,
+    links: links
   });
 });
 
 app.get("/price", (req, res) => {
   res.render("price", {
     links: links,
+    prices: prices,
   });
 });
 
@@ -191,7 +191,7 @@ app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
   //
 
   //! Обработка запроса
-  
+
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
@@ -215,7 +215,156 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
   //
 
   //! Обработка запроса
+  if (req.body.delete) {
+    //? Удаление услуги
+    services = services.filter((service) => service.id != req.body.id);
+    servicesInfo.collectionID = servicesInfo.collectionID.filter((el) => el != req.body.id);
+    servicesInfo.shortInfo = servicesInfo.shortInfo.filter((el) => el.id != req.body.id);
 
+    fs.rmSync(`./public/images/services/${req.body.id}`, { recursive: true, force: true });
+    fs.unlinkSync(`./database/services/collection/${req.body.id}.json`);
+
+    fs.writeFileSync("./database/services/servicesInfo.json", JSON.stringify(servicesInfo));
+    delete require.cache[require.resolve("./database/services/servicesInfo.json")];
+    servicesInfo = require("./database/services/servicesInfo.json");
+    //?..................
+  } else if (req.body.id == "new") {
+    //? Добавление новой услуги
+    let newService = {};
+    const newID = getRandomCode(6);
+
+    newService.id = newID;
+    newService.title = req.body.content.name;
+    newService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
+    newService.keywords = req.body.shortInfoValue;
+    newService.url = `https://vipclinicspb.ru/service?id=${newID}`;
+
+    newService.content = {};
+    newService.content.name = req.body.content.name;
+    newService.content.preName = req.body.content.name;
+    newService.content.noneLast = req.body.content.noneLast;
+    newService.content.stats = req.body.content.stats;
+    newService.content.textPlace = req.body.content.textPlace;
+    newService.content.pricePlace = req.body.content.pricePlace;
+
+    newService.images = {
+      desktop: {},
+      mobile: {}
+    };
+    fs.mkdirSync(`./public/images/services/${newID}`);
+
+    const desktopFirstImageName = getRandomCode(6);
+    const dekstopFirstImagePath = `/images/services/${newID}/${desktopFirstImageName}.${req.body.images.desktop.first.extension}`;
+    writeImageFile(req.body.images.desktop.first.dataUrl, `./public${dekstopFirstImagePath}`);
+    newService.images.desktop.first = dekstopFirstImagePath;
+
+    const desktopSecondImageName = getRandomCode(6);
+    const dekstopSecondImagePath = `/images/services/${newID}/${desktopSecondImageName}.${req.body.images.desktop.second.extension}`;
+    writeImageFile(req.body.images.desktop.second.dataUrl, `./public${dekstopSecondImagePath}`);
+    newService.images.desktop.second = dekstopSecondImagePath;
+
+    const desktopThirdImageName = getRandomCode(6);
+    const dekstopThirdImagePath = `/images/services/${newID}/${desktopThirdImageName}.${req.body.images.desktop.third.extension}`;
+    writeImageFile(req.body.images.desktop.third.dataUrl, `./public${dekstopThirdImagePath}`);
+    newService.images.desktop.third = dekstopThirdImagePath;
+
+    const mobileFirstImageName = getRandomCode(6);
+    const mobileFirstImagePath = `/images/services/${newID}/${mobileFirstImageName}.${req.body.images.mobile.first.extension}`;
+    writeImageFile(req.body.images.mobile.first.dataUrl, `./public${mobileFirstImagePath}`);
+    newService.images.mobile.first = mobileFirstImagePath;
+
+    const mobileSecondImageName = getRandomCode(6);
+    const mobileSecondImagePath = `/images/services/${newID}/${mobileSecondImageName}.${req.body.images.mobile.second.extension}`;
+    writeImageFile(req.body.images.mobile.second.dataUrl, `./public${mobileSecondImagePath}`);
+    newService.images.mobile.second = mobileSecondImagePath;
+
+    servicesInfo.collectionID.push(newID);
+    servicesInfo.shortInfo.push({
+      id: newID,
+      name: req.body.content.name,
+      descryption: req.body.shortInfoValue,
+      url: `/service?id=${newID}`,
+    });
+
+    fs.writeFileSync("./database/services/servicesInfo.json", JSON.stringify(servicesInfo));
+    delete require.cache[require.resolve("./database/services/servicesInfo.json")];
+    servicesInfo = require("./database/services/servicesInfo.json");
+
+    fs.writeFileSync(`./database/services/collection/${newID}.json`, JSON.stringify(newService));
+    newService = require(`./database/services/collection/${newID}.json`);
+    services.push(newService);
+    //?..................
+  } else {
+    //? Остальные случаи
+    let currentService = services.filter((service) => service.id == req.body.id)[0];
+
+    currentService.title = req.body.content.name;
+    currentService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
+    currentService.keywords = req.body.shortInfoValue;
+
+    currentService.content.name = req.body.content.name;
+    currentService.content.preName = req.body.content.name;
+    currentService.content.noneLast = req.body.content.noneLast;
+    currentService.content.stats = req.body.content.stats;
+    currentService.content.textPlace = req.body.content.textPlace;
+    currentService.content.pricePlace = req.body.content.pricePlace;
+
+    if (req.body.images) {
+      if (req.body.images.desktop.first) {
+        fs.unlinkSync(`./public${currentService.images.desktop.first}`);
+        const newPath = currentService.images.desktop.first.split(".")[0] + "." + req.body.images.desktop.first.extension;
+        writeImageFile(req.body.images.desktop.first.dataUrl, `./public${newPath}`);
+        currentService.images.desktop.first = newPath;
+      }
+
+      if (req.body.images.desktop.second) {
+        fs.unlinkSync(`./public${currentService.images.desktop.second}`);
+        const newPath = currentService.images.desktop.second.split(".")[0] + "." + req.body.images.desktop.second.extension;
+        writeImageFile(req.body.images.desktop.second.dataUrl, `./public${newPath}`);
+        currentService.images.desktop.second = newPath;
+      }
+
+      if (req.body.images.desktop.third) {
+        fs.unlinkSync(`./public${currentService.images.desktop.third}`);
+        const newPath = currentService.images.desktop.third.split(".")[0] + "." + req.body.images.desktop.third.extension;
+        writeImageFile(req.body.images.desktop.third.dataUrl, `./public${newPath}`);
+        currentService.images.desktop.third = newPath;
+      }
+
+      if (req.body.images.mobile.first) {
+        fs.unlinkSync(`./public${currentService.images.mobile.first}`);
+        const newPath = currentService.images.mobile.first.split(".")[0] + "." + req.body.images.mobile.first.extension;
+        writeImageFile(req.body.images.mobile.first.dataUrl, `./public${newPath}`);
+        currentService.images.mobile.first = newPath;
+      }
+
+      if (req.body.images.mobile.second) {
+        fs.unlinkSync(`./public${currentService.images.mobile.second}`);
+        const newPath = currentService.images.mobile.second.split(".")[0] + "." + req.body.images.mobile.second.extension;
+        writeImageFile(req.body.images.mobile.second.dataUrl, `./public${newPath}`);
+        currentService.images.mobile.second = newPath;
+      }
+    }
+
+    services = services.filter((service) => service != currentService);
+    fs.writeFileSync(`./database/services/collection/${currentService.id}.json`, JSON.stringify(currentService));
+    delete require.cache[require.resolve(`./database/services/collection/${currentService.id}.json`)];
+    currentService = require(`./database/services/collection/${currentService.id}.json`);
+    services.push(currentService);
+    services.sort((a, b) => {
+       return servicesInfo.collectionID.indexOf(a) - servicesInfo.collectionID.indexOf(b);
+    });
+
+    const currentShort = servicesInfo.shortInfo.filter((el) => el.id == req.body.id)[0];
+    currentShort.name = req.body.content.name;
+    currentShort.descryption = req.body.shortInfoValue;
+
+    fs.writeFileSync("./database/services/servicesInfo.json", JSON.stringify(servicesInfo));
+    delete require.cache[require.resolve("./database/services/servicesInfo.json")];
+    servicesInfo = require("./database/services/servicesInfo.json");
+
+    //?..................
+  }
 
   //! Отправка ответа на клиент
   res.sendStatus(201);

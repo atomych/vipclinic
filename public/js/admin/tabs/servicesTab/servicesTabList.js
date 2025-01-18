@@ -32,6 +32,7 @@ const changeImgInputCollection = document.querySelectorAll(".modal__img input");
 const modalBtnSave = document.querySelector(".modal__control .save");
 const modalBtnBack = document.querySelector(".modal__control .back");
 
+let servicesShortInfo;
 let currentService;
 let currentServicePrices = [];
 let activeServicePricesSection = 0;
@@ -338,7 +339,12 @@ function setAddTextItemInTextPlace(textPlaceList) {
       type: "text",
       text: "Ваш новый текст...",
     });
-    textPlaceList.appendChild(getNormalizeListElement("Ваш новый текст...", currentService.content.textPlace.length - 1));
+    textPlaceList.appendChild(
+      getNormalizeListElement(
+        "Ваш новый текст...",
+        currentService.content.textPlace.length - 1
+      )
+    );
   });
 }
 
@@ -381,6 +387,14 @@ for (let item of items) {
     fetch(`/api/adminvip/service?id=${item.dataset.id}`)
       .then((rawData) => rawData.json())
       .then((data) => {
+        fetch("/api/adminvip/services-short-info")
+          .then((rawData) => rawData.json())
+          .then((shortInfo) => {
+            modal.querySelector("#shortInfo").textContent = shortInfo.filter(
+              (el) => el.id == item.dataset.id
+            )[0].descryption;
+          });
+
         displayModal();
         currentService = data;
         modal.querySelector(".modal__img img#desktop_1").src =
@@ -488,6 +502,7 @@ addNewBtn.addEventListener("click", () => {
   modal.querySelector(".modal__img img#mobile_2").src =
     "/images/placeholders/placeholderImg.png";
   modal.querySelector("#name").textContent = "Название";
+  modal.querySelector("#shortInfo").textContent = "Краткое описание";
 
   currentService = {
     id: "new",
@@ -497,34 +512,34 @@ addNewBtn.addEventListener("click", () => {
         {
           title: "Продолжительность",
           value: "",
-          imgUrl: "/images/icons/time.svg"
+          imgUrl: "/images/icons/time.svg",
         },
         {
           title: "Анестезия",
           value: "",
-          imgUrl: "/images/icons/syringe.svg"
+          imgUrl: "/images/icons/syringe.svg",
         },
         {
           title: "Периодичность",
           value: "",
-          imgUrl: "/images/icons/calendar.svg"
+          imgUrl: "/images/icons/calendar.svg",
         },
         {
           title: "Эффект",
           value: "",
-          imgUrl: "/images/icons/stars.svg"
+          imgUrl: "/images/icons/stars.svg",
         },
         {
           title: "Рекомендуемый курс",
           value: "",
-          imgUrl: "/images/icons/course.svg"
+          imgUrl: "/images/icons/course.svg",
         },
         {
           title: "Косметика",
           value: "",
-          imgUrl: "/images/icons/drops.svg"
-        }
-      ]
+          imgUrl: "/images/icons/drops.svg",
+        },
+      ],
     },
   };
   currentServicePrices = [{ title: "Новый раздел", items: [] }];
@@ -571,7 +586,7 @@ function parsePriceItemToData(item) {
       time: cells[0].textContent,
       volume: cells[1].textContent,
       price: cells[2].textContent,
-    })
+    });
   }
 
   return data;
@@ -579,20 +594,30 @@ function parsePriceItemToData(item) {
 
 modalBtnSave.addEventListener("click", () => {
   //! Отправка данных на сервер
-  const putServiceData = {content: {}};
+  const putServiceData = { content: {} };
   putServiceData.id = currentService.id;
   putServiceData.content.name = document.querySelector("#name").textContent;
   putServiceData.content.preName = document.querySelector("#name").textContent;
   putServiceData.content.noneLast = true;
 
+  putServiceData.shortInfoValue =
+    document.querySelector("#shortInfo").textContent;
+
   putServiceData.content.stats = currentService.content.stats;
-  putServiceData.content.stats[0].value = modal.querySelector("#time").textContent;
-  putServiceData.content.stats[1].value = modal.querySelector("#anesthesia").textContent;
-  putServiceData.content.stats[2].value = modal.querySelector("#periodicity").textContent;
-  putServiceData.content.stats[3].value = modal.querySelector("#effect").textContent;
-  putServiceData.content.stats[4].value = modal.querySelector("#course").textContent;
-  putServiceData.content.stats[5].value = modal.querySelector("#drugs").textContent;
-  putServiceData.content.stats[5].title = modal.querySelector("#drugs_p").textContent;
+  putServiceData.content.stats[0].value =
+    modal.querySelector("#time").textContent;
+  putServiceData.content.stats[1].value =
+    modal.querySelector("#anesthesia").textContent;
+  putServiceData.content.stats[2].value =
+    modal.querySelector("#periodicity").textContent;
+  putServiceData.content.stats[3].value =
+    modal.querySelector("#effect").textContent;
+  putServiceData.content.stats[4].value =
+    modal.querySelector("#course").textContent;
+  putServiceData.content.stats[5].value =
+    modal.querySelector("#drugs").textContent;
+  putServiceData.content.stats[5].title =
+    modal.querySelector("#drugs_p").textContent;
 
   putServiceData.content.textPlace = [];
   const textPlaceItemsHTML = modal.querySelectorAll(".main-text div");
@@ -618,11 +643,15 @@ modalBtnSave.addEventListener("click", () => {
 
       if (collection != null) {
         const newColl = {
-          title: modal.querySelector(`.modal__service-prices-menu-item button[data-filter-index="${i}"] p`).textContent,
+          title: modal.querySelector(
+            `.modal__service-prices-menu-item button[data-filter-index="${i}"] p`
+          ).textContent,
           items: [],
         };
 
-        for (let priceItem of document.querySelectorAll(`.modal__service-prices-content-item[data-filter-index="${i}"]`)) {
+        for (let priceItem of document.querySelectorAll(
+          `.modal__service-prices-content-item[data-filter-index="${i}"]`
+        )) {
           newColl.items.push(parsePriceItemToData(priceItem));
         }
 
@@ -633,10 +662,14 @@ modalBtnSave.addEventListener("click", () => {
     putServiceData.content.pricePlace.type = "only";
     putServiceData.content.pricePlace.value = [];
 
-    const filterIndex = currentServicePrices.indexOf(currentServicePrices.filter((el) => el != null)[0]);
+    const filterIndex = currentServicePrices.indexOf(
+      currentServicePrices.filter((el) => el != null)[0]
+    );
 
-    for (let item of modal.querySelectorAll(`.modal__service-prices-content-item[data-filter-index="${filterIndex}"]`)) {
-      putServiceData.content.pricePlace.value.push(parsePriceItemToData(item))
+    for (let item of modal.querySelectorAll(
+      `.modal__service-prices-content-item[data-filter-index="${filterIndex}"]`
+    )) {
+      putServiceData.content.pricePlace.value.push(parsePriceItemToData(item));
     }
   }
 
@@ -647,13 +680,19 @@ modalBtnSave.addEventListener("click", () => {
     };
 
     for (let imageItem of Object.entries(imageData)) {
-      if (imageItem[0] == "desktop_1_input") putServiceData.images.desktop.first = imageItem[1];
-      if (imageItem[0] == "desktop_2_input") putServiceData.images.desktop.second = imageItem[1];
-      if (imageItem[0] == "desktop_3_input") putServiceData.images.desktop.third = imageItem[1];
-      if (imageItem[0] == "mobile_1_input") putServiceData.images.mobile.first = imageItem[1];
-      if (imageItem[0] == "mobile_2_input") putServiceData.images.mobile.second = imageItem[1];
+      if (imageItem[0] == "desktop_1_input")
+        putServiceData.images.desktop.first = imageItem[1];
+      if (imageItem[0] == "desktop_2_input")
+        putServiceData.images.desktop.second = imageItem[1];
+      if (imageItem[0] == "desktop_3_input")
+        putServiceData.images.desktop.third = imageItem[1];
+      if (imageItem[0] == "mobile_1_input")
+        putServiceData.images.mobile.first = imageItem[1];
+      if (imageItem[0] == "mobile_2_input")
+        putServiceData.images.mobile.second = imageItem[1];
     }
   }
 
-  sendData("services-list", putServiceData);
+  if (!(!(Object.entries(imageData).length == 5) && currentService.id == "new"))
+    sendData("services-list", putServiceData);
 });

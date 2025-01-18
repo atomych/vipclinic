@@ -1031,14 +1031,16 @@ a.none-style {
 }
 
 .price__item {
-    width: 430px;
-    height: 500px;
+    width: 630px;
+    height: 700px;
     background-color: #fff;
     margin-right: 35px;
 }
 
 .price__doc {
-    width: 430px;
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 .price__item:last-child {

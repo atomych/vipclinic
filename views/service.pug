@@ -46,7 +46,6 @@ html(lang="ru")
           section.service-page__section.bg
             - const secondBg = 'background-image: url(' + service.images.desktop.second + ')';
             .service-page__photo(style=secondBg)
-              img(src=service.images.desktop.second)
             .service-page__text-content 
               each textItem in service.content.textPlace 
                 p.service-page__text-item !{textItem.text}

@@ -112,11 +112,13 @@ function sendData(type, data) {
 
 desktopStructSaveBtn.addEventListener("click", () => {
   //! Отправка данных на сервер
+  allImageData = allImageData.filter((el) => currentDesktopStructData.filter((el2) => el2.collection == el.collection)[0].lines[el.index] != null);
   sendData("services-dekstop-struct", { struct: currentDesktopStructData, images: allImageData });
 });
 
 mobileStructSaveBtn.addEventListener("click", () => {
   //! Отправка данных на сервер
+  allImageData = allImageData.filter((el) => currentMobileStructData.filter((el2) => el2.collection == el.collection)[0].items[el.cell] != null);
   sendData("services-mobile-struct", { struct: currentMobileStructData, images: allImageData });
 });
 

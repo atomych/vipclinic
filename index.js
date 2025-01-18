@@ -191,7 +191,7 @@ app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
   //
 
   //! Обработка запроса
-
+  console.log(req.body);
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
@@ -203,7 +203,7 @@ app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
   //
 
   //! Обработка запроса
-
+  console.log(req.body);
 
   //! Отправка ответа на клиент
   res.sendStatus(201);

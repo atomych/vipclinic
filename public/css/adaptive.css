@@ -333,7 +333,6 @@
 
     .price__doc {
         width: 330px;
-        height: 470px;
     }
 }
 
@@ -421,6 +420,24 @@
     .license {
         width: 210px;
         height: 300px;
+    }
+
+    .modal-open-window-main {
+        padding: 20px;
+        padding-top: 50px;
+    }
+
+    .modal-close-icon {
+        width: 30px;
+        height: 30px;
+
+        top: 10px;
+        right: 10px;
+    }
+
+    .modal-close-icon img {
+        width: 20px;
+        height: 20px;
     }
 }
 

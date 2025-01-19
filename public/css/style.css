@@ -11,6 +11,7 @@ html {
 body {
     width: 100%;
     overflow-x: hidden;
+    position: relative;
 }
 
 a:hover,
@@ -952,6 +953,10 @@ a.none-style {
     align-items: center;
 }
 
+.contacts__btns.contacts__btns--adaptive a {
+    width: 265px !important;
+}
+
 .contacts__btn {
     font-size: 0.88rem !important;
     line-height: 1 !important;
@@ -1031,18 +1036,69 @@ a.none-style {
 }
 
 .price__item {
-    width: 630px;
-    height: 700px;
+    width: 430px;
+    height: 600px;
     background-color: #fff;
     margin-right: 35px;
 }
 
 .price__doc {
     display: block;
-    max-width: 100%;
-    height: auto;
+    width: 430px;
+    cursor: pointer;
 }
 
 .price__item:last-child {
     margin-right: 0;
+}
+
+.btn.btn--price {
+    display: block;
+}
+
+.modal-open-window-main {
+    z-index: 100000;
+    background-color: #000000a4;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    padding: 50px;
+    padding-top: 100px;
+}
+
+.modal-close-icon {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+    width: 50px;
+    height: 50px;
+    background: none;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #000;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.modal-open-window-image {
+    max-width: 100%;
+    margin: 0 auto;
+    height: auto;
+    max-height: 90%;
+    display: block;
 }

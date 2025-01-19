@@ -15,7 +15,7 @@ let persons = require("./database/persons.json");
 let beforeAfter = require("./database/beforeAfter.json");
 let promotions = require("./database/promotions.json");
 let links = require("./database/links.json");
-let prices = require("./database/prices.json");
+let price = require("./database/price.json");
 
 function getRandomCode(length) {
   function getRandomNum(min, max) {
@@ -75,7 +75,7 @@ app.get("/", (req, res) => {
 app.get("/price", (req, res) => {
   res.render("price", {
     links: links,
-    prices: prices,
+    priceData: price,
   });
 });
 
@@ -128,7 +128,7 @@ app.get("/adminvip/tabs/promo", (req, res) => {
 });
 
 app.get("/adminvip/tabs/price", (req, res) => {
-  res.render("priceTab");
+  res.render("priceTab", { price: price });
 });
 
 app.get("/adminvip/tabs/links", (req, res) => {
@@ -165,6 +165,57 @@ app.get("/api/adminvip/services-short-info", (req, res) => {
 });
 
 //! Private API
+app.put("/private-api/adminvip/price" , (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  if (req.body.delete) {
+    //? Удаление акции
+    const deleteItem = price.filter((page) => page.id == req.body.id)[0];
+    fs.unlinkSync(`./public${deleteItem.url}`);
+    price = price.filter((page) => page.id != req.body.id);
+    //?..................
+  } else if (req.body.id == "new") {
+    //? Создание новой акции
+    const newID = getRandomCode(6);
+    const newImgName = getRandomCode(6);
+    const path = `/docs/prices/${newImgName}.${req.body.imageData.extension}`;
+    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+    price.push({
+      id: newID,
+      url: path,
+      order: req.body.order
+    });
+    //?..................
+  } else {
+    //? Остальные случаи
+    const currentPrice = price.filter((page) => page.id == req.body.id)[0];
+
+    if (req.body.imageData) {
+      const newImgName = getRandomCode(6);
+      const path = `/docs/prices/${newImgName}.${req.body.imageData.extension}`;
+      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+      fs.unlinkSync(`./public${currentPrice.url}`);
+      currentPrice.url = path;
+    }
+
+    if (req.body.order) {
+      currentPrice.order = req.body.order;
+    }
+    //?..................
+  }
+
+  //! Обновление файла
+  fs.writeFileSync("./database/price.json", JSON.stringify(price));
+  delete require.cache[require.resolve("./database/price.json")];
+  price = require("./database/price.json");
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+})
+
 app.put("/private-api/adminvip/links", (req, res) => {
   //! Проверка токена
   //

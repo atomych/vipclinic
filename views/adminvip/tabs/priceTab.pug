@@ -1,0 +1,38 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="robots" content="none")
+    title VIP CLINIC - Управление/Прайс
+    link(rel='stylesheet' href='/css/admin/tabs.css')
+    link(rel="stylesheet" href="/css/admin/fonts.css")
+    script
+  body 
+    .tab 
+      .tab__content 
+          button.add-new Добавить прайс-страницу
+          ul.default__list
+            each item in price
+              - const orderStyle = "order: " + item.order;
+              li.default__item(style=orderStyle)
+                img.img(src=item.url)
+                p.info(data-order=item.order) Приоритет: #{item.order}
+                .default__item-control 
+                  button.btn.edit(data-id=item.id) Редактировать
+                  button.btn.delete(data-id=item.id) Удалить
+      .tab-modal 
+        .tab-modal__window 
+          .tab-modal__content
+            .modal__img.price
+              img(src="")
+              button.modal__img-btn Изменить 
+              input(type="file" accept="image/png, image/jpeg", style="display: none")
+            .number
+              p.text Приоритет: 
+              .number-value(contenteditable="plaintext-only")
+            .modal__control 
+              button.save Сохранить
+              button.back Отменить
+    script(src="/js/admin/tabs/price.js")
+

@@ -503,6 +503,7 @@ addNewBtn.addEventListener("click", () => {
     "/images/placeholders/placeholderImg.png";
   modal.querySelector("#name").textContent = "Название";
   modal.querySelector("#shortInfo").textContent = "Краткое описание";
+  modal.querySelector("#drugs_p").textContent = "Косметика";
 
   currentService = {
     id: "new",

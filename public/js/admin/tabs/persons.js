@@ -79,8 +79,12 @@ function setContentLists(container, data, section) {
   }
 
   const addItemBtn = document.createElement("button");
+  const addItemBtnImg = document.createElement("img");
+  addItemBtnImg.src = "/images/icons/plus.png";
   addItemBtn.classList.add("btn", "add");
-  addItemBtn.textContent = "Добавить";
+  addItemBtn.style.marginRight = "0";
+  addItemBtn.style.marginLeft = "45px";
+  addItemBtn.appendChild(addItemBtnImg);
   modal.querySelector(container).parentElement.appendChild(addItemBtn);
 
   modal.querySelector(container).innerHTML = "";

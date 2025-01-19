@@ -55,7 +55,8 @@ body {
   display: flex;
 }
 
-.add-new {
+.add-new,
+.item-change {
   padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
@@ -74,7 +75,9 @@ body {
 }
 
 .add-new:hover,
-.add-new:focus {
+.add-new:focus,
+.item-change:hover,
+.item-change:focus {
   outline: none;
   background-color: #4F72A3;
   color: #fff;
@@ -203,7 +206,7 @@ body {
 
 .default__item .img {
   max-width: 400px;
-  height: auto;
+  max-height: 250px;
   display: block;
 }
 
@@ -341,7 +344,8 @@ body {
   max-width: max-content;
 }
 
-.modal__img.promo img {
+.modal__img.promo img,
+.modal__img.price img {
   max-width: 600px;
 }
 
@@ -604,9 +608,6 @@ body {
   margin-bottom: 10px;
 }
 
-.modal__person-text-section .btn.add,
-.modal__text .btn.add,
-.modal__service-prices-menu > button,
 .modal__service-prices-content > button,
 .desktop-struct-item-add-btn,
 .desktop-struct-content-control .add,
@@ -629,12 +630,6 @@ body {
   margin-left: 40px;
 }
 
-.modal__person-text-section .btn.add:hover,
-.modal__person-text-section .btn.add:focus,
-.modal__text .btn.add:focus,
-.modal__text .btn.add:hover,
-.modal__service-prices-menu > button:hover,
-.modal__service-prices-menu > button:focus,
 .modal__service-prices-content > button:hover,
 .modal__service-prices-content > button:focus,
 .desktop-struct-item-add-btn:hover,
@@ -659,6 +654,9 @@ body {
   margin-bottom: 10px;
 }
 
+.modal__service-prices-menu > button,
+.modal__service-prices-content-item .btn.add,
+.modal__text .btn.add,
 .content-li .delete,
 .modal__service-prices-menu-item .delete,
 .prices-item .delete,
@@ -666,7 +664,8 @@ body {
 .desktop-struct-line-control .delete,
 .desktop-struct-line-control .swap,
 .mobile-struct-line-control .delete,
-.mobile-struct-line-control .swap {
+.mobile-struct-line-control .swap,
+.modal__person-text-section .btn.add {
   margin-right: 10px;
   max-width: 40px;
   flex-grow: 1;
@@ -680,6 +679,14 @@ body {
   transition: all 0.2s linear;
 }
 
+.modal__service-prices-menu > button:hover,
+.modal__service-prices-menu > button:focus,
+.modal__service-prices-content-item .btn.add:hover,
+.modal__service-prices-content-item .btn.add:focus,
+.modal__text .btn.add:focus,
+.modal__text .btn.add:hover,
+.modal__person-text-section .btn.add:hover,
+.modal__person-text-section .btn.add:focus,
 .content-li .delete:focus,
 .content-li .delete:hover,
 .modal__service-prices-menu-item .delete:focus,
@@ -705,6 +712,10 @@ body {
   height: auto;
 }
 
+.modal__service-prices-menu > button img,
+.modal__service-prices-content-item .btn.add img,
+.modal__text .btn.add img,
+.modal__person-text-section .btn.add img,
 .content-li .delete img,
 .modal__service-prices-menu-item .delete img,
 .desktop-struct-line-control .delete img,
@@ -991,8 +1002,11 @@ body {
 }
 
 .item-change {
+  width: 100%;
   display: block;
   margin-top: auto;
+  margin-left: 0;
+  font-size: 1rem;
 }
 
 .struct-control {

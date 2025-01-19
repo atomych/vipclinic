@@ -230,8 +230,10 @@ function getModalPricesPlaceContentItem(data, filterIndex, orderIndex) {
   }
 
   const addPriceItemBtn = document.createElement("button");
-  addPriceItemBtn.classList.add("btn");
-  addPriceItemBtn.textContent = "Добавить";
+  const addItemBtnImg = document.createElement("img");
+  addItemBtnImg.src = "/images/icons/plus.png";
+  addPriceItemBtn.classList.add("btn", "add");
+  addPriceItemBtn.appendChild(addItemBtnImg);
   addPriceItemBtn.addEventListener("click", () => {
     const dataObj = {
       time: "время",
@@ -251,6 +253,8 @@ function getModalPricesPlaceContentItem(data, filterIndex, orderIndex) {
   priceContainer.appendChild(addPriceItemBtn);
 
   const deleteBtn = getDeleteBtnForLi();
+  deleteBtn.style.display = "block";
+  deleteBtn.style.marginTop = "auto";
   deleteBtn.addEventListener("click", () => {
     currentServicePrices[filterIndex].items[orderIndex] = null;
     const deleteItem = document.querySelector(
@@ -269,7 +273,13 @@ function getModalPricesPlaceContentItem(data, filterIndex, orderIndex) {
 
 function setAddBtnForPriceMenu(servicesMenuHTML, servicesPriceHTML) {
   const addMenuItemBtn = document.createElement("button");
-  addMenuItemBtn.textContent = "Добавить";
+  const addItemBtnImg = document.createElement("img");
+  addItemBtnImg.src = "/images/icons/plus.png";
+  addMenuItemBtn.classList.add("btn", "add");
+  addMenuItemBtn.style.marginRight = "0";
+  addMenuItemBtn.style.marginLeft = "40px";
+  addMenuItemBtn.style.marginBottom = "9px";
+  addMenuItemBtn.appendChild(addItemBtnImg);
   servicesMenuHTML.appendChild(addMenuItemBtn);
   addMenuItemBtn.addEventListener("click", () => {
     currentServicePrices.push({ title: "Новый раздел", items: [] });
@@ -331,8 +341,12 @@ function selectPricesContentSection(index) {
 
 function setAddTextItemInTextPlace(textPlaceList) {
   const addItemBtn = document.createElement("button");
+  const addItemBtnImg = document.createElement("img");
+  addItemBtnImg.src = "/images/icons/plus.png";
   addItemBtn.classList.add("btn", "add");
-  addItemBtn.textContent = "Добавить";
+  addItemBtn.style.marginRight = "0";
+  addItemBtn.style.marginLeft = "40px";
+  addItemBtn.appendChild(addItemBtnImg);
   textPlaceList.parentElement.appendChild(addItemBtn);
   addItemBtn.addEventListener("click", () => {
     currentService.content.textPlace.push({

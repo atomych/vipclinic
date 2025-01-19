@@ -191,7 +191,35 @@ app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
   //
 
   //! Обработка запроса
-  console.log(req.body);
+  const newDesktopStruct = req.body.struct;
+
+  for (let image of req.body.images) {
+    const newImageName = getRandomCode(6);
+    const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
+    writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
+    newDesktopStruct.filter((coll) => coll.collection == image.collection)[0].lines[image.index].bigBgUrl = newImagePath;
+  }
+
+  for (let collection of newDesktopStruct) {
+    collection.lines = collection.lines.filter((line) => line != null);
+  }
+
+
+
+  // fs.readdir('./public/images/main/services/', (err, files) => {
+  //   if (err)
+  //     console.log(err);
+  //   else {
+  //     files.forEach(file => {
+  //       console.log(file);
+  //     })
+  //   }
+  // })
+
+  //! Обновление файла
+  fs.writeFileSync("./database/services/servicesDesktopStruct.json", JSON.stringify(newDesktopStruct));
+  delete require.cache[require.resolve("./database/services/servicesDesktopStruct.json")];
+  servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
@@ -203,7 +231,23 @@ app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
   //
 
   //! Обработка запроса
-  console.log(req.body);
+  const newMobileStruct = req.body.struct;
+
+  for (let image of req.body.images) {
+    const newImageName = getRandomCode(6);
+    const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
+    writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
+    newMobileStruct.filter((coll) => coll.collection == image.collection)[0].items[image.cell].url = newImagePath;
+  }
+
+  for (let collection of newMobileStruct) {
+    collection.items = collection.items.filter((cell) => cell != null);
+  }
+
+  //! Обновление файла
+  fs.writeFileSync("./database/services/servicesMobileStruct.json", JSON.stringify(newMobileStruct));
+  delete require.cache[require.resolve("./database/services/servicesMobileStruct.json")];
+  servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
 
   //! Отправка ответа на клиент
   res.sendStatus(201);

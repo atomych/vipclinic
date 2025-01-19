@@ -113,12 +113,20 @@ function sendData(type, data) {
 desktopStructSaveBtn.addEventListener("click", () => {
   //! Отправка данных на сервер
   allImageData = allImageData.filter((el) => currentDesktopStructData.filter((el2) => el2.collection == el.collection)[0].lines[el.index] != null);
-  sendData("services-dekstop-struct", { struct: currentDesktopStructData, images: allImageData });
+  let result = true;
+
+  for (let item of allImageData) {
+    if (currentDesktopStructData[item.collection].lines[item.index].cells["big"] == "empty") result = false;
+  }
+
+  if (result) sendData("services-dekstop-struct", { struct: currentDesktopStructData, images: allImageData });
 });
 
 mobileStructSaveBtn.addEventListener("click", () => {
   //! Отправка данных на сервер
   allImageData = allImageData.filter((el) => currentMobileStructData.filter((el2) => el2.collection == el.collection)[0].items[el.cell] != null);
+  console.log(currentMobileStructData);
+  console.log(allImageData);
   sendData("services-mobile-struct", { struct: currentMobileStructData, images: allImageData });
 });
 

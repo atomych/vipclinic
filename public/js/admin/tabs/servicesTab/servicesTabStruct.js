@@ -334,8 +334,8 @@ function getChangeItemImg() {
   changeItemBtn.classList.add("item-change");
   changeItemBtn.textContent = "Изменить";
   changeItemBtn.addEventListener("click", () => {
-    desktopStructList.classList.remove("active");
-    setTimeout(() => desktopStructList.classList.add("active"), 100);
+    desktopStructList.classList.add("active");
+    window.scrollTo(0, 0);
     currentDesktopStructItem = changeItemBtn.parentElement;
   });
 
@@ -526,8 +526,8 @@ function getDefaultMobileItem(data) {
   changeItemBtn.classList.add("item-change");
   changeItemBtn.textContent = "Изменить";
   changeItemBtn.addEventListener("click", () => {
-    desktopStructList.classList.remove("active");
-    setTimeout(() => desktopStructList.classList.add("active"), 100);
+    desktopStructList.classList.add("active");
+    window.scrollTo(0, 0);
     currentMobileStructItem = changeItemBtn.parentElement;
   });
 

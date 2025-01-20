@@ -10,6 +10,7 @@ html(lang="ru")
     link(rel="shortcut icon" href="/images/favicons/icon.ico")
     link(rel='stylesheet' href='/css/admin/admin.css')
     link(rel='stylesheet' href='/css/admin/fonts.css')
+    script(src="/js/admin/isAuthLogin.js")
   body 
     .login
       .container 
@@ -25,5 +26,6 @@ html(lang="ru")
               input(type="password", class="form__input", name="password", id="password")
             .form__item.form__item--btn 
               input(type="submit", name="auth", id="auth", class="form__btn", value="Войти")
+    script(src="/js/admin/login.js")
          
 

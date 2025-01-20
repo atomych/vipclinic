@@ -23,7 +23,10 @@ function getRandomCode(length) {
   }
 
   let result = "";
-  const symbols = ["ABCDEFGHIJKabcdefghijklmnoLMNOPQRSTUVWXYZpqrstuvwxyz", "0123456789"];
+  const symbols = [
+    "ABCDEFGHIJKabcdefghijklmnoLMNOPQRSTUVWXYZpqrstuvwxyz",
+    "0123456789",
+  ];
 
   for (let i = 0; i < length; i++) {
     if (i == 0) {
@@ -38,8 +41,8 @@ function getRandomCode(length) {
 }
 
 function writeImageFile(dataUrl, path) {
-  const base64Image = dataUrl.split(';base64,').pop();
-  fs.writeFileSync(path, base64Image, {encoding: 'base64'});
+  const base64Image = dataUrl.split(";base64,").pop();
+  fs.writeFileSync(path, base64Image, { encoding: "base64" });
 }
 
 const app = express();
@@ -68,7 +71,7 @@ app.get("/", (req, res) => {
     servicesInfo: servicesInfo,
     servicesDesktopStructFrom: servicesDesktopStruct,
     servicesMobileStructFrom: servicesMobileStruct,
-    links: links
+    links: links,
   });
 });
 
@@ -139,6 +142,49 @@ app.get("/adminvip/tabs/stats", (req, res) => {
   res.render("statsTab");
 });
 
+app.get("/adminvip/tabs/settings", (req, res) => {
+  res.render("settingsTab");
+});
+
+//! Авторизация в админке
+app.post("/adminvip/auth", (req, res) => {
+  const adminDATA = JSON.parse(
+    fs.readFileSync("./database/admin.json", "utf-8")
+  );
+  const passMatch = bcrypt.compareSync(
+    req.body.password,
+    adminDATA.adminvip.passwordHash
+  );
+
+  if (passMatch && adminDATA.adminvip.login) {
+    const token = jwt.sign(
+      { login: adminDATA.adminvip.login },
+      adminDATA.adminvip.secretKey,
+      { expiresIn: "1h" }
+    );
+    res.send(JSON.stringify({ login: true, token: token }));
+  } else {
+    res.send(JSON.stringify({ login: false }));
+  }
+});
+
+app.post("/adminvip/is-auth", (req, res) => {
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
+    const adminDATA = JSON.parse(
+      fs.readFileSync("./database/admin.json", "utf-8")
+    );
+
+    jwt.verify(token, adminDATA.adminvip.secretKey, function (err, decoded) {
+      if (err) return res.send(JSON.stringify({ isAuth: false }));
+      if (decoded.login == adminDATA.adminvip.login) res.send(JSON.stringify({ isAuth: true }));
+      else res.send(JSON.stringify({ isAuth: false }));
+    });
+  } else {
+    res.send(JSON.stringify({ isAuth: false }));
+  }
+});
+
 //! Pubilc API
 app.get("/api/adminvip/person", (req, res) => {
   res.send(
@@ -165,7 +211,36 @@ app.get("/api/adminvip/services-short-info", (req, res) => {
 });
 
 //! Private API
-app.put("/private-api/adminvip/price" , (req, res) => {
+app.post("/private-api/adminvip/change-password", (req, res) => {
+  //! Проверка токена
+  //
+  //
+
+  //! Обработка запроса
+  const adminDATA = JSON.parse(
+    fs.readFileSync("./database/admin.json", "utf-8")
+  );
+  const oldPassMatch = bcrypt.compareSync(
+    req.body.old,
+    adminDATA.adminvip.passwordHash
+  );
+
+  if (oldPassMatch) {
+    const salt = bcrypt.genSaltSync(10);
+    const newPassHash = bcrypt.hashSync(req.body.new, salt);
+    adminDATA.adminvip.passwordHash = newPassHash;
+
+    fs.writeFileSync("./database/admin.json", JSON.stringify(adminDATA));
+    console.log("password changed!!!");
+  } else {
+    res.sendStatus(403);
+  }
+
+  //! Отправка ответа на клиент
+  res.sendStatus(201);
+});
+
+app.put("/private-api/adminvip/price", (req, res) => {
   //! Проверка токена
   //
   //
@@ -186,7 +261,7 @@ app.put("/private-api/adminvip/price" , (req, res) => {
     price.push({
       id: newID,
       url: path,
-      order: req.body.order
+      order: req.body.order,
     });
     //?..................
   } else {
@@ -214,7 +289,7 @@ app.put("/private-api/adminvip/price" , (req, res) => {
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/links", (req, res) => {
   //! Проверка токена
@@ -234,7 +309,7 @@ app.put("/private-api/adminvip/links", (req, res) => {
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
   //! Проверка токена
@@ -248,14 +323,14 @@ app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
     const newImageName = getRandomCode(6);
     const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
     writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
-    newDesktopStruct.filter((coll) => coll.collection == image.collection)[0].lines[image.index].bigBgUrl = newImagePath;
+    newDesktopStruct.filter(
+      (coll) => coll.collection == image.collection
+    )[0].lines[image.index].bigBgUrl = newImagePath;
   }
 
   for (let collection of newDesktopStruct) {
     collection.lines = collection.lines.filter((line) => line != null);
   }
-
-
 
   // fs.readdir('./public/images/main/services/', (err, files) => {
   //   if (err)
@@ -268,13 +343,18 @@ app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
   // })
 
   //! Обновление файла
-  fs.writeFileSync("./database/services/servicesDesktopStruct.json", JSON.stringify(newDesktopStruct));
-  delete require.cache[require.resolve("./database/services/servicesDesktopStruct.json")];
+  fs.writeFileSync(
+    "./database/services/servicesDesktopStruct.json",
+    JSON.stringify(newDesktopStruct)
+  );
+  delete require.cache[
+    require.resolve("./database/services/servicesDesktopStruct.json")
+  ];
   servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
   //! Проверка токена
@@ -288,7 +368,9 @@ app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
     const newImageName = getRandomCode(6);
     const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
     writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
-    newMobileStruct.filter((coll) => coll.collection == image.collection)[0].items[image.cell].url = newImagePath;
+    newMobileStruct.filter(
+      (coll) => coll.collection == image.collection
+    )[0].items[image.cell].url = newImagePath;
   }
 
   for (let collection of newMobileStruct) {
@@ -296,13 +378,18 @@ app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
   }
 
   //! Обновление файла
-  fs.writeFileSync("./database/services/servicesMobileStruct.json", JSON.stringify(newMobileStruct));
-  delete require.cache[require.resolve("./database/services/servicesMobileStruct.json")];
+  fs.writeFileSync(
+    "./database/services/servicesMobileStruct.json",
+    JSON.stringify(newMobileStruct)
+  );
+  delete require.cache[
+    require.resolve("./database/services/servicesMobileStruct.json")
+  ];
   servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/services-list", (req, res) => {
   //! Проверка токена
@@ -313,14 +400,26 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
   if (req.body.delete) {
     //? Удаление услуги
     services = services.filter((service) => service.id != req.body.id);
-    servicesInfo.collectionID = servicesInfo.collectionID.filter((el) => el != req.body.id);
-    servicesInfo.shortInfo = servicesInfo.shortInfo.filter((el) => el.id != req.body.id);
+    servicesInfo.collectionID = servicesInfo.collectionID.filter(
+      (el) => el != req.body.id
+    );
+    servicesInfo.shortInfo = servicesInfo.shortInfo.filter(
+      (el) => el.id != req.body.id
+    );
 
-    fs.rmSync(`./public/images/services/${req.body.id}`, { recursive: true, force: true });
+    fs.rmSync(`./public/images/services/${req.body.id}`, {
+      recursive: true,
+      force: true,
+    });
     fs.unlinkSync(`./database/services/collection/${req.body.id}.json`);
 
-    fs.writeFileSync("./database/services/servicesInfo.json", JSON.stringify(servicesInfo));
-    delete require.cache[require.resolve("./database/services/servicesInfo.json")];
+    fs.writeFileSync(
+      "./database/services/servicesInfo.json",
+      JSON.stringify(servicesInfo)
+    );
+    delete require.cache[
+      require.resolve("./database/services/servicesInfo.json")
+    ];
     servicesInfo = require("./database/services/servicesInfo.json");
     //?..................
   } else if (req.body.id == "new") {
@@ -344,33 +443,48 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
 
     newService.images = {
       desktop: {},
-      mobile: {}
+      mobile: {},
     };
     fs.mkdirSync(`./public/images/services/${newID}`);
 
     const desktopFirstImageName = getRandomCode(6);
     const dekstopFirstImagePath = `/images/services/${newID}/${desktopFirstImageName}.${req.body.images.desktop.first.extension}`;
-    writeImageFile(req.body.images.desktop.first.dataUrl, `./public${dekstopFirstImagePath}`);
+    writeImageFile(
+      req.body.images.desktop.first.dataUrl,
+      `./public${dekstopFirstImagePath}`
+    );
     newService.images.desktop.first = dekstopFirstImagePath;
 
     const desktopSecondImageName = getRandomCode(6);
     const dekstopSecondImagePath = `/images/services/${newID}/${desktopSecondImageName}.${req.body.images.desktop.second.extension}`;
-    writeImageFile(req.body.images.desktop.second.dataUrl, `./public${dekstopSecondImagePath}`);
+    writeImageFile(
+      req.body.images.desktop.second.dataUrl,
+      `./public${dekstopSecondImagePath}`
+    );
     newService.images.desktop.second = dekstopSecondImagePath;
 
     const desktopThirdImageName = getRandomCode(6);
     const dekstopThirdImagePath = `/images/services/${newID}/${desktopThirdImageName}.${req.body.images.desktop.third.extension}`;
-    writeImageFile(req.body.images.desktop.third.dataUrl, `./public${dekstopThirdImagePath}`);
+    writeImageFile(
+      req.body.images.desktop.third.dataUrl,
+      `./public${dekstopThirdImagePath}`
+    );
     newService.images.desktop.third = dekstopThirdImagePath;
 
     const mobileFirstImageName = getRandomCode(6);
     const mobileFirstImagePath = `/images/services/${newID}/${mobileFirstImageName}.${req.body.images.mobile.first.extension}`;
-    writeImageFile(req.body.images.mobile.first.dataUrl, `./public${mobileFirstImagePath}`);
+    writeImageFile(
+      req.body.images.mobile.first.dataUrl,
+      `./public${mobileFirstImagePath}`
+    );
     newService.images.mobile.first = mobileFirstImagePath;
 
     const mobileSecondImageName = getRandomCode(6);
     const mobileSecondImagePath = `/images/services/${newID}/${mobileSecondImageName}.${req.body.images.mobile.second.extension}`;
-    writeImageFile(req.body.images.mobile.second.dataUrl, `./public${mobileSecondImagePath}`);
+    writeImageFile(
+      req.body.images.mobile.second.dataUrl,
+      `./public${mobileSecondImagePath}`
+    );
     newService.images.mobile.second = mobileSecondImagePath;
 
     servicesInfo.collectionID.push(newID);
@@ -381,17 +495,27 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
       url: `/service?id=${newID}`,
     });
 
-    fs.writeFileSync("./database/services/servicesInfo.json", JSON.stringify(servicesInfo));
-    delete require.cache[require.resolve("./database/services/servicesInfo.json")];
+    fs.writeFileSync(
+      "./database/services/servicesInfo.json",
+      JSON.stringify(servicesInfo)
+    );
+    delete require.cache[
+      require.resolve("./database/services/servicesInfo.json")
+    ];
     servicesInfo = require("./database/services/servicesInfo.json");
 
-    fs.writeFileSync(`./database/services/collection/${newID}.json`, JSON.stringify(newService));
+    fs.writeFileSync(
+      `./database/services/collection/${newID}.json`,
+      JSON.stringify(newService)
+    );
     newService = require(`./database/services/collection/${newID}.json`);
     services.push(newService);
     //?..................
   } else {
     //? Остальные случаи
-    let currentService = services.filter((service) => service.id == req.body.id)[0];
+    let currentService = services.filter(
+      (service) => service.id == req.body.id
+    )[0];
 
     currentService.title = req.body.content.name;
     currentService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
@@ -407,55 +531,102 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
     if (req.body.images) {
       if (req.body.images.desktop.first) {
         fs.unlinkSync(`./public${currentService.images.desktop.first}`);
-        const newPath = currentService.images.desktop.first.split(".")[0] + "." + req.body.images.desktop.first.extension;
-        writeImageFile(req.body.images.desktop.first.dataUrl, `./public${newPath}`);
+        const newPath =
+          currentService.images.desktop.first.split(".")[0] +
+          "." +
+          req.body.images.desktop.first.extension;
+        writeImageFile(
+          req.body.images.desktop.first.dataUrl,
+          `./public${newPath}`
+        );
         currentService.images.desktop.first = newPath;
       }
 
       if (req.body.images.desktop.second) {
         fs.unlinkSync(`./public${currentService.images.desktop.second}`);
-        const newPath = currentService.images.desktop.second.split(".")[0] + "." + req.body.images.desktop.second.extension;
-        writeImageFile(req.body.images.desktop.second.dataUrl, `./public${newPath}`);
+        const newPath =
+          currentService.images.desktop.second.split(".")[0] +
+          "." +
+          req.body.images.desktop.second.extension;
+        writeImageFile(
+          req.body.images.desktop.second.dataUrl,
+          `./public${newPath}`
+        );
         currentService.images.desktop.second = newPath;
       }
 
       if (req.body.images.desktop.third) {
         fs.unlinkSync(`./public${currentService.images.desktop.third}`);
-        const newPath = currentService.images.desktop.third.split(".")[0] + "." + req.body.images.desktop.third.extension;
-        writeImageFile(req.body.images.desktop.third.dataUrl, `./public${newPath}`);
+        const newPath =
+          currentService.images.desktop.third.split(".")[0] +
+          "." +
+          req.body.images.desktop.third.extension;
+        writeImageFile(
+          req.body.images.desktop.third.dataUrl,
+          `./public${newPath}`
+        );
         currentService.images.desktop.third = newPath;
       }
 
       if (req.body.images.mobile.first) {
         fs.unlinkSync(`./public${currentService.images.mobile.first}`);
-        const newPath = currentService.images.mobile.first.split(".")[0] + "." + req.body.images.mobile.first.extension;
-        writeImageFile(req.body.images.mobile.first.dataUrl, `./public${newPath}`);
+        const newPath =
+          currentService.images.mobile.first.split(".")[0] +
+          "." +
+          req.body.images.mobile.first.extension;
+        writeImageFile(
+          req.body.images.mobile.first.dataUrl,
+          `./public${newPath}`
+        );
         currentService.images.mobile.first = newPath;
       }
 
       if (req.body.images.mobile.second) {
         fs.unlinkSync(`./public${currentService.images.mobile.second}`);
-        const newPath = currentService.images.mobile.second.split(".")[0] + "." + req.body.images.mobile.second.extension;
-        writeImageFile(req.body.images.mobile.second.dataUrl, `./public${newPath}`);
+        const newPath =
+          currentService.images.mobile.second.split(".")[0] +
+          "." +
+          req.body.images.mobile.second.extension;
+        writeImageFile(
+          req.body.images.mobile.second.dataUrl,
+          `./public${newPath}`
+        );
         currentService.images.mobile.second = newPath;
       }
     }
 
     services = services.filter((service) => service != currentService);
-    fs.writeFileSync(`./database/services/collection/${currentService.id}.json`, JSON.stringify(currentService));
-    delete require.cache[require.resolve(`./database/services/collection/${currentService.id}.json`)];
+    fs.writeFileSync(
+      `./database/services/collection/${currentService.id}.json`,
+      JSON.stringify(currentService)
+    );
+    delete require.cache[
+      require.resolve(
+        `./database/services/collection/${currentService.id}.json`
+      )
+    ];
     currentService = require(`./database/services/collection/${currentService.id}.json`);
     services.push(currentService);
     services.sort((a, b) => {
-       return servicesInfo.collectionID.indexOf(a) - servicesInfo.collectionID.indexOf(b);
+      return (
+        servicesInfo.collectionID.indexOf(a) -
+        servicesInfo.collectionID.indexOf(b)
+      );
     });
 
-    const currentShort = servicesInfo.shortInfo.filter((el) => el.id == req.body.id)[0];
+    const currentShort = servicesInfo.shortInfo.filter(
+      (el) => el.id == req.body.id
+    )[0];
     currentShort.name = req.body.content.name;
     currentShort.descryption = req.body.shortInfoValue;
 
-    fs.writeFileSync("./database/services/servicesInfo.json", JSON.stringify(servicesInfo));
-    delete require.cache[require.resolve("./database/services/servicesInfo.json")];
+    fs.writeFileSync(
+      "./database/services/servicesInfo.json",
+      JSON.stringify(servicesInfo)
+    );
+    delete require.cache[
+      require.resolve("./database/services/servicesInfo.json")
+    ];
     servicesInfo = require("./database/services/servicesInfo.json");
 
     //?..................
@@ -463,7 +634,7 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/persons", (req, res) => {
   //! Проверка токена
@@ -478,10 +649,15 @@ app.put("/private-api/adminvip/persons", (req, res) => {
     persons = persons.filter((el) => el.id != req.body.id);
 
     for (let beforeAfterElement of beforeAfter) {
-      beforeAfterElement.persons = beforeAfterElement.persons.filter((el) => el != req.body.id);
+      beforeAfterElement.persons = beforeAfterElement.persons.filter(
+        (el) => el != req.body.id
+      );
     }
 
-    fs.writeFileSync("./database/beforeAfter.json", JSON.stringify(beforeAfter));
+    fs.writeFileSync(
+      "./database/beforeAfter.json",
+      JSON.stringify(beforeAfter)
+    );
     delete require.cache[require.resolve("./database/beforeAfter.json")];
     beforeAfter = require("./database/beforeAfter.json");
     //?..................
@@ -491,8 +667,9 @@ app.put("/private-api/adminvip/persons", (req, res) => {
     const newImgName = getRandomCode(6);
     const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
     writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-    
-    const fullName = req.body.content.secondname + " " + req.body.content.firstname;
+
+    const fullName =
+      req.body.content.secondname + " " + req.body.content.firstname;
     const newObj = {
       id: newID,
       title: fullName,
@@ -524,7 +701,8 @@ app.put("/private-api/adminvip/persons", (req, res) => {
     currentElement.content.firstname = req.body.content.firstname;
     currentElement.content.secondname = req.body.content.secondname;
     currentElement.content.profession = req.body.content.profession;
-    currentElement.content.fullname = req.body.content.secondname + " " + req.body.content.firstname;
+    currentElement.content.fullname =
+      req.body.content.secondname + " " + req.body.content.firstname;
 
     currentElement.title = currentElement.content.fullname;
     currentElement.description = `${req.body.content.profession} | ${currentElement.content.fullname}`;
@@ -539,7 +717,7 @@ app.put("/private-api/adminvip/persons", (req, res) => {
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/before-after", (req, res) => {
   //! Проверка токена
@@ -555,16 +733,16 @@ app.put("/private-api/adminvip/before-after", (req, res) => {
     //?..................
   } else if (req.body.id == "new") {
     //? Создание новой записи
-      const newID = getRandomCode(6);
-      const newImgName = getRandomCode(6);
-      const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
-      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-      beforeAfter.push({
-        id: newID,
-        url: path,
-        text: req.body.text,
-        persons: req.body.persons,
-      });
+    const newID = getRandomCode(6);
+    const newImgName = getRandomCode(6);
+    const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
+    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+    beforeAfter.push({
+      id: newID,
+      url: path,
+      text: req.body.text,
+      persons: req.body.persons,
+    });
     //?..................
   } else {
     //? Остальные случаи
@@ -595,7 +773,7 @@ app.put("/private-api/adminvip/before-after", (req, res) => {
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.put("/private-api/adminvip/promo", (req, res) => {
   //! Проверка токена
@@ -618,12 +796,14 @@ app.put("/private-api/adminvip/promo", (req, res) => {
     promotions.push({
       id: newID,
       url: path,
-      order: req.body.order
+      order: req.body.order,
     });
     //?..................
   } else {
     //? Остальные случаи
-    const currentPromo = promotions.filter((promo) => promo.id == req.body.id)[0];
+    const currentPromo = promotions.filter(
+      (promo) => promo.id == req.body.id
+    )[0];
 
     if (req.body.imageData) {
       const newImgName = getRandomCode(6);
@@ -646,6 +826,6 @@ app.put("/private-api/adminvip/promo", (req, res) => {
 
   //! Отправка ответа на клиент
   res.sendStatus(201);
-})
+});
 
 app.listen(port);

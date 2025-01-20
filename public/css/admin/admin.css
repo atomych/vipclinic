@@ -132,7 +132,8 @@ a.none-style {
 .form__btn:not(.disabled):focus,
 .form__btn:not(.disabled):hover {
   opacity: 1;
-  background-color: #f3f6fa;
+  background-color: #4F72A3;
+  color: #fff;
 }
 
 /* 

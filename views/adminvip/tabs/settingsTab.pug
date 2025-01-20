@@ -1,0 +1,25 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name="robots" content="none")
+    title VIP CLINIC - Управление/Настройки
+    link(rel='stylesheet' href='/css/admin/tabs.css')
+    link(rel="stylesheet" href="/css/admin/fonts.css")
+    script
+  body 
+    .tab 
+      .tab__content 
+        ul.default__list
+          li.default__item
+            p.info Старый пароль: 
+            input#oldPass(class="default__item-input", type="password")
+          li.default__item
+            p.info Новый пароль: 
+            input#newPass1(class="default__item-input", type="password")
+          li.default__item
+            p.info Повторите новый пароль: 
+            input#newPass2(class="default__item-input", type="password")
+          button.btn.save Сохранить
+    script(src="/js/admin/tabs/settings.js")

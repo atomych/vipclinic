@@ -255,8 +255,7 @@ addNewBtn.addEventListener("click", () => {
 });
 
 modalBtnBack.addEventListener("click", () => {
-  hideModal();
-  currentPerson = {};
+  location.reload();
 });
 
 modalBtnSave.addEventListener("click", () => {

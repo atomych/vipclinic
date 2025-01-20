@@ -337,7 +337,6 @@ function getChangeItemImg() {
   changeItemBtn.textContent = "Изменить";
   changeItemBtn.addEventListener("click", () => {
     desktopStructList.classList.add("active");
-    window.scrollTo(0, 0);
     currentDesktopStructItem = changeItemBtn.parentElement;
   });
 
@@ -529,7 +528,6 @@ function getDefaultMobileItem(data) {
   changeItemBtn.textContent = "Изменить";
   changeItemBtn.addEventListener("click", () => {
     desktopStructList.classList.add("active");
-    window.scrollTo(0, 0);
     currentMobileStructItem = changeItemBtn.parentElement;
   });
 

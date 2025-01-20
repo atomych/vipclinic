@@ -1026,10 +1026,9 @@ body {
 
   background-color: #00000099;
   padding: 20px;
-  border-radius: 5px;
 
   transition: all 0.2s linear;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -1114,7 +1113,7 @@ body {
   min-width: 300px;
   background-color: #fff;
 }
-  
+
 .default__item-input {
   font-family: "Roboto-Regular", serif;
   font-weight: 400;

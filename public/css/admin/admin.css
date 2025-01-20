@@ -222,7 +222,7 @@ a.none-style {
 .panel__tab iframe {
   width: 100%;
   min-height: 99vh;
-  max-height: max-content;
+  max-height: 100vh;
 }
 
 /* 

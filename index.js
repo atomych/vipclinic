@@ -138,10 +138,6 @@ app.get("/adminvip/tabs/links", (req, res) => {
   res.render("linksTab", links);
 });
 
-app.get("/adminvip/tabs/stats", (req, res) => {
-  res.render("statsTab");
-});
-
 app.get("/adminvip/tabs/settings", (req, res) => {
   res.render("settingsTab");
 });

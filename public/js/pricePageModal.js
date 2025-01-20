@@ -31,4 +31,7 @@ for (let priceDoc of priceDocs) {
     document.body.classList.add("no-scroll");
     document.body.appendChild(modal);
   });
+
+  priceDoc.parentElement.querySelector(".price__item-before").addEventListener("click", () => priceDoc.click());
+  priceDoc.parentElement.querySelector(".price__item-after").addEventListener("click", () => priceDoc.click());
 }

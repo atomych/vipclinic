@@ -583,11 +583,7 @@ addNewBtn.addEventListener("click", () => {
 });
 
 modalBtnBack.addEventListener("click", () => {
-  currentService = {};
-  currentServicePrices = [];
-  activeServicePricesSection = 0;
-  imageData = {};
-  hideModal();
+  location.reload();
 });
 
 function parsePriceItemToData(item) {

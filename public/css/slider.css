@@ -4,6 +4,10 @@
   padding: 10px 20px;
 }
 
+.slider-list {
+  overflow-x: hidden !important;
+}
+
 .slider-arrow {
   background: #BFB9AD url("../images/icons/slider-arrow.svg") 40% center no-repeat;
   background-size: 20px;

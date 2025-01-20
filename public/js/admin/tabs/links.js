@@ -1,4 +1,5 @@
 const saveBtn = document.querySelector(".btn.save");
+const token = localStorage.getItem("VIPCLINIC-ADMINVIP-TOKEN");
 
 saveBtn.addEventListener("click", () => {
   const putLinksData = {social: {}};
@@ -12,7 +13,7 @@ saveBtn.addEventListener("click", () => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${"free-token"}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(putLinksData),
   }).then((res) => {

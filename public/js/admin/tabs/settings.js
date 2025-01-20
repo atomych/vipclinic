@@ -9,11 +9,13 @@ document.querySelector(".btn.save").addEventListener("click", () => {
       new: newPass
     };
 
+    const token = localStorage.getItem("VIPCLINIC-ADMINVIP-TOKEN");
+
     fetch("/private-api/adminvip/change-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${"free-token"}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     }).then((res) => {

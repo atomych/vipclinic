@@ -147,6 +147,23 @@ app.get("/adminvip/tabs/settings", (req, res) => {
 });
 
 //! Авторизация в админке
+function verifyTokenSync(token) {
+  const adminDATA = JSON.parse(
+    fs.readFileSync("./database/admin.json", "utf-8")
+  );
+
+  try {
+    const decoded = jwt.verify(token, adminDATA.adminvip.secretKey);
+    if (decoded.login == adminDATA.adminvip.login) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
+}
+
 app.post("/adminvip/auth", (req, res) => {
   const adminDATA = JSON.parse(
     fs.readFileSync("./database/admin.json", "utf-8")
@@ -177,7 +194,8 @@ app.post("/adminvip/is-auth", (req, res) => {
 
     jwt.verify(token, adminDATA.adminvip.secretKey, function (err, decoded) {
       if (err) return res.send(JSON.stringify({ isAuth: false }));
-      if (decoded.login == adminDATA.adminvip.login) res.send(JSON.stringify({ isAuth: true }));
+      if (decoded.login == adminDATA.adminvip.login)
+        res.send(JSON.stringify({ isAuth: true }));
       else res.send(JSON.stringify({ isAuth: false }));
     });
   } else {
@@ -212,620 +230,679 @@ app.get("/api/adminvip/services-short-info", (req, res) => {
 
 //! Private API
 app.post("/private-api/adminvip/change-password", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  const adminDATA = JSON.parse(
-    fs.readFileSync("./database/admin.json", "utf-8")
-  );
-  const oldPassMatch = bcrypt.compareSync(
-    req.body.old,
-    adminDATA.adminvip.passwordHash
-  );
+    if (verifyTokenSync(token)) {
+      const adminDATA = JSON.parse(
+        fs.readFileSync("./database/admin.json", "utf-8")
+      );
+      const oldPassMatch = bcrypt.compareSync(
+        req.body.old,
+        adminDATA.adminvip.passwordHash
+      );
 
-  if (oldPassMatch) {
-    const salt = bcrypt.genSaltSync(10);
-    const newPassHash = bcrypt.hashSync(req.body.new, salt);
-    adminDATA.adminvip.passwordHash = newPassHash;
+      if (oldPassMatch) {
+        const salt = bcrypt.genSaltSync(10);
+        const newPassHash = bcrypt.hashSync(req.body.new, salt);
+        adminDATA.adminvip.passwordHash = newPassHash;
 
-    fs.writeFileSync("./database/admin.json", JSON.stringify(adminDATA));
-    console.log("password changed!!!");
+        fs.writeFileSync("./database/admin.json", JSON.stringify(adminDATA));
+        console.log("password changed!!!");
+      } else {
+        res.sendStatus(403);
+      }
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
   } else {
     res.sendStatus(403);
   }
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/price", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  if (req.body.delete) {
-    //? Удаление акции
-    const deleteItem = price.filter((page) => page.id == req.body.id)[0];
-    fs.unlinkSync(`./public${deleteItem.url}`);
-    price = price.filter((page) => page.id != req.body.id);
-    //?..................
-  } else if (req.body.id == "new") {
-    //? Создание новой акции
-    const newID = getRandomCode(6);
-    const newImgName = getRandomCode(6);
-    const path = `/docs/prices/${newImgName}.${req.body.imageData.extension}`;
-    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-    price.push({
-      id: newID,
-      url: path,
-      order: req.body.order,
-    });
-    //?..................
+    if (verifyTokenSync(token)) {
+      if (req.body.delete) {
+        //? Удаление акции
+        const deleteItem = price.filter((page) => page.id == req.body.id)[0];
+        fs.unlinkSync(`./public${deleteItem.url}`);
+        price = price.filter((page) => page.id != req.body.id);
+        //?..................
+      } else if (req.body.id == "new") {
+        //? Создание новой акции
+        const newID = getRandomCode(6);
+        const newImgName = getRandomCode(6);
+        const path = `/docs/prices/${newImgName}.${req.body.imageData.extension}`;
+        writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+        price.push({
+          id: newID,
+          url: path,
+          order: req.body.order,
+        });
+        //?..................
+      } else {
+        //? Остальные случаи
+        const currentPrice = price.filter((page) => page.id == req.body.id)[0];
+
+        if (req.body.imageData) {
+          const newImgName = getRandomCode(6);
+          const path = `/docs/prices/${newImgName}.${req.body.imageData.extension}`;
+          writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+          fs.unlinkSync(`./public${currentPrice.url}`);
+          currentPrice.url = path;
+        }
+
+        if (req.body.order) {
+          currentPrice.order = req.body.order;
+        }
+        //?..................
+      }
+
+      //! Обновление файла
+      fs.writeFileSync("./database/price.json", JSON.stringify(price));
+      delete require.cache[require.resolve("./database/price.json")];
+      price = require("./database/price.json");
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
   } else {
-    //? Остальные случаи
-    const currentPrice = price.filter((page) => page.id == req.body.id)[0];
-
-    if (req.body.imageData) {
-      const newImgName = getRandomCode(6);
-      const path = `/docs/prices/${newImgName}.${req.body.imageData.extension}`;
-      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-      fs.unlinkSync(`./public${currentPrice.url}`);
-      currentPrice.url = path;
-    }
-
-    if (req.body.order) {
-      currentPrice.order = req.body.order;
-    }
-    //?..................
+    res.sendStatus(403);
   }
-
-  //! Обновление файла
-  fs.writeFileSync("./database/price.json", JSON.stringify(price));
-  delete require.cache[require.resolve("./database/price.json")];
-  price = require("./database/price.json");
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/links", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  links.yclients = req.body.yclients;
-  links.social.phone = req.body.social.phone;
-  links.social.wa = req.body.social.wa;
-  links.social.tg = req.body.social.tg;
+    if (verifyTokenSync(token)) {
+      links.yclients = req.body.yclients;
+      links.social.phone = req.body.social.phone;
+      links.social.wa = req.body.social.wa;
+      links.social.tg = req.body.social.tg;
 
-  //! Обновление файла
-  fs.writeFileSync("./database/links.json", JSON.stringify(links));
-  delete require.cache[require.resolve("./database/links.json")];
-  links = require("./database/links.json");
+      fs.writeFileSync("./database/links.json", JSON.stringify(links));
+      delete require.cache[require.resolve("./database/links.json")];
+      links = require("./database/links.json");
 
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 app.put("/private-api/adminvip/services-dekstop-struct", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  const newDesktopStruct = req.body.struct;
+    if (verifyTokenSync(token)) {
+      //! Обработка запроса
+      const newDesktopStruct = req.body.struct;
 
-  for (let image of req.body.images) {
-    const newImageName = getRandomCode(6);
-    const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
-    writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
-    newDesktopStruct.filter(
-      (coll) => coll.collection == image.collection
-    )[0].lines[image.index].bigBgUrl = newImagePath;
+      for (let image of req.body.images) {
+        const newImageName = getRandomCode(6);
+        const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
+        writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
+        newDesktopStruct.filter(
+          (coll) => coll.collection == image.collection
+        )[0].lines[image.index].bigBgUrl = newImagePath;
+      }
+
+      for (let collection of newDesktopStruct) {
+        collection.lines = collection.lines.filter((line) => line != null);
+      }
+
+      // fs.readdir('./public/images/main/services/', (err, files) => {
+      //   if (err)
+      //     console.log(err);
+      //   else {
+      //     files.forEach(file => {
+      //       console.log(file);
+      //     })
+      //   }
+      // })
+
+      //! Обновление файла
+      fs.writeFileSync(
+        "./database/services/servicesDesktopStruct.json",
+        JSON.stringify(newDesktopStruct)
+      );
+      delete require.cache[
+        require.resolve("./database/services/servicesDesktopStruct.json")
+      ];
+      servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
+  } else {
+    res.sendStatus(403);
   }
-
-  for (let collection of newDesktopStruct) {
-    collection.lines = collection.lines.filter((line) => line != null);
-  }
-
-  // fs.readdir('./public/images/main/services/', (err, files) => {
-  //   if (err)
-  //     console.log(err);
-  //   else {
-  //     files.forEach(file => {
-  //       console.log(file);
-  //     })
-  //   }
-  // })
-
-  //! Обновление файла
-  fs.writeFileSync(
-    "./database/services/servicesDesktopStruct.json",
-    JSON.stringify(newDesktopStruct)
-  );
-  delete require.cache[
-    require.resolve("./database/services/servicesDesktopStruct.json")
-  ];
-  servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/services-mobile-struct", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  const newMobileStruct = req.body.struct;
+    if (verifyTokenSync(token)) {
+      //! Обработка запроса
+      const newMobileStruct = req.body.struct;
 
-  for (let image of req.body.images) {
-    const newImageName = getRandomCode(6);
-    const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
-    writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
-    newMobileStruct.filter(
-      (coll) => coll.collection == image.collection
-    )[0].items[image.cell].url = newImagePath;
+      for (let image of req.body.images) {
+        const newImageName = getRandomCode(6);
+        const newImagePath = `/images/main/services/${newImageName}.${image.imageData.extension}`;
+        writeImageFile(image.imageData.dataUrl, `./public${newImagePath}`);
+        newMobileStruct.filter(
+          (coll) => coll.collection == image.collection
+        )[0].items[image.cell].url = newImagePath;
+      }
+
+      for (let collection of newMobileStruct) {
+        collection.items = collection.items.filter((cell) => cell != null);
+      }
+
+      //! Обновление файла
+      fs.writeFileSync(
+        "./database/services/servicesMobileStruct.json",
+        JSON.stringify(newMobileStruct)
+      );
+      delete require.cache[
+        require.resolve("./database/services/servicesMobileStruct.json")
+      ];
+      servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
+  } else {
+    res.sendStatus(403);
   }
-
-  for (let collection of newMobileStruct) {
-    collection.items = collection.items.filter((cell) => cell != null);
-  }
-
-  //! Обновление файла
-  fs.writeFileSync(
-    "./database/services/servicesMobileStruct.json",
-    JSON.stringify(newMobileStruct)
-  );
-  delete require.cache[
-    require.resolve("./database/services/servicesMobileStruct.json")
-  ];
-  servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/services-list", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  if (req.body.delete) {
-    //? Удаление услуги
-    services = services.filter((service) => service.id != req.body.id);
-    servicesInfo.collectionID = servicesInfo.collectionID.filter(
-      (el) => el != req.body.id
-    );
-    servicesInfo.shortInfo = servicesInfo.shortInfo.filter(
-      (el) => el.id != req.body.id
-    );
+    if (verifyTokenSync(token)) {
+      //! Обработка запроса
+      if (req.body.delete) {
+        //? Удаление услуги
+        services = services.filter((service) => service.id != req.body.id);
+        servicesInfo.collectionID = servicesInfo.collectionID.filter(
+          (el) => el != req.body.id
+        );
+        servicesInfo.shortInfo = servicesInfo.shortInfo.filter(
+          (el) => el.id != req.body.id
+        );
 
-    fs.rmSync(`./public/images/services/${req.body.id}`, {
-      recursive: true,
-      force: true,
-    });
-    fs.unlinkSync(`./database/services/collection/${req.body.id}.json`);
+        fs.rmSync(`./public/images/services/${req.body.id}`, {
+          recursive: true,
+          force: true,
+        });
+        fs.unlinkSync(`./database/services/collection/${req.body.id}.json`);
 
-    fs.writeFileSync(
-      "./database/services/servicesInfo.json",
-      JSON.stringify(servicesInfo)
-    );
-    delete require.cache[
-      require.resolve("./database/services/servicesInfo.json")
-    ];
-    servicesInfo = require("./database/services/servicesInfo.json");
-    //?..................
-  } else if (req.body.id == "new") {
-    //? Добавление новой услуги
-    let newService = {};
-    const newID = getRandomCode(6);
+        fs.writeFileSync(
+          "./database/services/servicesInfo.json",
+          JSON.stringify(servicesInfo)
+        );
+        delete require.cache[
+          require.resolve("./database/services/servicesInfo.json")
+        ];
+        servicesInfo = require("./database/services/servicesInfo.json");
+        //?..................
+      } else if (req.body.id == "new") {
+        //? Добавление новой услуги
+        let newService = {};
+        const newID = getRandomCode(6);
 
-    newService.id = newID;
-    newService.title = req.body.content.name;
-    newService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
-    newService.keywords = req.body.shortInfoValue;
-    newService.url = `https://vipclinicspb.ru/service?id=${newID}`;
+        newService.id = newID;
+        newService.title = req.body.content.name;
+        newService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
+        newService.keywords = req.body.shortInfoValue;
+        newService.url = `https://vipclinicspb.ru/service?id=${newID}`;
 
-    newService.content = {};
-    newService.content.name = req.body.content.name;
-    newService.content.preName = req.body.content.name;
-    newService.content.noneLast = req.body.content.noneLast;
-    newService.content.stats = req.body.content.stats;
-    newService.content.textPlace = req.body.content.textPlace;
-    newService.content.pricePlace = req.body.content.pricePlace;
+        newService.content = {};
+        newService.content.name = req.body.content.name;
+        newService.content.preName = req.body.content.name;
+        newService.content.noneLast = req.body.content.noneLast;
+        newService.content.stats = req.body.content.stats;
+        newService.content.textPlace = req.body.content.textPlace;
+        newService.content.pricePlace = req.body.content.pricePlace;
 
-    newService.images = {
-      desktop: {},
-      mobile: {},
-    };
-    fs.mkdirSync(`./public/images/services/${newID}`);
+        newService.images = {
+          desktop: {},
+          mobile: {},
+        };
+        fs.mkdirSync(`./public/images/services/${newID}`);
 
-    const desktopFirstImageName = getRandomCode(6);
-    const dekstopFirstImagePath = `/images/services/${newID}/${desktopFirstImageName}.${req.body.images.desktop.first.extension}`;
-    writeImageFile(
-      req.body.images.desktop.first.dataUrl,
-      `./public${dekstopFirstImagePath}`
-    );
-    newService.images.desktop.first = dekstopFirstImagePath;
-
-    const desktopSecondImageName = getRandomCode(6);
-    const dekstopSecondImagePath = `/images/services/${newID}/${desktopSecondImageName}.${req.body.images.desktop.second.extension}`;
-    writeImageFile(
-      req.body.images.desktop.second.dataUrl,
-      `./public${dekstopSecondImagePath}`
-    );
-    newService.images.desktop.second = dekstopSecondImagePath;
-
-    const desktopThirdImageName = getRandomCode(6);
-    const dekstopThirdImagePath = `/images/services/${newID}/${desktopThirdImageName}.${req.body.images.desktop.third.extension}`;
-    writeImageFile(
-      req.body.images.desktop.third.dataUrl,
-      `./public${dekstopThirdImagePath}`
-    );
-    newService.images.desktop.third = dekstopThirdImagePath;
-
-    const mobileFirstImageName = getRandomCode(6);
-    const mobileFirstImagePath = `/images/services/${newID}/${mobileFirstImageName}.${req.body.images.mobile.first.extension}`;
-    writeImageFile(
-      req.body.images.mobile.first.dataUrl,
-      `./public${mobileFirstImagePath}`
-    );
-    newService.images.mobile.first = mobileFirstImagePath;
-
-    const mobileSecondImageName = getRandomCode(6);
-    const mobileSecondImagePath = `/images/services/${newID}/${mobileSecondImageName}.${req.body.images.mobile.second.extension}`;
-    writeImageFile(
-      req.body.images.mobile.second.dataUrl,
-      `./public${mobileSecondImagePath}`
-    );
-    newService.images.mobile.second = mobileSecondImagePath;
-
-    servicesInfo.collectionID.push(newID);
-    servicesInfo.shortInfo.push({
-      id: newID,
-      name: req.body.content.name,
-      descryption: req.body.shortInfoValue,
-      url: `/service?id=${newID}`,
-    });
-
-    fs.writeFileSync(
-      "./database/services/servicesInfo.json",
-      JSON.stringify(servicesInfo)
-    );
-    delete require.cache[
-      require.resolve("./database/services/servicesInfo.json")
-    ];
-    servicesInfo = require("./database/services/servicesInfo.json");
-
-    fs.writeFileSync(
-      `./database/services/collection/${newID}.json`,
-      JSON.stringify(newService)
-    );
-    newService = require(`./database/services/collection/${newID}.json`);
-    services.push(newService);
-    //?..................
-  } else {
-    //? Остальные случаи
-    let currentService = services.filter(
-      (service) => service.id == req.body.id
-    )[0];
-
-    currentService.title = req.body.content.name;
-    currentService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
-    currentService.keywords = req.body.shortInfoValue;
-
-    currentService.content.name = req.body.content.name;
-    currentService.content.preName = req.body.content.name;
-    currentService.content.noneLast = req.body.content.noneLast;
-    currentService.content.stats = req.body.content.stats;
-    currentService.content.textPlace = req.body.content.textPlace;
-    currentService.content.pricePlace = req.body.content.pricePlace;
-
-    if (req.body.images) {
-      if (req.body.images.desktop.first) {
-        fs.unlinkSync(`./public${currentService.images.desktop.first}`);
-        const newPath =
-          currentService.images.desktop.first.split(".")[0] +
-          "." +
-          req.body.images.desktop.first.extension;
+        const desktopFirstImageName = getRandomCode(6);
+        const dekstopFirstImagePath = `/images/services/${newID}/${desktopFirstImageName}.${req.body.images.desktop.first.extension}`;
         writeImageFile(
           req.body.images.desktop.first.dataUrl,
-          `./public${newPath}`
+          `./public${dekstopFirstImagePath}`
         );
-        currentService.images.desktop.first = newPath;
-      }
+        newService.images.desktop.first = dekstopFirstImagePath;
 
-      if (req.body.images.desktop.second) {
-        fs.unlinkSync(`./public${currentService.images.desktop.second}`);
-        const newPath =
-          currentService.images.desktop.second.split(".")[0] +
-          "." +
-          req.body.images.desktop.second.extension;
+        const desktopSecondImageName = getRandomCode(6);
+        const dekstopSecondImagePath = `/images/services/${newID}/${desktopSecondImageName}.${req.body.images.desktop.second.extension}`;
         writeImageFile(
           req.body.images.desktop.second.dataUrl,
-          `./public${newPath}`
+          `./public${dekstopSecondImagePath}`
         );
-        currentService.images.desktop.second = newPath;
-      }
+        newService.images.desktop.second = dekstopSecondImagePath;
 
-      if (req.body.images.desktop.third) {
-        fs.unlinkSync(`./public${currentService.images.desktop.third}`);
-        const newPath =
-          currentService.images.desktop.third.split(".")[0] +
-          "." +
-          req.body.images.desktop.third.extension;
+        const desktopThirdImageName = getRandomCode(6);
+        const dekstopThirdImagePath = `/images/services/${newID}/${desktopThirdImageName}.${req.body.images.desktop.third.extension}`;
         writeImageFile(
           req.body.images.desktop.third.dataUrl,
-          `./public${newPath}`
+          `./public${dekstopThirdImagePath}`
         );
-        currentService.images.desktop.third = newPath;
-      }
+        newService.images.desktop.third = dekstopThirdImagePath;
 
-      if (req.body.images.mobile.first) {
-        fs.unlinkSync(`./public${currentService.images.mobile.first}`);
-        const newPath =
-          currentService.images.mobile.first.split(".")[0] +
-          "." +
-          req.body.images.mobile.first.extension;
+        const mobileFirstImageName = getRandomCode(6);
+        const mobileFirstImagePath = `/images/services/${newID}/${mobileFirstImageName}.${req.body.images.mobile.first.extension}`;
         writeImageFile(
           req.body.images.mobile.first.dataUrl,
-          `./public${newPath}`
+          `./public${mobileFirstImagePath}`
         );
-        currentService.images.mobile.first = newPath;
-      }
+        newService.images.mobile.first = mobileFirstImagePath;
 
-      if (req.body.images.mobile.second) {
-        fs.unlinkSync(`./public${currentService.images.mobile.second}`);
-        const newPath =
-          currentService.images.mobile.second.split(".")[0] +
-          "." +
-          req.body.images.mobile.second.extension;
+        const mobileSecondImageName = getRandomCode(6);
+        const mobileSecondImagePath = `/images/services/${newID}/${mobileSecondImageName}.${req.body.images.mobile.second.extension}`;
         writeImageFile(
           req.body.images.mobile.second.dataUrl,
-          `./public${newPath}`
+          `./public${mobileSecondImagePath}`
         );
-        currentService.images.mobile.second = newPath;
+        newService.images.mobile.second = mobileSecondImagePath;
+
+        servicesInfo.collectionID.push(newID);
+        servicesInfo.shortInfo.push({
+          id: newID,
+          name: req.body.content.name,
+          descryption: req.body.shortInfoValue,
+          url: `/service?id=${newID}`,
+        });
+
+        fs.writeFileSync(
+          "./database/services/servicesInfo.json",
+          JSON.stringify(servicesInfo)
+        );
+        delete require.cache[
+          require.resolve("./database/services/servicesInfo.json")
+        ];
+        servicesInfo = require("./database/services/servicesInfo.json");
+
+        fs.writeFileSync(
+          `./database/services/collection/${newID}.json`,
+          JSON.stringify(newService)
+        );
+        newService = require(`./database/services/collection/${newID}.json`);
+        services.push(newService);
+        //?..................
+      } else {
+        //? Остальные случаи
+        let currentService = services.filter(
+          (service) => service.id == req.body.id
+        )[0];
+
+        currentService.title = req.body.content.name;
+        currentService.description = `${req.body.content.name} - ${req.body.shortInfoValue}`;
+        currentService.keywords = req.body.shortInfoValue;
+
+        currentService.content.name = req.body.content.name;
+        currentService.content.preName = req.body.content.name;
+        currentService.content.noneLast = req.body.content.noneLast;
+        currentService.content.stats = req.body.content.stats;
+        currentService.content.textPlace = req.body.content.textPlace;
+        currentService.content.pricePlace = req.body.content.pricePlace;
+
+        if (req.body.images) {
+          if (req.body.images.desktop.first) {
+            fs.unlinkSync(`./public${currentService.images.desktop.first}`);
+            const newPath =
+              currentService.images.desktop.first.split(".")[0] +
+              "." +
+              req.body.images.desktop.first.extension;
+            writeImageFile(
+              req.body.images.desktop.first.dataUrl,
+              `./public${newPath}`
+            );
+            currentService.images.desktop.first = newPath;
+          }
+
+          if (req.body.images.desktop.second) {
+            fs.unlinkSync(`./public${currentService.images.desktop.second}`);
+            const newPath =
+              currentService.images.desktop.second.split(".")[0] +
+              "." +
+              req.body.images.desktop.second.extension;
+            writeImageFile(
+              req.body.images.desktop.second.dataUrl,
+              `./public${newPath}`
+            );
+            currentService.images.desktop.second = newPath;
+          }
+
+          if (req.body.images.desktop.third) {
+            fs.unlinkSync(`./public${currentService.images.desktop.third}`);
+            const newPath =
+              currentService.images.desktop.third.split(".")[0] +
+              "." +
+              req.body.images.desktop.third.extension;
+            writeImageFile(
+              req.body.images.desktop.third.dataUrl,
+              `./public${newPath}`
+            );
+            currentService.images.desktop.third = newPath;
+          }
+
+          if (req.body.images.mobile.first) {
+            fs.unlinkSync(`./public${currentService.images.mobile.first}`);
+            const newPath =
+              currentService.images.mobile.first.split(".")[0] +
+              "." +
+              req.body.images.mobile.first.extension;
+            writeImageFile(
+              req.body.images.mobile.first.dataUrl,
+              `./public${newPath}`
+            );
+            currentService.images.mobile.first = newPath;
+          }
+
+          if (req.body.images.mobile.second) {
+            fs.unlinkSync(`./public${currentService.images.mobile.second}`);
+            const newPath =
+              currentService.images.mobile.second.split(".")[0] +
+              "." +
+              req.body.images.mobile.second.extension;
+            writeImageFile(
+              req.body.images.mobile.second.dataUrl,
+              `./public${newPath}`
+            );
+            currentService.images.mobile.second = newPath;
+          }
+        }
+
+        services = services.filter((service) => service != currentService);
+        fs.writeFileSync(
+          `./database/services/collection/${currentService.id}.json`,
+          JSON.stringify(currentService)
+        );
+        delete require.cache[
+          require.resolve(
+            `./database/services/collection/${currentService.id}.json`
+          )
+        ];
+        currentService = require(`./database/services/collection/${currentService.id}.json`);
+        services.push(currentService);
+        services.sort((a, b) => {
+          return (
+            servicesInfo.collectionID.indexOf(a) -
+            servicesInfo.collectionID.indexOf(b)
+          );
+        });
+
+        const currentShort = servicesInfo.shortInfo.filter(
+          (el) => el.id == req.body.id
+        )[0];
+        currentShort.name = req.body.content.name;
+        currentShort.descryption = req.body.shortInfoValue;
+
+        fs.writeFileSync(
+          "./database/services/servicesInfo.json",
+          JSON.stringify(servicesInfo)
+        );
+        delete require.cache[
+          require.resolve("./database/services/servicesInfo.json")
+        ];
+        servicesInfo = require("./database/services/servicesInfo.json");
+
+        //?..................
       }
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
     }
-
-    services = services.filter((service) => service != currentService);
-    fs.writeFileSync(
-      `./database/services/collection/${currentService.id}.json`,
-      JSON.stringify(currentService)
-    );
-    delete require.cache[
-      require.resolve(
-        `./database/services/collection/${currentService.id}.json`
-      )
-    ];
-    currentService = require(`./database/services/collection/${currentService.id}.json`);
-    services.push(currentService);
-    services.sort((a, b) => {
-      return (
-        servicesInfo.collectionID.indexOf(a) -
-        servicesInfo.collectionID.indexOf(b)
-      );
-    });
-
-    const currentShort = servicesInfo.shortInfo.filter(
-      (el) => el.id == req.body.id
-    )[0];
-    currentShort.name = req.body.content.name;
-    currentShort.descryption = req.body.shortInfoValue;
-
-    fs.writeFileSync(
-      "./database/services/servicesInfo.json",
-      JSON.stringify(servicesInfo)
-    );
-    delete require.cache[
-      require.resolve("./database/services/servicesInfo.json")
-    ];
-    servicesInfo = require("./database/services/servicesInfo.json");
-
-    //?..................
+  } else {
+    res.sendStatus(403);
   }
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/persons", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  if (req.body.delete) {
-    //? Удаление специалиста
-    const deleteItem = persons.filter((el) => el.id == req.body.id)[0];
-    fs.unlinkSync(`./public${deleteItem.photo}`);
-    persons = persons.filter((el) => el.id != req.body.id);
+    if (verifyTokenSync(token)) {
+      //! Обработка запроса
+      if (req.body.delete) {
+        //? Удаление специалиста
+        const deleteItem = persons.filter((el) => el.id == req.body.id)[0];
+        fs.unlinkSync(`./public${deleteItem.photo}`);
+        persons = persons.filter((el) => el.id != req.body.id);
 
-    for (let beforeAfterElement of beforeAfter) {
-      beforeAfterElement.persons = beforeAfterElement.persons.filter(
-        (el) => el != req.body.id
-      );
+        for (let beforeAfterElement of beforeAfter) {
+          beforeAfterElement.persons = beforeAfterElement.persons.filter(
+            (el) => el != req.body.id
+          );
+        }
+
+        fs.writeFileSync(
+          "./database/beforeAfter.json",
+          JSON.stringify(beforeAfter)
+        );
+        delete require.cache[require.resolve("./database/beforeAfter.json")];
+        beforeAfter = require("./database/beforeAfter.json");
+        //?..................
+      } else if (req.body.id == "new") {
+        //? Создание новой записи
+        const newID = getRandomCode(6);
+        const newImgName = getRandomCode(6);
+        const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
+        writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+
+        const fullName =
+          req.body.content.secondname + " " + req.body.content.firstname;
+        const newObj = {
+          id: newID,
+          title: fullName,
+          description: `${req.body.content.profession} | ${fullName}`,
+          keywords: req.body.content.profession,
+          url: `https://vipclinicspb.ru/person?id=${newID}`,
+          urlBtn: `/person?id=${newID}`,
+          photo: path,
+          content: req.body.content,
+        };
+        newObj.content.fullname = fullName;
+        persons.push(newObj);
+        //?..................
+      } else {
+        //? Остальные случаи
+        const currentElement = persons.filter((el) => el.id == req.body.id)[0];
+
+        if (req.body.imageData) {
+          const newImgName = getRandomCode(6);
+          const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
+          writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+          fs.unlinkSync(`./public${currentElement.photo}`);
+          currentElement.photo = path;
+        }
+
+        currentElement.content.education = req.body.content.education;
+        currentElement.content.skills = req.body.content.skills;
+
+        currentElement.content.firstname = req.body.content.firstname;
+        currentElement.content.secondname = req.body.content.secondname;
+        currentElement.content.profession = req.body.content.profession;
+        currentElement.content.fullname =
+          req.body.content.secondname + " " + req.body.content.firstname;
+
+        currentElement.title = currentElement.content.fullname;
+        currentElement.description = `${req.body.content.profession} | ${currentElement.content.fullname}`;
+        currentElement.keywords = currentElement.content.profession;
+        //?..................
+      }
+
+      //! Обновление файла
+      fs.writeFileSync("./database/persons.json", JSON.stringify(persons));
+      delete require.cache[require.resolve("./database/persons.json")];
+      persons = require("./database/persons.json");
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
     }
-
-    fs.writeFileSync(
-      "./database/beforeAfter.json",
-      JSON.stringify(beforeAfter)
-    );
-    delete require.cache[require.resolve("./database/beforeAfter.json")];
-    beforeAfter = require("./database/beforeAfter.json");
-    //?..................
-  } else if (req.body.id == "new") {
-    //? Создание новой записи
-    const newID = getRandomCode(6);
-    const newImgName = getRandomCode(6);
-    const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
-    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-
-    const fullName =
-      req.body.content.secondname + " " + req.body.content.firstname;
-    const newObj = {
-      id: newID,
-      title: fullName,
-      description: `${req.body.content.profession} | ${fullName}`,
-      keywords: req.body.content.profession,
-      url: `https://vipclinicspb.ru/person?id=${newID}`,
-      urlBtn: `/person?id=${newID}`,
-      photo: path,
-      content: req.body.content,
-    };
-    newObj.content.fullname = fullName;
-    persons.push(newObj);
-    //?..................
   } else {
-    //? Остальные случаи
-    const currentElement = persons.filter((el) => el.id == req.body.id)[0];
-
-    if (req.body.imageData) {
-      const newImgName = getRandomCode(6);
-      const path = `/images/persons/${newImgName}.${req.body.imageData.extension}`;
-      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-      fs.unlinkSync(`./public${currentElement.photo}`);
-      currentElement.photo = path;
-    }
-
-    currentElement.content.education = req.body.content.education;
-    currentElement.content.skills = req.body.content.skills;
-
-    currentElement.content.firstname = req.body.content.firstname;
-    currentElement.content.secondname = req.body.content.secondname;
-    currentElement.content.profession = req.body.content.profession;
-    currentElement.content.fullname =
-      req.body.content.secondname + " " + req.body.content.firstname;
-
-    currentElement.title = currentElement.content.fullname;
-    currentElement.description = `${req.body.content.profession} | ${currentElement.content.fullname}`;
-    currentElement.keywords = currentElement.content.profession;
-    //?..................
+    res.sendStatus(403);
   }
-
-  //! Обновление файла
-  fs.writeFileSync("./database/persons.json", JSON.stringify(persons));
-  delete require.cache[require.resolve("./database/persons.json")];
-  persons = require("./database/persons.json");
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/before-after", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  if (req.body.delete) {
-    //? Удаление фото
-    const deleteItem = beforeAfter.filter((el) => el.id == req.body.id)[0];
-    fs.unlinkSync(`./public${deleteItem.url}`);
-    beforeAfter = beforeAfter.filter((el) => el.id != req.body.id);
-    //?..................
-  } else if (req.body.id == "new") {
-    //? Создание новой записи
-    const newID = getRandomCode(6);
-    const newImgName = getRandomCode(6);
-    const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
-    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-    beforeAfter.push({
-      id: newID,
-      url: path,
-      text: req.body.text,
-      persons: req.body.persons,
-    });
-    //?..................
+    if (verifyTokenSync(token)) {
+      //! Обработка запроса
+      if (req.body.delete) {
+        //? Удаление фото
+        const deleteItem = beforeAfter.filter((el) => el.id == req.body.id)[0];
+        fs.unlinkSync(`./public${deleteItem.url}`);
+        beforeAfter = beforeAfter.filter((el) => el.id != req.body.id);
+        //?..................
+      } else if (req.body.id == "new") {
+        //? Создание новой записи
+        const newID = getRandomCode(6);
+        const newImgName = getRandomCode(6);
+        const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
+        writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+        beforeAfter.push({
+          id: newID,
+          url: path,
+          text: req.body.text,
+          persons: req.body.persons,
+        });
+        //?..................
+      } else {
+        //? Остальные случаи
+        const currentElement = beforeAfter.filter(
+          (el) => el.id == req.body.id
+        )[0];
+
+        if (req.body.imageData) {
+          const newImgName = getRandomCode(6);
+          const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
+          writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+          fs.unlinkSync(`./public${currentElement.url}`);
+          currentElement.url = path;
+        }
+
+        if (req.body.text) {
+          currentElement.text = req.body.text;
+        }
+
+        if (req.body.persons) {
+          currentElement.persons = req.body.persons;
+        }
+        //?..................
+      }
+
+      //! Обновление файла
+      fs.writeFileSync(
+        "./database/beforeAfter.json",
+        JSON.stringify(beforeAfter)
+      );
+      delete require.cache[require.resolve("./database/beforeAfter.json")];
+      beforeAfter = require("./database/beforeAfter.json");
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
   } else {
-    //? Остальные случаи
-    const currentElement = beforeAfter.filter((el) => el.id == req.body.id)[0];
-
-    if (req.body.imageData) {
-      const newImgName = getRandomCode(6);
-      const path = `/images/main/before-after/${newImgName}.${req.body.imageData.extension}`;
-      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-      fs.unlinkSync(`./public${currentElement.url}`);
-      currentElement.url = path;
-    }
-
-    if (req.body.text) {
-      currentElement.text = req.body.text;
-    }
-
-    if (req.body.persons) {
-      currentElement.persons = req.body.persons;
-    }
-    //?..................
+    res.sendStatus(403);
   }
-
-  //! Обновление файла
-  fs.writeFileSync("./database/beforeAfter.json", JSON.stringify(beforeAfter));
-  delete require.cache[require.resolve("./database/beforeAfter.json")];
-  beforeAfter = require("./database/beforeAfter.json");
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.put("/private-api/adminvip/promo", (req, res) => {
-  //! Проверка токена
-  //
-  //
+  if (req.headers["authorization"]) {
+    const token = req.headers["authorization"].split(" ")[1];
 
-  //! Обработка запроса
-  if (req.body.delete) {
-    //? Удаление акции
-    const deleteItem = promotions.filter((promo) => promo.id == req.body.id)[0];
-    fs.unlinkSync(`./public${deleteItem.url}`);
-    promotions = promotions.filter((promo) => promo.id != req.body.id);
-    //?..................
-  } else if (req.body.id == "new") {
-    //? Создание новой акции
-    const newID = getRandomCode(6);
-    const newImgName = getRandomCode(6);
-    const path = `/images/main/promo/${newImgName}.${req.body.imageData.extension}`;
-    writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-    promotions.push({
-      id: newID,
-      url: path,
-      order: req.body.order,
-    });
-    //?..................
+    if (verifyTokenSync(token)) {
+      //! Обработка запроса
+      if (req.body.delete) {
+        //? Удаление акции
+        const deleteItem = promotions.filter(
+          (promo) => promo.id == req.body.id
+        )[0];
+        fs.unlinkSync(`./public${deleteItem.url}`);
+        promotions = promotions.filter((promo) => promo.id != req.body.id);
+        //?..................
+      } else if (req.body.id == "new") {
+        //? Создание новой акции
+        const newID = getRandomCode(6);
+        const newImgName = getRandomCode(6);
+        const path = `/images/main/promo/${newImgName}.${req.body.imageData.extension}`;
+        writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+        promotions.push({
+          id: newID,
+          url: path,
+          order: req.body.order,
+        });
+        //?..................
+      } else {
+        //? Остальные случаи
+        const currentPromo = promotions.filter(
+          (promo) => promo.id == req.body.id
+        )[0];
+
+        if (req.body.imageData) {
+          const newImgName = getRandomCode(6);
+          const path = `/images/main/promo/${newImgName}.${req.body.imageData.extension}`;
+          writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
+          fs.unlinkSync(`./public${currentPromo.url}`);
+          currentPromo.url = path;
+        }
+
+        if (req.body.order) {
+          currentPromo.order = req.body.order;
+        }
+        //?..................
+      }
+
+      //! Обновление файла
+      fs.writeFileSync(
+        "./database/promotions.json",
+        JSON.stringify(promotions)
+      );
+      delete require.cache[require.resolve("./database/promotions.json")];
+      promotions = require("./database/promotions.json");
+
+      //! Отправка ответа на клиент
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(403);
+    }
   } else {
-    //? Остальные случаи
-    const currentPromo = promotions.filter(
-      (promo) => promo.id == req.body.id
-    )[0];
-
-    if (req.body.imageData) {
-      const newImgName = getRandomCode(6);
-      const path = `/images/main/promo/${newImgName}.${req.body.imageData.extension}`;
-      writeImageFile(req.body.imageData.dataUrl, `./public${path}`);
-      fs.unlinkSync(`./public${currentPromo.url}`);
-      currentPromo.url = path;
-    }
-
-    if (req.body.order) {
-      currentPromo.order = req.body.order;
-    }
-    //?..................
+    res.sendStatus(403);
   }
-
-  //! Обновление файла
-  fs.writeFileSync("./database/promotions.json", JSON.stringify(promotions));
-  delete require.cache[require.resolve("./database/promotions.json")];
-  promotions = require("./database/promotions.json");
-
-  //! Отправка ответа на клиент
-  res.sendStatus(201);
 });
 
 app.listen(port);

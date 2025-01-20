@@ -19,7 +19,7 @@
                     - const bigCell = servicesShortInfo.shortInfo.filter((el) => el.id == line.cells.big)[0];
                     - const bigCellBg = 'background-image: url(' + line.bigBgUrl + ')';
                     .item.item--big(style=bigCellBg)
-                      h3.item__title #{bigCell.name}
+                      h3.item__title !{bigCell.name}
                       p.item__text #{bigCell.descryption}
                       a(class="btn item__btn", href=bigCell.url) узнать больше
                 .line__part
@@ -27,7 +27,7 @@
                     - const cellInfo = servicesShortInfo.shortInfo.filter((el) => el.id == line.cells[cell]);
                     if (cellInfo.length > 0)
                       .item
-                        h3.item__title #{cellInfo[0].name}
+                        h3.item__title !{cellInfo[0].name}
                         p.item__text #{cellInfo[0].descryption}
                         a(class="btn item__btn", href=cellInfo[0].url) узнать больше
                     else

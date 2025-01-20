@@ -375,11 +375,13 @@ function parseText(str, mode) {
 }
 
 function sendData(type, data) {
+  const token = localStorage.getItem("VIPCLINIC-ADMINVIP-TOKEN");
+
   fetch(`/private-api/adminvip/${type}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${"free-token"}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   }).then((res) => {

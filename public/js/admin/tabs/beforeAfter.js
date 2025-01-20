@@ -29,11 +29,13 @@ function hideModal () {
 }
 
 function sendData(data) {
+  const token = localStorage.getItem("VIPCLINIC-ADMINVIP-TOKEN");
+
   fetch("/private-api/adminvip/before-after", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${"free-token"}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data)
   }).then((res) => {

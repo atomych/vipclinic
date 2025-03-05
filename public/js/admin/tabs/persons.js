@@ -173,6 +173,7 @@ for (let item of items) {
 }
 
 changeImgBtn.addEventListener("click", () => {
+  modal.querySelector(".modal__control-images-not-loaded").classList.remove("active");
   changeImgInput.click();
 });
 
@@ -292,5 +293,10 @@ modalBtnSave.addEventListener("click", () => {
     currentPerson.imageData = imageData;
   }
 
-  if (!(currentPerson == "new" && !imageData)) sendData(currentPerson);
+  console.log(!(currentPerson == "new" && !imageData));
+
+  if (!(currentPerson.id == "new" && !imageData)) sendData(currentPerson);
+  else {
+    modal.querySelector(".modal__control-images-not-loaded").classList.add("active");
+  }
 });

@@ -439,6 +439,12 @@
         width: 20px;
         height: 20px;
     }
+
+    .modal-open-arrow {
+        width: 30px;
+        height: 30px;
+        background-size: 15px;
+    }
 }
 
 @media (max-width: 750px) {

@@ -83,6 +83,7 @@ addNewBtn.addEventListener("click", () => {
 
 changeImgBtn.addEventListener("click", () => {
   changeImgInput.click();
+  modal.querySelector(".modal__control-images-not-loaded").classList.remove("active");
 })
 
 changeImgInput.addEventListener("change", () => {
@@ -136,5 +137,8 @@ modalBtnSave.addEventListener("click", () => {
     };
   }
 
-  if (!(newBeforeAfter && !imageData)) sendData(putBeforeAfterData);
+  if (!(newBeforeAfter && !imageData)) sendData(putBeforeAfterData)
+  else {
+    modal.querySelector(".modal__control-images-not-loaded").classList.add("active");
+  }
 })

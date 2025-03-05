@@ -69,6 +69,7 @@ addNewBtn.addEventListener("click", () => {
 });
 
 changeImgBtn.addEventListener("click", () => {
+  modal.querySelector(".modal__control-images-not-loaded").classList.remove("active");
   changeImgInput.click();
 });
 
@@ -116,5 +117,8 @@ modalBtnSave.addEventListener("click", () => {
     };
   }
 
-  if (!(newPromo && !imageData)) sendData(putPromoData);
+  if (!(newPromo && !imageData)) sendData(putPromoData)
+  else {
+    modal.querySelector(".modal__control-images-not-loaded").classList.add("active");
+  }
 });

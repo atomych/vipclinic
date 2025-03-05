@@ -42,6 +42,7 @@ for (let btn of changeImgBtnCollection) {
   btn.addEventListener("click", () => {
     const imgInput = btn.parentElement.querySelector("input[type='file']");
     imgInput.click();
+    modal.querySelector(".modal__control-images-not-loaded").classList.remove("active");
   });
 }
 
@@ -707,5 +708,8 @@ modalBtnSave.addEventListener("click", () => {
   }
 
   if (!(!(Object.entries(imageData).length == 5) && currentService.id == "new"))
-    sendData("services-list", putServiceData);
+    sendData("services-list", putServiceData)
+  else {
+    modal.querySelector(".modal__control-images-not-loaded").classList.add("active");
+  }
 });

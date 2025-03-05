@@ -173,7 +173,7 @@ app.post("/adminvip/auth", (req, res) => {
     const token = jwt.sign(
       { login: adminDATA.adminvip.login },
       adminDATA.adminvip.secretKey,
-      { expiresIn: "1h" }
+      {}
     );
     res.send(JSON.stringify({ login: true, token: token }));
   } else {

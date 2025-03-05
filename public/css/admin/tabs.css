@@ -1164,3 +1164,20 @@ p#drugs_p {
   font-family: "Roboto-Medium", serif !important;
   font-weight: 500 !important;
 }
+
+.modal__control-images-not-loaded { 
+  color: rgb(175, 55, 55);
+  font-family: "Roboto-Medium", serif;
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 0;
+  margin-right: 30px;
+
+  opacity: 0;
+  transition: all 0.2s linear;
+  cursor: default;
+}
+
+.modal__control-images-not-loaded.active {
+  opacity: 1;
+}

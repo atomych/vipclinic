@@ -43,6 +43,7 @@ html(lang="ru")
               each person in persons
                 button.modal__item(data-id=person.id) #{person.title}
             .modal__control 
+              p.modal__control-images-not-loaded Изображение не было выбрано
               button.save Сохранить
               button.back Отменить
     script(src="/js/admin/tabs/beforeAfter.js")

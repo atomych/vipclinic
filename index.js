@@ -49,7 +49,7 @@ const app = express();
 app.use(cors());
 app.use(express.static("public"));
 app.set("view engine", "pug");
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "1000mb" }));
 app.set("views", [
   __dirname + "/views",
   __dirname + "/views/adminvip",
@@ -446,6 +446,24 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
           (el) => el.id != req.body.id
         );
 
+        for (let coll of servicesDesktopStruct) {
+          for (let line of coll.lines) {
+            for (let item of Object.entries(line.cells)) {
+              if (item[1] == req.body.id) {
+                line.cells[item[0]] = 'empty';
+              }
+            }
+          }
+        }
+
+        for (let coll of servicesMobileStruct) {
+          for (let item of coll.items) {
+            if (item.id == req.body.id) {
+              coll.items = coll.items.filter((el) => el.id != req.body.id);
+            }
+          }
+        }
+
         fs.rmSync(`./public/images/services/${req.body.id}`, {
           recursive: true,
           force: true,
@@ -460,6 +478,24 @@ app.put("/private-api/adminvip/services-list", (req, res) => {
           require.resolve("./database/services/servicesInfo.json")
         ];
         servicesInfo = require("./database/services/servicesInfo.json");
+
+        fs.writeFileSync(
+          "./database/services/servicesDesktopStruct.json",
+          JSON.stringify(servicesDesktopStruct)
+        );
+        delete require.cache[
+          require.resolve("./database/services/servicesDesktopStruct.json")
+        ];
+        servicesDesktopStruct = require("./database/services/servicesDesktopStruct.json");
+
+        fs.writeFileSync(
+          "./database/services/servicesMobileStruct.json",
+          JSON.stringify(servicesMobileStruct)
+        );
+        delete require.cache[
+          require.resolve("./database/services/servicesMobileStruct.json")
+        ];
+        servicesMobileStruct = require("./database/services/servicesMobileStruct.json");
         //?..................
       } else if (req.body.id == "new") {
         //? Добавление новой услуги

@@ -78,7 +78,7 @@ app.get("/", (req, res) => {
 app.get("/price", (req, res) => {
   res.render("price", {
     links: links,
-    priceData: price,
+    priceData: price.sort((a, b) => a.order - b.order),
   });
 });
 

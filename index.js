@@ -759,6 +759,7 @@ app.put("/private-api/adminvip/persons", (req, res) => {
           url: `https://vipclinicspb.ru/person?id=${newID}`,
           urlBtn: `/person?id=${newID}`,
           photo: path,
+          yclientsLink: req.body.yclientsLink,
           content: req.body.content,
         };
         newObj.content.fullname = fullName;
@@ -784,6 +785,7 @@ app.put("/private-api/adminvip/persons", (req, res) => {
         currentElement.content.profession = req.body.content.profession;
         currentElement.content.fullname =
           req.body.content.secondname + " " + req.body.content.firstname;
+        currentElement.yclientsLink = req.body.yclientsLink;
 
         currentElement.title = currentElement.content.fullname;
         currentElement.description = `${req.body.content.profession} | ${currentElement.content.fullname}`;

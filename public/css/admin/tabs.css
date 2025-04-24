@@ -581,12 +581,14 @@ body {
 
 .modal__text #firstname,
 .modal__text #secondname,
-.modal__text #profession {
+.modal__text #profession,
+.modal__text #link {
   min-width: 500px;
 }
 
 .modal__text #firstname,
-.modal__text #secondname {
+.modal__text #secondname,
+.modal__text #profession {
   margin-bottom: 10px !important;
 }
 

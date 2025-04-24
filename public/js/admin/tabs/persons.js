@@ -122,6 +122,7 @@ for (let item of items) {
       .then((data) => {
         currentPerson = {
           id: data.id,
+          yclientsLink: data.yclientsLink,
           photo: data.photo,
           content: data.content,
         };
@@ -132,6 +133,8 @@ for (let item of items) {
           data.content.secondname;
         modal.querySelector("#profession").textContent =
           data.content.profession;
+        modal.querySelector("#link").textContent =
+          data.yclientsLink;
         setContentLists(
           ".modal__person-education",
           data.content.education,
@@ -215,6 +218,8 @@ addNewBtn.addEventListener("click", () => {
     currentPerson.content.secondname;
   modal.querySelector("#profession").textContent =
     currentPerson.content.profession;
+  modal.querySelector("#link").textContent =
+    currentPerson.yclientsLink;
   setContentLists(
     ".modal__person-education",
     currentPerson.content.education,
@@ -267,6 +272,8 @@ modalBtnSave.addEventListener("click", () => {
     modal.querySelector("#secondname").textContent;
   currentPerson.content.profession =
     modal.querySelector("#profession").textContent;
+  currentPerson.yclientsLink =
+    modal.querySelector("#link").textContent;
 
   const educationItems = document.querySelectorAll(
     ".modal__person-education .content-li div"
@@ -292,8 +299,6 @@ modalBtnSave.addEventListener("click", () => {
   if (imageData) {
     currentPerson.imageData = imageData;
   }
-
-  console.log(!(currentPerson == "new" && !imageData));
 
   if (!(currentPerson.id == "new" && !imageData)) sendData(currentPerson);
   else {

@@ -28,6 +28,7 @@ const tabContent = document.querySelector(".tab__content");
 const addNewBtn = document.querySelector("button.add-new");
 const changeImgBtnCollection = document.querySelectorAll(".modal__img button");
 const changeImgInputCollection = document.querySelectorAll(".modal__img input");
+const viewBtns = document.querySelectorAll('.str-in .button');
 
 const modalBtnSave = document.querySelector(".modal__control .save");
 const modalBtnBack = document.querySelector(".modal__control .back");
@@ -37,6 +38,30 @@ let currentService;
 let currentServicePrices = [];
 let activeServicePricesSection = 0;
 let imageData = {};
+
+for (let btn of viewBtns) {
+  btn.addEventListener("click", () => {
+    if (btn.querySelector("img").dataset.type == "view") {
+      btn.querySelector("img").src = `/images/icons/hide.png`;
+      btn.querySelector("img").dataset.type = "hide";
+      if (btn.querySelector("img").dataset.owner == "time") currentService.content.stats[0].view = "hide";
+      if (btn.querySelector("img").dataset.owner == "anesthesia") currentService.content.stats[1].view = "hide";
+      if (btn.querySelector("img").dataset.owner == "periodicity") currentService.content.stats[2].view = "hide";
+      if (btn.querySelector("img").dataset.owner == "effect") currentService.content.stats[3].view = "hide";
+      if (btn.querySelector("img").dataset.owner == "course") currentService.content.stats[4].view = "hide";
+      if (btn.querySelector("img").dataset.owner == "drugs") currentService.content.stats[5].view = "hide";
+    } else {
+      btn.querySelector("img").src = `/images/icons/view.png`;
+      btn.querySelector("img").dataset.type = "view";
+      if (btn.querySelector("img").dataset.owner == "time") currentService.content.stats[0].view = "view";
+      if (btn.querySelector("img").dataset.owner == "anesthesia") currentService.content.stats[1].view = "view";
+      if (btn.querySelector("img").dataset.owner == "periodicity") currentService.content.stats[2].view = "view";
+      if (btn.querySelector("img").dataset.owner == "effect") currentService.content.stats[3].view = "view";
+      if (btn.querySelector("img").dataset.owner == "course") currentService.content.stats[4].view = "view";
+      if (btn.querySelector("img").dataset.owner == "drugs") currentService.content.stats[5].view = "view";
+    }
+  })
+}
 
 for (let btn of changeImgBtnCollection) {
   btn.addEventListener("click", () => {
@@ -438,6 +463,13 @@ for (let item of items) {
         modal.querySelector("#drugs").textContent = data.content.stats[5].value;
         modal.querySelector("#drugs_p").textContent =
           data.content.stats[5].title;
+        
+        modal.querySelector('.str-in img.time').src = `/images/icons/${data.content.stats[0].view}.png`;
+        modal.querySelector('.str-in img.anesthesia').src = `/images/icons/${data.content.stats[1].view}.png`;
+        modal.querySelector('.str-in img.periodicity').src = `/images/icons/${data.content.stats[2].view}.png`;
+        modal.querySelector('.str-in img.effect').src = `/images/icons/${data.content.stats[3].view}.png`;
+        modal.querySelector('.str-in img.course').src = `/images/icons/${data.content.stats[4].view}.png`;
+        modal.querySelector('.str-in img.drugs').src = `/images/icons/${data.content.stats[5].view}.png`;
 
         const textPlaceList = modal.querySelector("ul.main-text");
         let index = 0;
@@ -531,31 +563,37 @@ addNewBtn.addEventListener("click", () => {
           title: "Продолжительность",
           value: "",
           imgUrl: "/images/icons/time.svg",
+          view: "view"
         },
         {
           title: "Анестезия",
           value: "",
           imgUrl: "/images/icons/syringe.svg",
+          view: "view"
         },
         {
           title: "Периодичность",
           value: "",
           imgUrl: "/images/icons/calendar.svg",
+          view: "view"
         },
         {
           title: "Эффект",
           value: "",
           imgUrl: "/images/icons/stars.svg",
+          view: "view"
         },
         {
           title: "Рекомендуемый курс",
           value: "",
           imgUrl: "/images/icons/course.svg",
+          view: "view"
         },
         {
           title: "Косметика",
           value: "",
           imgUrl: "/images/icons/drops.svg",
+          view: "view"
         },
       ],
     },
@@ -632,6 +670,13 @@ modalBtnSave.addEventListener("click", () => {
     modal.querySelector("#drugs").textContent;
   putServiceData.content.stats[5].title =
     modal.querySelector("#drugs_p").textContent;
+  
+  putServiceData.content.stats[0].view = currentService.content.stats[0].view;
+  putServiceData.content.stats[1].view = currentService.content.stats[1].view;
+  putServiceData.content.stats[2].view = currentService.content.stats[2].view;
+  putServiceData.content.stats[3].view = currentService.content.stats[3].view;
+  putServiceData.content.stats[4].view = currentService.content.stats[4].view;
+  putServiceData.content.stats[5].view = currentService.content.stats[5].view;
 
   putServiceData.content.textPlace = [];
   const textPlaceItemsHTML = modal.querySelectorAll(".main-text div");

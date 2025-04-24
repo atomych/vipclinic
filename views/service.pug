@@ -37,12 +37,13 @@ html(lang="ru")
               .service-page__line 
               ul.service-page__features
                 each statItem in service.content.stats
-                  li.features__item 
-                    .features__image
-                      img(src=statItem.imgUrl)
-                    .features__content 
-                      h3.feautures__title #{statItem.title}
-                      p.feautures__text #{statItem.value}
+                  if (statItem.view == "view")
+                    li.features__item 
+                      .features__image
+                        img(src=statItem.imgUrl)
+                      .features__content 
+                        h3.feautures__title #{statItem.title}
+                        p.feautures__text #{statItem.value}
           section.service-page__section.bg
             - const secondBg = 'background-image: url(' + service.images.desktop.second + ')';
             .service-page__photo(style=secondBg)

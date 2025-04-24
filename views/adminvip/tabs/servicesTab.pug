@@ -67,24 +67,42 @@ html(lang="ru")
               .modal__text
                 #name(contenteditable="plaintext-only")
                 #shortInfo(contenteditable="plaintext-only", style="margin-top: 20px;")
-                .container-str
+                .container-str 
                   .str
-                    p Продолжительность
+                    .str-in
+                      p Продолжительность
+                      button.button.time
+                        img(src="/images/icons/view.png", alt="", class="time", data-type="view", data-owner="time")
                     #time(contenteditable="plaintext-only")
                   .str
-                    p Анестезия
+                    .str-in
+                      p Анестезия
+                      button.button.anesthesia
+                        img(src="/images/icons/view.png", alt="", class="anesthesia", data-type="view", data-owner="anesthesia")
                     #anesthesia(contenteditable="plaintext-only")
                   .str
-                    p Периодичность
+                    .str-in
+                      p Периодичность
+                      button.button.periodicity
+                        img(src="/images/icons/view.png", alt="", class="periodicity", data-type="view", data-owner="periodicity")
                     #periodicity(contenteditable="plaintext-only")
                   .str
-                    p Эффект
+                    .str-in
+                      p Эффект
+                      button.button.effect
+                        img(src="/images/icons/view.png", alt="", class="effect", data-type="view", data-owner="effect")
                     #effect(contenteditable="plaintext-only")
                   .str
-                    p Рекомендуемый курс
+                    .str-in
+                      p Рекомендуемый курс
+                      button.button.course
+                        img(src="/images/icons/view.png", alt="", class="course", data-type="view", data-owner="course")
                     #course(contenteditable="plaintext-only")
                   .str
-                    p#drugs_p(contenteditable="plaintext-only")
+                    .str-in
+                      p#drugs_p(contenteditable="plaintext-only")
+                      button.button.drugs
+                        img(src="/images/icons/view.png", alt="", class="drugs", data-type="view", data-owner="drugs")
                     #drugs(contenteditable="plaintext-only")
             .modal__section
               .modal__img.service

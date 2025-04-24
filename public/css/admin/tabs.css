@@ -83,7 +83,7 @@ body {
 .item-change:hover,
 .item-change:focus {
   outline: none;
-  background-color: #4F72A3;
+  background-color: #4f72a3;
   color: #fff;
 }
 
@@ -97,7 +97,6 @@ body {
 
   border-bottom: 1px solid #000;
 }
-
 
 .tab-menu.hide {
   display: none;
@@ -204,7 +203,7 @@ body {
 .default__item-control .btn:focus,
 .default__item .btn:hover,
 .default__item .btn:focus {
-  background-color: #4F72A3;
+  background-color: #4f72a3;
   color: #fff;
 }
 
@@ -257,7 +256,7 @@ body {
 
   top: 50%;
   left: -10px;
-  
+
   transform: translateY(-50%);
 }
 
@@ -321,7 +320,7 @@ body {
 
   width: 100%;
   flex-grow: 1;
-} 
+}
 
 .tab-modal__content {
   display: flex;
@@ -339,7 +338,7 @@ body {
 
 .modal__img,
 .item__img.service {
-  display: flex;  
+  display: flex;
   justify-content: center;
   align-items: center;
 
@@ -417,7 +416,7 @@ body {
 }
 
 .modal__img:hover .modal__img-btn,
-.item__img.service:hover .btn{
+.item__img.service:hover .btn {
   opacity: 1;
   background-color: #f3f6fa;
 }
@@ -454,7 +453,7 @@ body {
   border-radius: 5px;
   padding: 8px 15px;
   opacity: 0.7;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -471,7 +470,7 @@ body {
 .modal__item.active {
   opacity: 1;
   color: #fff;
-  background-color: #4F72A3;
+  background-color: #4f72a3;
 }
 
 .modal__control {
@@ -498,7 +497,7 @@ body {
 
 .modal__control button:hover,
 .modal__control button:focus {
-  background-color: #4F72A3;
+  background-color: #4f72a3;
   color: #fff;
 }
 
@@ -625,7 +624,7 @@ body {
   font-size: 1.1rem;
   max-width: max-content;
   max-height: max-content;
-  
+
   padding: 8px 15px;
   background-color: #fff;
   border: 1px solid #000;
@@ -648,7 +647,7 @@ body {
 .mobile-struct-content-control .save:focus,
 .desktop-struct-content-control .save:hover,
 .mobile-struct-content-control .save:hover {
-  background-color: #4F72A3;
+  background-color: #4f72a3;
   color: #fff;
 }
 
@@ -706,7 +705,7 @@ body {
 .desktop-struct-line-control .swap:focus,
 .desktop-struct-line-control .swap:hover,
 .mobile-struct-line-control .delete:hover,
-.mobile-struct-line-control .swap:focus  {
+.mobile-struct-line-control .swap:focus {
   background-color: #f3f6fa;
   opacity: 1;
   outline: none;
@@ -772,10 +771,41 @@ body {
   padding: 0 !important;
 }
 
+.str-in {
+  display: flex;
+  align-items: center;
+  border: none !important;
+  padding: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 .str p {
   font-family: "Roboto-Medium", serif;
   font-weight: 500;
   font-size: 1.3rem;
+  margin-right: 1rem;
+}
+
+.str .button {
+  margin-right: 10px;
+  max-width: 40px;
+  flex-grow: 1;
+  border: 1px solid #000;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 42px;
+  height: 40px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s linear;
+}
+
+.str .button:hover {
+  background-color: #f3f6fa;
+}
+
+.str .button img {
+  max-width: 100%;
 }
 
 .str:nth-child(2n) {
@@ -792,7 +822,7 @@ body {
 .modal__service-prices-menu-item {
   margin-right: 20px;
   margin-bottom: 10px;
-} 
+}
 
 .modal__service-prices-menu-item p {
   margin-top: 0 !important;
@@ -821,7 +851,7 @@ body {
 
 .modal__service-prices-menu-item .delete img {
   max-width: 26px;
-  display: block; 
+  display: block;
   height: auto;
   margin: 0 auto;
 }
@@ -897,7 +927,7 @@ body {
 }
 
 .desktop-struct-content-wrapper,
-.mobile-struct-content-wrapper  {
+.mobile-struct-content-wrapper {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -1065,7 +1095,7 @@ body {
 .desktop-struct-list-item:hover,
 .desktop-struct-list-item:focus {
   color: #fff;
-  background-color: #4F72A3;
+  background-color: #4f72a3;
 }
 
 .line-wrapper {
@@ -1074,7 +1104,7 @@ body {
   align-items: start;
 }
 
-.desktop-struct-line-control, 
+.desktop-struct-line-control,
 .mobile-struct-line-control {
   display: flex;
   flex-direction: column;
@@ -1138,7 +1168,7 @@ body {
   font-size: 1.1rem;
   max-width: max-content;
   max-height: max-content;
-  
+
   padding: 8px 15px;
   background-color: #fff;
   border: 1px solid #000;
@@ -1167,7 +1197,7 @@ p#drugs_p {
   font-weight: 500 !important;
 }
 
-.modal__control-images-not-loaded { 
+.modal__control-images-not-loaded {
   color: rgb(175, 55, 55);
   font-family: "Roboto-Medium", serif;
   font-weight: 500;

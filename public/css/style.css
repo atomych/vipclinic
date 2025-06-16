@@ -762,14 +762,13 @@ a.none-style {
 
 .vipclinic__img {
   width: 100%;
+  height: 400px;
 
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
-}
-
-.vipclinic__img img {
-  max-width: 100%;
+  background: url(../images/main/vipclinic.jpg) center center no-repeat;
+  background-size: cover;
 }
 
 .vipclinic__btn {

@@ -16,11 +16,6 @@ function displayModal() {
   modal.classList.add("active");
 }
 
-function hideModal() {
-  tabContent.classList.remove("hide");
-  modal.classList.remove("active");
-}
-
 function getDeleteBtnForLi() {
   const res = document.createElement("button");
   res.classList.add("delete");
@@ -31,29 +26,20 @@ function getDeleteBtnForLi() {
   return res;
 }
 
-function getContentLi() {
-  const res = document.createElement("li");
-  res.classList.add("content-li");
-  return res;
-}
+function getNormalizeListElement(text, textContainer) {
+  const contentLi = document.createElement("li");
+  contentLi.classList.add("content-li");
+  const textItemDiv = document.createElement("div");
+  textItemDiv.setAttribute("contenteditable", "plaintext-only");
+  textItemDiv.textContent = parseText(text, "toRead");
+  const btnDelete = getDeleteBtnForLi();
+  btnDelete.addEventListener("click", () => {
+    textContainer.removeChild(contentLi);
+  })
+  contentLi.appendChild(btnDelete);
+  contentLi.appendChild(textItemDiv);
 
-function getNormalizeListElement(text, section, index) {
-  const container = getContentLi();
-  const btn = getDeleteBtnForLi();
-  container.appendChild(btn);
-
-  const textDiv = document.createElement("div");
-  textDiv.setAttribute("contenteditable", "plaintext-only");
-  textDiv.textContent = parseText(text, "toRead");
-
-  container.appendChild(textDiv);
-
-  btn.addEventListener("click", () => {
-    container.parentElement.removeChild(container);
-    currentPerson.content[section].splice(index, 1);
-  });
-
-  return container;
+  return contentLi;
 }
 
 function parseText(str, mode) {
@@ -68,14 +54,28 @@ function parseText(str, mode) {
   return str;
 }
 
-function setContentLists(container, data, section) {
-  const mainList = document.createElement("ul");
-  mainList.classList.add("person-text__list");
+function getContentLists(item) {
+  const container = document.createElement("div");
+  container.classList.add("modal__person-text-section");
+  const titleWrapper = document.createElement("div");
+  titleWrapper.classList.add("modal__title-wrapper");
+  const title = document.createElement("div");
+  title.setAttribute("contenteditable", "plaintext-only");
+  title.textContent = item.title;
+  const deleteBtnSection = getDeleteBtnForLi();
+  deleteBtnSection.addEventListener("click", () => {
+    modal.querySelector(".modal__person-text-section-wrapper").removeChild(container);
+  })
+  titleWrapper.appendChild(deleteBtnSection);
+  titleWrapper.appendChild(title);
+  container.appendChild(titleWrapper);
+  const textContainer = document.createElement("ul");
+  textContainer.classList.add("person-text__list");
+  container.appendChild(textContainer);
 
-  let index = 0;
-  for (let item of data) {
-    mainList.appendChild(getNormalizeListElement(item, section, index));
-    index += 1;
+  for (let textItem of item.items) {
+    const li = getNormalizeListElement(textItem, textContainer)
+    textContainer.appendChild(li);
   }
 
   const addItemBtn = document.createElement("button");
@@ -85,10 +85,14 @@ function setContentLists(container, data, section) {
   addItemBtn.style.marginRight = "0";
   addItemBtn.style.marginLeft = "45px";
   addItemBtn.appendChild(addItemBtnImg);
-  modal.querySelector(container).parentElement.appendChild(addItemBtn);
 
-  modal.querySelector(container).innerHTML = "";
-  modal.querySelector(container).appendChild(mainList);
+  addItemBtn.addEventListener("click", () => {
+    textContainer.appendChild(getNormalizeListElement("Ваш новый текст...", textContainer));
+  });
+
+  container.appendChild(addItemBtn);
+
+  return container;
 }
 
 function sendData(data) {
@@ -135,42 +139,14 @@ for (let item of items) {
           data.content.profession;
         modal.querySelector("#link").textContent =
           data.yclientsLink;
-        setContentLists(
-          ".modal__person-education",
-          data.content.education,
-          "education"
-        );
-        setContentLists(".modal__person-skills", data.content.skills, "skills");
 
-        modal
-          .querySelector(".modal__person-education + .btn.add")
-          .addEventListener("click", () => {
-            currentPerson.content.education.push("Ваш новый текст...");
-            modal
-              .querySelector(".modal__person-education .person-text__list")
-              .appendChild(
-                getNormalizeListElement(
-                  "Ваш новый текст...",
-                  "education",
-                  currentPerson.content.education.length
-                )
-              );
-          });
+        for (let item of data.content.content) {
+          modal.querySelector(".modal__person-text-section-wrapper").appendChild(getContentLists(item));
+        }
 
-        modal
-          .querySelector(".modal__person-skills + .btn.add")
-          .addEventListener("click", () => {
-            currentPerson.content.skills.push("Ваш новый текст...");
-            modal
-              .querySelector(".modal__person-skills .person-text__list")
-              .appendChild(
-                getNormalizeListElement(
-                  "Ваш новый текст...",
-                  "skills",
-                  currentPerson.content.skills.length
-                )
-              );
-          });
+        modal.querySelector(".modal__person-text-section-btn-add").addEventListener("click", () => {
+          modal.querySelector(".modal__person-text-section-wrapper").appendChild(getContentLists({title: "Новый раздел", items: ["Ваш новый текст..."]}));
+        })
       });
   });
 }
@@ -206,8 +182,9 @@ addNewBtn.addEventListener("click", () => {
       firstname: "Имя",
       secondname: "Фамилия",
       profession: "Специальность",
-      education: ["Ваш новый текст..."],
-      skills: ["Ваш новый текст..."],
+      content: [
+        {title: "Новый раздел", items: ["Ваш новый текст..."]}
+      ]
     },
   };
 
@@ -220,44 +197,13 @@ addNewBtn.addEventListener("click", () => {
     currentPerson.content.profession;
   modal.querySelector("#link").textContent =
     currentPerson.yclientsLink;
-  setContentLists(
-    ".modal__person-education",
-    currentPerson.content.education,
-    "education"
-  );
-  setContentLists(
-    ".modal__person-skills",
-    currentPerson.content.skills,
-    "skills"
-  );
-  modal
-    .querySelector(".modal__person-skills + .btn.add")
-    .addEventListener("click", () => {
-      currentPerson.content.skills.push("Ваш новый текст...");
-      modal
-        .querySelector(".modal__person-skills .person-text__list")
-        .appendChild(
-          getNormalizeListElement(
-            "Ваш новый текст...",
-            "skills",
-            currentPerson.content.skills.length
-          )
-        );
-    });
-  modal
-    .querySelector(".modal__person-education + .btn.add")
-    .addEventListener("click", () => {
-      currentPerson.content.education.push("Ваш новый текст...");
-      modal
-        .querySelector(".modal__person-education .person-text__list")
-        .appendChild(
-          getNormalizeListElement(
-            "Ваш новый текст...",
-            "skills",
-            currentPerson.content.education.length
-          )
-        );
-    });
+  for (let item of currentPerson.content.content) {
+    modal.querySelector(".modal__person-text-section-wrapper").appendChild(getContentLists(item));
+  }
+
+  modal.querySelector(".modal__person-text-section-btn-add").addEventListener("click", () => {
+    modal.querySelector(".modal__person-text-section-wrapper").appendChild(getContentLists({title: "Новый раздел", items: ["Ваш новый текст..."]}));
+  })
 });
 
 modalBtnBack.addEventListener("click", () => {
@@ -275,25 +221,16 @@ modalBtnSave.addEventListener("click", () => {
   currentPerson.yclientsLink =
     modal.querySelector("#link").textContent;
 
-  const educationItems = document.querySelectorAll(
-    ".modal__person-education .content-li div"
-  );
-  const skillsItems = document.querySelectorAll(
-    ".modal__person-skills .content-li div"
-  );
-
-  for (let i = 0; i < educationItems.length; i++) {
-    currentPerson.content.education[i] = parseText(
-      educationItems[i].textContent,
-      "toHTML"
-    );
-  }
-
-  for (let i = 0; i < skillsItems.length; i++) {
-    currentPerson.content.skills[i] = parseText(
-      skillsItems[i].textContent,
-      "toHTML"
-    );
+  const textSections = modal.querySelectorAll(".modal__person-text-section");
+  currentPerson.content.content = [];
+  for (let item of textSections) {
+    const newItem = {};
+    newItem.title = item.querySelector(".modal__title-wrapper div").textContent;
+    newItem.items = [];
+    for (let text of item.querySelectorAll(".content-li div")) {
+      newItem.items.push(parseText(text.textContent, "toHTML"));
+    }
+    currentPerson.content.content.push(newItem);
   }
 
   if (imageData) {

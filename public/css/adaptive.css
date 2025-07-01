@@ -497,12 +497,12 @@
 
     .team__list {
         max-width: 435px;
-        height: 435px;
+        height: 510px;
     }
 
 
     .team__item {
-        height: 429px;
+        height: 504px;
         width: 200px;
     }
 
@@ -695,12 +695,12 @@
 
     .team__item {
         width: 150px;
-        height: 450px;
+        height: 510px;
     }
 
     .team__list {
         max-width: 335px;
-        height: 460px;
+        height: 520px;
     }
 
     .team__item .item__img {

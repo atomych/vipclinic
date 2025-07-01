@@ -12,5 +12,7 @@
               p #{item.content.secondname}
             .item__prof
               p #{item.content.profession}
-            a(class="btn item__btn" href=item.urlBtn) узнать больше
+            .item__btn-cont
+              a(class="btn item__btn team-btn" href=item.urlBtn target="_blank") узнать больше
+              a(class="btn item__btn team-btn" href=item.yclientsLink target="_blank") записаться
       .slider-container

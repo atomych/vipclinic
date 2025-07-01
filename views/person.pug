@@ -37,15 +37,12 @@ html(lang="ru")
             section.person__main
               h2.person__name #{person.content.fullname}
               p.person__def #{person.content.profession}
-            .person__line 
-            section.person__block
-              h3.person__block-title Образование
-              each item in person.content.education 
-                p.person__text !{item} 
-            section.person__block
-              h3.person__block-title Skills
-              each item in person.content.skills 
-                p.person__text !{item} 
+            .person__line
+            each block in person.content.content
+              section.person__block
+                h3.person__block-title #{block.title}
+                each item in block.items
+                  p.person__text !{item}
 
     - const beforeAfterList = beforeAfter;
     include modules/beforeAfter.pug

@@ -13,7 +13,11 @@ window.addEventListener("load", () => {
   function setSliderControl(list, marginRight, items) {
     const listWidth = list.offsetWidth;
     const itemWidth = items[0].offsetWidth;
+    const itemHeight = items[0].offsetHeight;
     const totalWidth = items.length * itemWidth + marginRight * (items.length - 1);
+    const sliderContainer = list.parentElement.querySelector(".slider-container");
+
+    sliderContainer.style.top = -(itemHeight / 2) + "px";
 
     if (listWidth < totalWidth) {
       const sliderContainer = list.parentElement.querySelector(".slider-container");

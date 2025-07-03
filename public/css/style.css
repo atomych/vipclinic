@@ -502,6 +502,21 @@ a.none-style {
   border: none;
 }
 
+.services__list .item.item--big.direct {
+  flex-direction: row;
+  align-items: start;
+}
+
+.services__list .item.item--big.direct .item__title {
+  margin-bottom: 0;
+  margin-right: 100px;
+}
+
+.services__list .item.item--big.direct .item__text {
+  margin-bottom: 0;
+  width: 300px;
+}
+
 .services__list .item.item--photo {
   padding: 0;
 }

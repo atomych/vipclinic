@@ -13,6 +13,9 @@
             .item__prof
               p #{item.content.profession}
             .item__btn-cont
-              a(class="btn item__btn team-btn" href=item.urlBtn target="_blank") узнать больше
-              a(class="btn item__btn team-btn" href=item.yclientsLink target="_blank") записаться
+              if item.hidePage === true
+                a(class="btn item__btn team-btn" href="https://wa.me/79111070700" target="_blank") связаться
+              else
+                a(class="btn item__btn team-btn" href=item.urlBtn target="_blank") узнать больше
+                a(class="btn item__btn team-btn" href=item.yclientsLink target="_blank") записаться
       .slider-container

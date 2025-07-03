@@ -18,7 +18,8 @@
                   .line__part(style=bigOrderStyle)
                     - const bigCell = servicesShortInfo.shortInfo.filter((el) => el.id == line.cells.big)[0];
                     - const bigCellBg = 'background-image: url(' + line.bigBgUrl + ')';
-                    .item.item--big(style=bigCellBg)
+                    - const direct = line.bigDirection ? "direct" : "";
+                    .item.item--big(style=bigCellBg, class=direct)
                       h3.item__title !{bigCell.name}
                       p.item__text #{bigCell.descryption}
                       a(class="btn item__btn", href=bigCell.url) узнать больше

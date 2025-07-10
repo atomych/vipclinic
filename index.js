@@ -324,6 +324,7 @@ app.put("/private-api/adminvip/links", (req, res) => {
       links.social.phone = req.body.social.phone;
       links.social.wa = req.body.social.wa;
       links.social.tg = req.body.social.tg;
+      links.social.vk = req.body.social.vk;
 
       fs.writeFileSync("./database/links.json", JSON.stringify(links));
       delete require.cache[require.resolve("./database/links.json")];

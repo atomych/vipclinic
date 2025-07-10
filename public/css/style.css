@@ -255,6 +255,14 @@ a.none-style {
 .icons .icon {
   margin-right: 30px;
   transition: all 0.2s linear;
+  width: 42px;
+  height: 42px;
+}
+
+.icons .icon img {
+  width: 42px;
+  height: 42px;
+  display: block;
 }
 
 .icon:hover,
@@ -986,6 +994,14 @@ a.none-style {
 
 .contacts__icons .icon {
   margin-right: 30px;
+  display: block;
+  width: 42px;
+  height: 42px;
+}
+
+.contacts__icons .icon img {
+  width: 42px;
+  height: 42px;
   display: block;
 }
 

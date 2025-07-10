@@ -8,6 +8,7 @@ saveBtn.addEventListener("click", () => {
   putLinksData.social.phone = document.querySelector("#phone").textContent;
   putLinksData.social.wa = document.querySelector("#wa").textContent;
   putLinksData.social.tg = document.querySelector("#tg").textContent;
+  putLinksData.social.vk = document.querySelector("#vk").textContent;
 
   fetch("/private-api/adminvip/links", {
     method: "PUT",
